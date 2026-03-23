@@ -248,8 +248,28 @@ try{stored=JSON.parse(localStorage.getItem('stylographic_local'));}catch(e){}
 let pens=stored?.pens||JSON.parse(JSON.stringify(SEED_PENS));
 let inks=stored?.inks||JSON.parse(JSON.stringify(SEED_INKS));
 let accessories=stored?.accessories||[
-  {id:'a1',name:'Straight Glass Dip Pen - Eclat de Saphir',type:'Dip Pen',maker:'—',purchase:0,status:'Active',note:'The "straight" or "round" pen description refers to the overall shape. Writes more like an Extra Fine/Fine. Pretty good for dabbing ink.'},
-  {id:'a2',name:'Round Glass Dip Pen - Clear',type:'Dip Pen',maker:'—',purchase:0,status:'Active',note:'More delicate than the straight glass pen. Feels like Extra Fine when writing. Almost like cutting the page.'}
+  {id:'a1',name:'Triple Pen Nook - British Tan',type:'Travel',maker:'Esterbrook',purchase:90.00,status:'Active',note:'SKU EBT103'},
+  {id:'a2',name:'Canvas Single Pen Sleeve - British Tan',type:'Travel',maker:'Esterbrook',purchase:32.32,status:'Active',note:'SKU ECT100 · qty 2'},
+  {id:'a3',name:'A4 Master Slim Hardcover Notebook',type:'Notebook',maker:'Leuchtturm1917',purchase:35.50,status:'Active',note:'SKU 330754'},
+  {id:'a4',name:'Converter',type:'Parts',maker:'Waterman',purchase:26.91,status:'Active',note:'SKU 56010W · qty 3'},
+  {id:'a5',name:'Iro-Utsushi Dip Pen - Clear Blue - Medium',type:'Swatching',maker:'Pilot',purchase:6.40,status:'Active',note:'SKU PIL-18292'},
+  {id:'a6',name:'Iro-Utsushi Dip Pen - Clear - Fine',type:'Swatching',maker:'Pilot',purchase:6.40,status:'Active',note:'SKU PIL-18289'},
+  {id:'a7',name:'Ink Color Swatch Card - Ink Drop',type:'Swatching',maker:'Wearingeul',purchase:8.00,status:'Active',note:'SKU 8809943910689 · qty 2'},
+  {id:'a8',name:'Handmade Wood Display - White Velvet',type:'Storage',maker:'Coins & More',purchase:273.74,status:'Active',note:'Etsy order 7162025'},
+  {id:'a9',name:'Handmade Wood Display with LEDs - White Velvet',type:'Storage',maker:'Coins & More',purchase:255.95,status:'Active',note:'Etsy order 8032025'},
+  {id:'a10',name:'Fountain Pen Converter',type:'Parts',maker:'Sailor',purchase:24.00,status:'Active',note:'SKU 14-0806-220 · qty 2'},
+  {id:'a11',name:'Straight Glass Dip Pen - Eclat de Saphir',type:'Swatching',maker:'Jacques Herbin',purchase:19.20,status:'Active',note:'SKU H21716. The "straight" or "round" pen description refers to the overall shape of the pen. This straight pen doesn\'t have the ball near the grip. It writes more like an Extra Fine/Fine. Pretty good for dabbing ink when using the end of the shaft.'},
+  {id:'a12',name:'Round Glass Dip Pen - Clear',type:'Swatching',maker:'Jacques Herbin',purchase:19.20,status:'Active',note:'SKU H21401. Definitely more delicate than the straight glass pen. It feels more like Extra Fine when writing in the journal. Almost like cutting the page. The grip is ok, but not very smooth on the finger joint.'},
+  {id:'a13',name:'B6 Notebook | 2022 Edition | Grid',type:'Notebook',maker:'Wonderland222',purchase:16.00,status:'Active',note:'SKU 192 B6 First Light'},
+  {id:'a14',name:'A6 Notebook | 2022 Edition | Grid',type:'Notebook',maker:'Wonderland222',purchase:14.00,status:'Active',note:'SKU 192 A6 First Light'},
+  {id:'a15',name:'A6 Notebook | 2022 Edition',type:'Notebook',maker:'Wonderland222',purchase:19.00,status:'Active',note:'SKU 192 A6 First Light'},
+  {id:'a16',name:'Z28 Fountain Pen Converter',type:'Parts',maker:'Lamy',purchase:5.10,status:'Active',note:'SKU LZ28'},
+  {id:'a17',name:'A4 Paper - White',type:'Paper',maker:'Tomoe River',purchase:17.00,status:'Active',note:'SKU SR-A4P-W'},
+  {id:'a18',name:'Professional Watercolour Sable Brush, Round #3',type:'Swatching',maker:'Winsor & Newton',purchase:23.37,status:'Active',note:'SKU 884955075111'},
+  {id:'a19',name:'Professional Watercolour Sable Brush, Round #7',type:'Swatching',maker:'Winsor & Newton',purchase:33.20,status:'Active',note:'SKU 094376973402'},
+  {id:'a20',name:'12" Guillotine Paper Cutter',type:'Paper',maker:'eCraft',purchase:25.99,status:'Active',note:'SKU B0CB5P4HNT'},
+  {id:'a21',name:'MD Notebook A5',type:'Notebook',maker:'Midori',purchase:20.00,status:'Active',note:'SKU 15312006'},
+  {id:'a22',name:'MD Notebook Cover',type:'Notebook',maker:'Midori',purchase:9.50,status:'Active',note:'SKU 49839006'},
 ];
 let journal=stored?.journal||JSON.parse(JSON.stringify(SEED_JOURNAL));
 
