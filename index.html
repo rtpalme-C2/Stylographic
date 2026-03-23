@@ -4,142 +4,300 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stylographic</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f9f9f7;color:#1a1a18;padding:1rem}
-.app{max-width:900px;margin:0 auto}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
-.header h1{font-size:18px;font-weight:500}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:        #0D1A3A;
+  --dark:       #0D4F8C;
+  --mid:        #1A6CB8;
+  --accent:     #7C5CC8;
+  --accent-light:#A78BFA;
+  --pale:       #E0EFFF;
+  --pale-purple: #EDE8FF;
+  --ivory:      #F4F7FF;
+  --white:      #FAFBFF;
+  --shadow:     rgba(13,79,140,.10);
+  --green:      #1A6B3A;
+  --green-bg:   #C8E8D4;
+  --blue:       #0D4F8C;
+  --blue-bg:    #E0EFFF;
+  --amber:      #7C5CC8;
+  --amber-bg:   #EDE8FF;
+}
+body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--ivory); color:var(--ink); min-height:100vh; }
+
+/* ── Header ── */
+header { background:linear-gradient(135deg,#0D4F8C 0%,#1A3A7A 50%,#2D1F6E 100%); padding:32px 40px 26px; position:relative; overflow:hidden; }
+header::before {
+  content:''; position:absolute; inset:0;
+  background: url("data:image/svg+xml,%3Csvg width='200' height='100' viewBox='0 0 200 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,.045)' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M0 70 C30 40 50 80 80 50 C110 20 130 60 160 35 C180 20 190 30 200 25'/%3E%3Cpath d='M0 85 C25 60 55 90 85 65 C115 40 140 75 170 50 C185 37 195 45 200 42'/%3E%3Cpath d='M0 50 C20 30 45 65 70 40 C95 15 120 55 150 30 C170 15 185 25 200 20'/%3E%3C/g%3E%3C/svg%3E") repeat-x;
+  background-size: 200px 100%;
+}
+.header-inner { display:flex; align-items:center; gap:20px; position:relative; }
+.header-logo { flex-shrink:0; opacity:.95; }
+.header-text h1 { font-size:2.2rem; font-weight:300; color:#EEF4FF; letter-spacing:.03em; line-height:1.1; }
+.header-text h1 em { font-style:italic; color:#A78BFA; }
+.header-text p { font-size:.72rem; color:rgba(255,255,255,.45); margin-top:5px; letter-spacing:.1em; text-transform:uppercase; }
 
 /* ── Sync bar ── */
-.sync-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:8px 0;margin-bottom:1rem;border-bottom:0.5px solid rgba(0,0,0,0.12);font-size:12px}
-.sync-status{display:flex;align-items:center;gap:8px;color:#888780}
-.sync-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background .3s}
-.sync-dot.connected{background:#2e8b57}
-.sync-dot.saving{background:#c9a84c;animation:pulse .8s infinite}
-.sync-dot.error{background:#c0392b}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.sync-actions{display:flex;gap:8px}
-.btn-sync{font-size:12px;padding:4px 12px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.2);background:#fff;color:#5f5e5a;cursor:pointer;transition:all .18s}
-.btn-sync:hover{border-color:#1a1a18;color:#1a1a18}
-.btn-sync.primary{background:#1a1a18;border-color:#1a1a18;color:#fff}
-.btn-sync.primary:hover{background:#3a3a38}
+.sync-bar {
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  padding:10px 40px; background:var(--white); border-bottom:1px solid var(--pale);
+  font-size:.74rem;
+}
+.sync-status { display:flex; align-items:center; gap:8px; color:#999; }
+.sync-dot { width:8px; height:8px; border-radius:50%; background:#ccc; flex-shrink:0; transition:background .3s; }
+.sync-dot.connected { background:#2e8b57; }
+.sync-dot.saving    { background:#c9a84c; animation:pulse .8s infinite; }
+.sync-dot.error     { background:#c0392b; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.sync-actions { display:flex; gap:8px; }
+.btn-sync {
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.7rem; font-weight:500;
+  letter-spacing:.06em; text-transform:uppercase;
+  padding:5px 14px; border-radius:20px; border:1.5px solid var(--pale);
+  background:white; color:var(--accent); cursor:pointer; transition:all .18s;
+}
+.btn-sync:hover { border-color:var(--accent-light); color:var(--accent); }
+.btn-sync.primary { background:var(--dark); border-color:var(--dark); color:white; }
+.btn-sync.primary:hover { background:var(--mid); border-color:var(--mid); }
 
 /* ── Config notice ── */
-.config-notice{margin-bottom:1rem;padding:12px 16px;background:#fff8e6;border:1px solid #f0c040;border-radius:8px;font-size:12px;line-height:1.6;color:#5a4000}
-.config-notice strong{display:block;margin-bottom:4px;font-size:13px}
-.config-notice code{background:#f0e8c8;padding:1px 5px;border-radius:4px;font-family:monospace;font-size:11px}
+.config-notice {
+  margin:20px 40px; padding:16px 20px;
+  background:#fff8e6; border:1.5px solid #f0c040; border-radius:8px;
+  font-size:.8rem; line-height:1.6; color:#5a4000;
+}
+.config-notice strong { display:block; margin-bottom:4px; font-size:.85rem; }
+.config-notice code { background:#f0e8c8; padding:1px 6px; border-radius:4px; font-family:monospace; font-size:.78rem; }
 
-.tabs{display:flex;gap:4px;margin-bottom:1.5rem;border-bottom:0.5px solid rgba(0,0,0,0.12)}
-.tab{padding:8px 16px;font-size:14px;cursor:pointer;border:none;background:none;color:#5f5e5a;border-bottom:2px solid transparent;margin-bottom:-1px}
-.tab.active{color:#1a1a18;border-bottom-color:#1a1a18;font-weight:500}
-.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:1.5rem}
-.metric{background:#f1efe8;border-radius:8px;padding:1rem}
-.metric-label{font-size:12px;color:#5f5e5a;margin-bottom:4px}
-.metric-value{font-size:22px;font-weight:500}
-.controls{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
-input,select,textarea{font-size:13px;padding:6px 10px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;background:#fff;color:#1a1a18;width:100%}
-.controls input{flex:1;min-width:140px;width:auto}
-.controls select{width:auto}
-textarea{resize:vertical;min-height:70px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:8px 10px;font-weight:500;font-size:12px;color:#5f5e5a;border-bottom:0.5px solid rgba(0,0,0,0.12);white-space:nowrap}
-td{padding:9px 10px;border-bottom:0.5px solid rgba(0,0,0,0.08);vertical-align:top}
-tr:last-child td{border-bottom:none}
-tr.clickable:hover td{background:#f9f9f7;cursor:pointer}
-tr.gifted td{opacity:0.6}
-.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
-.b-working{background:#EAF3DE;color:#3B6D11}
-.b-resting{background:#f1efe8;color:#5f5e5a}
-.b-gifted{background:#E6F1FB;color:#185FA5}
-.b-yes{background:#EEEDFE;color:#3C3489}
-.b-no{background:#f1efe8;color:#5f5e5a}
-.b-limited{background:#FAEEDA;color:#854F0B}
-.panel{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
-.detail-row{padding:7px 0;border-bottom:0.5px solid rgba(0,0,0,0.08)}
-.detail-label{font-size:11px;color:#5f5e5a;margin-bottom:2px}
-.detail-value{font-size:13px}
-.back-btn{font-size:13px;color:#5f5e5a;cursor:pointer;background:none;border:none;padding:0 0 1rem;display:flex;align-items:center;gap:4px}
-.btn{font-size:13px;padding:6px 14px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;background:#fff;cursor:pointer;color:#1a1a18}
-.btn:hover{background:#f1efe8}
-.btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.btn-danger{color:#a32d2d;border-color:#f09595}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.form-grid.three{grid-template-columns:1fr 1fr 1fr}
-.form-row{display:flex;flex-direction:column;gap:4px}
-.form-label{font-size:12px;color:#5f5e5a}
-.form-full{grid-column:1/-1}
-.section-title{font-size:14px;font-weight:500;margin-bottom:12px}
-.care-entry{display:grid;grid-template-columns:90px 1fr 1fr auto;gap:8px;padding:7px 0;border-bottom:0.5px solid rgba(0,0,0,0.08);font-size:13px;align-items:baseline}
-.care-date{color:#5f5e5a;font-size:12px}
-.care-note{font-size:12px;color:#5f5e5a;grid-column:2/5;padding-top:2px}
-.journal-entry{padding:12px 0;border-bottom:0.5px solid rgba(0,0,0,0.08)}
-.journal-date{font-size:12px;color:#5f5e5a;margin-bottom:4px}
-.journal-meta{font-size:12px;color:#5f5e5a;margin-bottom:6px}
-.journal-note{font-size:13px;line-height:1.6}
-.empty{color:#b4b2a9;font-size:13px;padding:1rem 0}
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:100}
-.modal{background:#fff;border-radius:12px;border:0.5px solid rgba(0,0,0,0.12);padding:1.5rem;width:min(520px,90vw);max-height:80vh;overflow-y:auto}
-.modal-title{font-size:15px;font-weight:500;margin-bottom:1.25rem}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
-@media(prefers-color-scheme:dark){
-body{background:#1a1a18;color:#e8e6df}
-.metric{background:#2c2c2a}
-input,select,textarea,.panel,.modal,.btn{background:#2c2c2a;color:#e8e6df;border-color:rgba(255,255,255,0.15)}
-th{color:#888780}
-td{border-color:rgba(255,255,255,0.08)}
-tr.clickable:hover td{background:#2c2c2a}
-.detail-row{border-color:rgba(255,255,255,0.08)}
-.care-entry{border-color:rgba(255,255,255,0.08)}
-.journal-entry{border-color:rgba(255,255,255,0.08)}
-.tabs{border-color:rgba(255,255,255,0.12)}
-.tab{color:#888780}
-.tab.active{color:#e8e6df;border-bottom-color:#e8e6df}
-.btn:hover{background:#444441}
-.b-resting{background:#444441;color:#b4b2a9}
-.modal-overlay{background:rgba(0,0,0,0.6)}
-.sync-bar{border-color:rgba(255,255,255,0.12)}
-.btn-sync{background:#2c2c2a;color:#b4b2a9;border-color:rgba(255,255,255,0.15)}
-.btn-sync.primary{background:#e8e6df;color:#1a1a18;border-color:#e8e6df}
-.config-notice{background:#2c2c2a;border-color:#c9a84c;color:#e8c96a}
+/* ── Tab bar ── */
+.tab-bar {
+  display:flex; gap:4px; padding:0 40px;
+  background:var(--white); border-bottom:1px solid var(--pale);
+}
+.tab {
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.78rem; font-weight:500;
+  letter-spacing:.06em; text-transform:uppercase;
+  padding:14px 18px; cursor:pointer; border:none; background:none;
+  color:#aaa; border-bottom:2px solid transparent; margin-bottom:-1px;
+  transition:all .18s;
+}
+.tab:hover { color:var(--accent); }
+.tab.active { color:var(--dark); border-bottom-color:var(--dark); }
+
+/* ── Content area ── */
+.content { padding:28px 40px 60px; max-width:1100px; }
+
+/* ── Metrics ── */
+.metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:24px; }
+.metric {
+  background:var(--white); border:1px solid var(--pale); border-radius:12px;
+  padding:16px 20px; box-shadow:0 2px 8px var(--shadow);
+}
+.metric-label { font-size:.63rem; text-transform:uppercase; letter-spacing:.09em; color:#aaa; margin-bottom:6px; }
+.metric-value { font-size:2rem; font-weight:600; color:var(--dark); line-height:1; }
+
+/* ── Controls ── */
+.controls {
+  display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:center;
+  padding:14px 18px; background:var(--white); border:1px solid var(--pale);
+  border-radius:12px; box-shadow:0 2px 8px var(--shadow);
+}
+.search-wrap { position:relative; flex:1; min-width:180px; }
+.search-wrap input {
+  width:100%; padding:7px 12px 7px 34px;
+  border:1.5px solid var(--pale); border-radius:20px;
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.78rem; color:var(--ink);
+  outline:none; transition:border-color .18s; background:var(--ivory);
+}
+.search-wrap input:focus { border-color:var(--accent-light); background:white; }
+.search-wrap svg { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#bbb; pointer-events:none; }
+.controls select {
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.75rem;
+  padding:7px 12px; border:1.5px solid var(--pale); border-radius:20px;
+  background:var(--ivory); color:var(--ink); cursor:pointer; outline:none;
+  transition:border-color .18s;
+}
+.controls select:focus { border-color:var(--accent-light); }
+.show-gifted-row { display:flex; align-items:center; gap:8px; font-size:.75rem; color:#999; margin-bottom:16px; }
+.show-gifted-row input[type=checkbox] { width:auto; accent-color:var(--dark); }
+
+/* ── Add button ── */
+.btn-add {
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.72rem; font-weight:500;
+  letter-spacing:.06em; text-transform:uppercase;
+  padding:7px 18px; border-radius:20px; border:none;
+  background:var(--dark); color:white; cursor:pointer; transition:background .18s; white-space:nowrap;
+}
+.btn-add:hover { background:var(--mid); }
+
+/* ── Table ── */
+.table-wrap { background:var(--white); border:1px solid var(--pale); border-radius:12px; overflow:hidden; box-shadow:0 2px 8px var(--shadow); }
+table { width:100%; border-collapse:collapse; font-size:.8rem; }
+th {
+  text-align:left; padding:10px 14px;
+  font-size:.63rem; font-weight:500; letter-spacing:.09em; text-transform:uppercase;
+  color:#aaa; background:var(--ivory); border-bottom:1px solid var(--pale);
+  white-space:nowrap;
+}
+td { padding:11px 14px; border-bottom:1px solid var(--pale); vertical-align:middle; color:var(--ink); }
+tr:last-child td { border-bottom:none; }
+tr.clickable { cursor:pointer; transition:background .12s; }
+tr.clickable:hover td { background:var(--ivory); }
+tr.gifted td { opacity:0.5; }
+
+/* ── Badges ── */
+.badge { display:inline-block; font-size:.62rem; font-weight:500; letter-spacing:.05em; text-transform:uppercase; padding:3px 9px; border-radius:10px; }
+.b-working  { background:#E0EFFF; color:#0D4F8C; }
+.b-resting  { background:#EDE8FF; color:#7C5CC8; }
+.b-gifted   { background:#D8E8FF; color:#1A3A7A; }
+.b-yes      { background:#EDE8FF; color:#4A2DA8; }
+.b-no       { background:#F0F4FF; color:#8A9CC8; }
+.b-limited  { background:#EDE8FF; color:#7C5CC8; }
+
+/* ── Detail panel ── */
+.back-btn {
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.75rem; letter-spacing:.05em; text-transform:uppercase;
+  color:#aaa; cursor:pointer; background:none; border:none;
+  display:flex; align-items:center; gap:6px; margin-bottom:20px;
+  transition:color .15s;
+}
+.back-btn:hover { color:var(--accent); }
+.panel {
+  background:var(--white); border:1px solid var(--pale); border-radius:12px;
+  padding:24px; margin-bottom:16px; box-shadow:0 2px 8px var(--shadow);
+}
+.panel-title { font-size:1.5rem; font-weight:300; color:var(--dark); margin-bottom:4px; }
+.panel-sub   { font-size:.78rem; color:#aaa; letter-spacing:.04em; margin-bottom:20px; }
+.detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 32px; }
+.detail-row  { padding:9px 0; border-bottom:1px solid var(--pale); }
+.detail-row:last-child { border-bottom:none; }
+.detail-label { font-size:.62rem; text-transform:uppercase; letter-spacing:.09em; color:#bbb; margin-bottom:3px; }
+.detail-value { font-size:.85rem; color:var(--ink); }
+.section-title { font-size:.72rem; font-weight:500; letter-spacing:.09em; text-transform:uppercase; color:#aaa; margin-bottom:14px; margin-top:4px; }
+
+/* ── Buttons ── */
+.btn-row { display:flex; gap:8px; margin-top:20px; flex-wrap:wrap; }
+.btn {
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.72rem; font-weight:500;
+  letter-spacing:.06em; text-transform:uppercase;
+  padding:7px 16px; border-radius:20px; border:1.5px solid var(--pale);
+  background:white; color:var(--accent); cursor:pointer; transition:all .15s;
+}
+.btn:hover { border-color:var(--accent-light); color:var(--dark); }
+.btn-primary { background:var(--dark); border-color:var(--dark); color:white; }
+.btn-primary:hover { background:var(--mid); border-color:var(--mid); }
+.btn-danger { color:#a32d2d; border-color:#f0b4b4; }
+.btn-danger:hover { background:#fff0ee; border-color:#c0392b; }
+
+/* ── Care log ── */
+.care-entry {
+  display:grid; grid-template-columns:100px 1fr 1fr auto;
+  gap:10px; padding:9px 0; border-bottom:1px solid var(--pale);
+  font-size:.8rem; align-items:baseline;
+}
+.care-date { font-size:.72rem; color:#bbb; }
+.care-note { font-size:.72rem; color:#aaa; grid-column:2/5; padding-top:2px; }
+
+/* ── Journal ── */
+.journal-entry { padding:16px 0; border-bottom:1px solid var(--pale); }
+.journal-date  { font-size:.72rem; color:#bbb; margin-bottom:4px; }
+.journal-meta  { font-size:.72rem; color:var(--accent-light); margin-bottom:8px; letter-spacing:.03em; }
+.journal-note  { font-size:.82rem; line-height:1.7; color:var(--ink); }
+.empty { font-style:italic; color:#ccc; font-size:.85rem; padding:1rem 0; }
+
+/* ── Form fields ── */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.form-grid.three { grid-template-columns:1fr 1fr 1fr; }
+.form-full { grid-column:1/-1; }
+.form-row { display:flex; flex-direction:column; gap:5px; }
+.form-label { font-size:.62rem; text-transform:uppercase; letter-spacing:.09em; color:#aaa; }
+.form-row input, .form-row select, .form-row textarea {
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.82rem;
+  padding:8px 11px; border:1.5px solid var(--pale); border-radius:8px;
+  background:var(--ivory); color:var(--ink); outline:none; transition:border-color .18s; width:100%;
+}
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color:var(--accent-light); background:white; }
+.form-row textarea { resize:vertical; min-height:72px; }
+
+/* ── Modal ── */
+.modal-overlay { position:fixed; inset:0; background:rgba(20,20,14,.5); display:flex; align-items:center; justify-content:center; z-index:100; padding:1rem; }
+.modal {
+  background:var(--ivory); border-top:4px solid var(--dark); border-radius:12px;
+  padding:28px; width:min(540px,90vw); max-height:88vh; overflow-y:auto;
+  box-shadow:0 20px 60px rgba(20,20,14,.3); animation:slideUp .2s ease;
+}
+@keyframes slideUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.modal-title { font-size:1.1rem; font-weight:500; color:var(--dark); margin-bottom:20px; }
+.modal-footer { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
+
+@media(max-width:700px) {
+  header { padding:24px 20px 20px; }
+  .sync-bar { padding:10px 20px; }
+  .tab-bar { padding:0 20px; }
+  .content { padding:20px 20px 40px; }
+  .metrics { grid-template-columns:1fr 1fr; }
+  .detail-grid { grid-template-columns:1fr; }
+  .form-grid { grid-template-columns:1fr; }
+  .form-grid.three { grid-template-columns:1fr; }
+  .care-entry { grid-template-columns:80px 1fr auto; }
 }
 </style>
 </head>
 <body>
-<div class="app" id="app">
-  <div class="header">
-    <h1>Stylographic</h1>
-  </div>
 
-  <!-- Sync bar -->
-  <div class="sync-bar">
-    <div class="sync-status">
-      <div class="sync-dot" id="sync-dot"></div>
-      <span id="sync-label">Not connected</span>
+<header>
+  <div class="header-inner">
+    <div class="header-logo">
+      <svg width="52" height="62" viewBox="0 0 52 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M41 5 C41 5 34 8 28 14 C22 20 17 28 15 37 C13 44 14 50 14 54" stroke="rgba(255,255,255,0.88)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M41 5 C45 11 44 21 40 30 C37 37 30 44 23 50 C19 54 14 54 14 54" stroke="rgba(255,255,255,0.22)" stroke-width="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M39 9 C36 10 33 12 31 15" stroke="rgba(255,255,255,0.32)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+        <path d="M40 14 C36 16 33 19 31 22" stroke="rgba(255,255,255,0.28)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+        <path d="M39 19 C35 21 32 25 30 28" stroke="rgba(255,255,255,0.23)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+        <path d="M37 25 C34 27 31 30 30 34" stroke="rgba(255,255,255,0.18)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+        <path d="M35 31 C32 33 30 36 29 40" stroke="rgba(255,255,255,0.13)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+        <path d="M32 37 C30 39 28 42 28 46" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+        <path d="M8 58 C13 56 20 56 27 57 C34 58 40 57 46 56" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <circle cx="41" cy="5" r="1.8" fill="rgba(255,255,255,0.38)"/>
+        <circle cx="14" cy="54" r="3" fill="#A78BFA"/>
+      </svg>
     </div>
-    <div class="sync-actions">
-      <button class="btn-sync" id="btn-signout" style="display:none" onclick="signOut()">Sign Out</button>
-      <button class="btn-sync primary" id="btn-signin" onclick="signIn()">Connect Google Drive</button>
+    <div class="header-text">
+      <h1>Stylo<em>graphic</em></h1>
+      <p>Fountain pens · Inks · Journal</p>
     </div>
   </div>
+</header>
 
-  <!-- Config notice (hidden once keys are set) -->
-  <div class="config-notice" id="config-notice">
-    <strong>⚠️ Setup required before Google Drive sync will work</strong>
-    Open this file in a text editor, find the <code>CONFIG</code> block near the top of the &lt;script&gt;, and replace
-    <code>YOUR_CLIENT_ID</code> and <code>YOUR_API_KEY</code> with your Google Cloud credentials.
-    Also add <code>https://rtpalme-c2.github.io</code> to your Authorized JavaScript Origins in Google Cloud Console.
+<div class="sync-bar">
+  <div class="sync-status">
+    <div class="sync-dot" id="sync-dot"></div>
+    <span id="sync-label">Not connected</span>
   </div>
-
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('pens',this)">Pens</button>
-    <button class="tab" onclick="showTab('inks',this)">Inks</button>
-    <button class="tab" onclick="showTab('journal',this)">Stylograph</button>
+  <div class="sync-actions">
+    <button class="btn-sync" id="btn-signout" style="display:none" onclick="signOut()">Sign Out</button>
+    <button class="btn-sync primary" id="btn-signin" onclick="signIn()">Connect Google Drive</button>
   </div>
-  <div id="tab-content"></div>
-  <div id="modal-root"></div>
 </div>
+
+<div class="config-notice" id="config-notice">
+  <strong>⚠️ Setup required before Google Drive sync will work</strong>
+  Open this file in a text editor, find the <code>CONFIG</code> block near the top of the &lt;script&gt;, and replace
+  <code>YOUR_CLIENT_ID</code> and <code>YOUR_API_KEY</code> with your Google Cloud credentials.
+  Also add <code>https://rtpalme-c2.github.io</code> to your Authorized JavaScript Origins in Google Cloud Console.
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="showTab('pens',this)">Pens</button>
+  <button class="tab" onclick="showTab('inks',this)">Inks</button>
+  <button class="tab" onclick="showTab('journal',this)">Stylograph</button>
+</div>
+
+<div class="content" id="tab-content"></div>
+<div id="modal-root"></div>
 
 <!-- Google APIs -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -158,94 +316,72 @@ const CONFIG = {
 const DRIVE_FILENAME = 'stylographic-data.json';
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
-let tokenClient;
-let driveFileId = null;
-let saveTimer   = null;
-let gapiReady   = false;
-let gsiReady    = false;
+let tokenClient, driveFileId=null, saveTimer=null, gapiReady=false, gsiReady=false;
 
 const configOk = CONFIG.CLIENT_ID !== 'YOUR_CLIENT_ID' && CONFIG.API_KEY !== 'YOUR_API_KEY';
 if (configOk) document.getElementById('config-notice').style.display = 'none';
 
-// ── GAPI loaded ──
 function gapiLoaded() {
   gapi.load('client', async () => {
     await gapi.client.init({ apiKey: CONFIG.API_KEY, discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'] });
-    gapiReady = true;
-    maybeInitGSI();
+    gapiReady = true; maybeInitGSI();
   });
 }
-
 function maybeInitGSI() {
   if (!configOk) return;
   tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: CONFIG.CLIENT_ID,
-    scope: SCOPES,
+    client_id: CONFIG.CLIENT_ID, scope: SCOPES,
     callback: async (resp) => {
-      if (resp.error) { setSyncStatus('error', 'Auth error: ' + resp.error); return; }
-      setSyncStatus('saving', 'Signed in — loading data…');
-      await findOrCreateFile();
-      await loadFromDrive();
+      if (resp.error) { setSyncStatus('error','Auth error: '+resp.error); return; }
+      setSyncStatus('saving','Signed in — loading data…');
+      await findOrCreateFile(); await loadFromDrive();
     },
   });
   gsiReady = true;
   const tok = sessionStorage.getItem('stylographic_drive_token');
-  if (tok) {
-    gapi.client.setToken(JSON.parse(tok));
-    findOrCreateFile().then(loadFromDrive);
-  }
+  if (tok) { gapi.client.setToken(JSON.parse(tok)); findOrCreateFile().then(loadFromDrive); }
 }
-
 function signIn() {
   if (!configOk) { alert('Please add your Google Cloud credentials to the CONFIG block first.'); return; }
-  if (!gapiReady || !gsiReady) { alert('Google APIs still loading — please try again in a moment.'); return; }
-  tokenClient.requestAccessToken({ prompt: '' });
+  if (!gapiReady||!gsiReady) { alert('Google APIs still loading — please try again in a moment.'); return; }
+  tokenClient.requestAccessToken({ prompt:'' });
 }
-
 function signOut() {
   const token = gapi.client.getToken();
   if (token) google.accounts.oauth2.revoke(token.access_token, ()=>{});
   gapi.client.setToken(null);
   sessionStorage.removeItem('stylographic_drive_token');
   driveFileId = null;
-  setSyncStatus('disconnected', 'Not connected');
+  setSyncStatus('disconnected','Not connected');
   document.getElementById('btn-signin').style.display = '';
   document.getElementById('btn-signout').style.display = 'none';
 }
-
 async function findOrCreateFile() {
   const token = gapi.client.getToken();
-  const searchRes = await fetch(
-    `https://www.googleapis.com/drive/v3/files?q=name%3D'${DRIVE_FILENAME}'%20and%20trashed%3Dfalse&fields=files(id,name)`,
-    { headers: { 'Authorization': 'Bearer ' + token.access_token } }
-  );
+  const searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=name%3D'${DRIVE_FILENAME}'%20and%20trashed%3Dfalse&fields=files(id,name)`,
+    { headers: { 'Authorization': 'Bearer '+token.access_token } });
   const searchData = await searchRes.json();
-  const files = searchData.files || [];
-  if (files.length > 0) {
-    driveFileId = files[0].id;
-  } else {
+  const files = searchData.files||[];
+  if (files.length>0) { driveFileId=files[0].id; }
+  else {
     const createRes = await fetch('https://www.googleapis.com/drive/v3/files?fields=id', {
-      method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + token.access_token, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: DRIVE_FILENAME, mimeType: 'application/json' }),
+      method:'POST', headers:{'Authorization':'Bearer '+token.access_token,'Content-Type':'application/json'},
+      body: JSON.stringify({ name:DRIVE_FILENAME, mimeType:'application/json' }),
     });
-    const createData = await createRes.json();
-    driveFileId = createData.id;
+    const createData = await createRes.json(); driveFileId = createData.id;
   }
   sessionStorage.setItem('stylographic_drive_token', JSON.stringify(gapi.client.getToken()));
   document.getElementById('btn-signin').style.display = 'none';
   document.getElementById('btn-signout').style.display = '';
 }
-
 async function loadFromDrive() {
   if (!driveFileId) return;
-  setSyncStatus('saving', 'Loading from Drive…');
+  setSyncStatus('saving','Loading from Drive…');
   try {
     const token = gapi.client.getToken();
-    const res = await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`, {
-      headers: { 'Authorization': 'Bearer ' + token.access_token }
-    });
-    if (!res.ok) throw new Error('fetch failed: ' + res.status);
+    const res = await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`,
+      { headers: { 'Authorization': 'Bearer '+token.access_token } });
+    if (!res.ok) throw new Error('fetch failed: '+res.status);
     const text = await res.text();
     if (text && text.trim().startsWith('{')) {
       const data = JSON.parse(text);
@@ -254,75 +390,61 @@ async function loadFromDrive() {
       if (data.journal) journal = data.journal;
       persistLocal();
     }
-    setSyncStatus('connected', 'Synced with Google Drive');
+    setSyncStatus('connected','Synced with Google Drive');
     render();
-  } catch(e) {
-    await saveToDrive();
-  }
+  } catch(e) { await saveToDrive(); }
 }
-
 async function saveToDrive() {
   if (!driveFileId) return;
-  setSyncStatus('saving', 'Saving…');
+  setSyncStatus('saving','Saving…');
   try {
     const token = gapi.client.getToken();
     await fetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`, {
-      method: 'PATCH',
-      headers: { 'Authorization': 'Bearer ' + token.access_token, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pens, inks, journal }),
+      method:'PATCH',
+      headers:{'Authorization':'Bearer '+token.access_token,'Content-Type':'application/json'},
+      body: JSON.stringify({pens,inks,journal}),
     });
-    setSyncStatus('connected', 'Saved to Drive — ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}));
+    setSyncStatus('connected','Saved to Drive — '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));
     sessionStorage.setItem('stylographic_drive_token', JSON.stringify(gapi.client.getToken()));
-  } catch(e) {
-    setSyncStatus('error', 'Save failed — check connection');
-  }
+  } catch(e) { setSyncStatus('error','Save failed — check connection'); }
 }
-
 function scheduleSave() {
   persistLocal();
   if (!driveFileId) return;
   clearTimeout(saveTimer);
   saveTimer = setTimeout(saveToDrive, 1200);
 }
-
 function persistLocal() {
   try { localStorage.setItem('stylographic_local', JSON.stringify({pens,inks,journal})); } catch(e) {}
 }
-
 function setSyncStatus(state, label) {
   const dot = document.getElementById('sync-dot');
   document.getElementById('sync-label').textContent = label;
   dot.className = 'sync-dot';
-  if (state === 'connected') dot.classList.add('connected');
-  else if (state === 'saving') dot.classList.add('saving');
-  else if (state === 'error')  dot.classList.add('error');
+  if (state==='connected') dot.classList.add('connected');
+  else if (state==='saving') dot.classList.add('saving');
+  else if (state==='error')  dot.classList.add('error');
 }
 
-// ─────────────────────────────────────────────
-//  Seed data
-// ─────────────────────────────────────────────
+// ── Seed data ──
 const SEED_PENS=[{id:'p1',model:'Aero Fountain Pen - Funky',maker:'Diplomat',nib_size:'Extra Fine',nib_type:'Steel',special:true,retail:295,purchase:236,status:'Resting',care:[{id:'c50',date:'11/10/2025',type:'Received',ink:'',note:''},{id:'c51',date:'11/10/2025',type:'Fill only',ink:'',note:''},{id:'c52',date:'12/4/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p2',model:'Excellence A2 - Evergreen Gold Trim',maker:'Diplomat',nib_size:'Fine',nib_type:'14K Gold',special:false,retail:214.95,purchase:183.56,status:'Resting',care:[{id:'c11',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''},{id:'c74',date:'12/4/2025',type:'Fill only',ink:'Ultra Green',note:''}]},{id:'p3',model:'Viper - Blue Guilloche',maker:'Diplomat',nib_size:'Fine',nib_type:'Steel',special:false,retail:96,purchase:76.80,status:'Resting',care:[{id:'c18',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''},{id:'c42',date:'9/9/2025',type:'Fill only',ink:'',note:''},{id:'c49',date:'9/26/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p4',model:'Viper - Brown',maker:'Diplomat',nib_size:'Fine',nib_type:'Steel',special:false,retail:96,purchase:86.40,status:'Resting',care:[{id:'c17',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''},{id:'c35',date:'8/28/2025',type:'Fill only',ink:'',note:''},{id:'c47',date:'9/25/2025',type:'Empty, Clean',ink:'',note:''},{id:'c55',date:'10/26/2025',type:'Fill only',ink:'',note:''},{id:'c59',date:'11/10/2025',type:'Empty, Clean',ink:'',note:''},{id:'c69',date:'11/10/2025',type:'Empty, Clean',ink:'873',note:''}]},{id:'p5',model:'Viper - Green Guilloche',maker:'Diplomat',nib_size:'Fine',nib_type:'Steel',special:false,retail:120,purchase:100,status:'Resting',care:[{id:'c43',date:'9/9/2025',type:'Fill only',ink:'',note:''},{id:'c50b',date:'9/26/2025',type:'Empty, Clean',ink:'',note:''},{id:'c66',date:'11/10/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p6',model:'Viper - Noir Guilloche',maker:'Diplomat',nib_size:'Fine',nib_type:'Steel',special:false,retail:120,purchase:75,status:'Resting',care:[{id:'c30',date:'8/26/2025',type:'Empty, Clean',ink:'',note:''},{id:'c41',date:'9/9/2025',type:'Fill only',ink:'',note:''},{id:'c48',date:'9/26/2025',type:'Empty, Clean',ink:'',note:''},{id:'c63',date:'11/10/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p7',model:'Estie - Incredible Rock',maker:'Esterbrook',nib_size:'Extra Fine',nib_type:'Steel',special:true,retail:202.50,purchase:202.50,status:'Gifted',gifted_to:'Amanda Mintz',care:[{id:'c1',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p8',model:'Estie - Raven',maker:'Esterbrook',nib_size:'Extra Fine',nib_type:'Steel',special:true,retail:202.50,purchase:202.50,status:'Resting',care:[{id:'c21b',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''},{id:'c40',date:'9/6/2025',type:'Fill only',ink:'',note:''},{id:'c52c',date:'10/20/2025',type:'Empty, Clean',ink:'',note:''},{id:'c67',date:'11/10/2025',type:'Empty, Clean',ink:'Siddhartha',note:''},{id:'c76',date:'1/2/2026',type:'Fill only',ink:'Lunar Black',note:''},{id:'c77',date:'1/20/2026',type:'Empty, Clean',ink:'',note:'All good. Just swapping pens'}]},{id:'p9',model:'Superman - Fortress of Solitude',maker:'Ferris Wheel Press',nib_size:'Fine',nib_type:'Steel',special:true,retail:225,purchase:225,status:'Resting',care:[{id:'c8',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p10',model:'Guilloche - Black',maker:'Graf von Faber-Castell',nib_size:'Fine',nib_type:'Steel',special:false,retail:380,purchase:342,status:'Resting',care:[{id:'c13b',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p11',model:'Hexo - Bronze',maker:'Graf von Faber-Castell',nib_size:'Fine',nib_type:'Steel',special:false,retail:120,purchase:108,status:'Resting',care:[]},{id:'p12',model:'2000 - Steel',maker:'Lamy',nib_size:'Fine',nib_type:'Steel',special:false,retail:185,purchase:166.50,status:'Resting',care:[{id:'c10',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p13',model:'Studio - Piano Red',maker:'Lamy',nib_size:'Fine',nib_type:'Steel',special:false,retail:75,purchase:67.50,status:'Resting',care:[{id:'c71b',date:'12/4/2025',type:'Fill only',ink:'A Study in Scarlet',note:''}]},{id:'p14',model:'Studio - Black Forest',maker:'Lamy',nib_size:'Fine',nib_type:'Steel',special:true,retail:95,purchase:85.50,status:'Resting',care:[]},{id:'p15',model:'Studio - Dark Brown',maker:'Lamy',nib_size:'Fine',nib_type:'Steel',special:false,retail:85,purchase:76.50,status:'Resting',care:[{id:'c78',date:'2/12/2026',type:'Fill only',ink:'Siddhartha',note:''}]},{id:'p16',model:'Studio - Glacier',maker:'Lamy',nib_size:'Fine',nib_type:'Steel',special:false,retail:85,purchase:76.50,status:'Working',care:[{id:'c79',date:'2/12/2026',type:'Fill only',ink:'Milky Sea',note:''}]},{id:'p17',model:'Studio - Orion',maker:'Lamy',nib_size:'Fine',nib_type:'Steel',special:true,retail:95,purchase:71.28,status:'Resting',care:[{id:'c56',date:'10/26/2025',type:'Fill only',ink:'Cliff',note:''}]},{id:'p18',model:'Aldo Domani',maker:'Monteverde',nib_size:'Fine',nib_type:'Steel',special:false,retail:95,purchase:85.50,status:'Resting',care:[]},{id:'p19',model:'Ingenuity - Grey',maker:'Parker',nib_size:'Fine',nib_type:'Steel',special:false,retail:120,purchase:108,status:'Resting',care:[{id:'c12',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p20',model:'51 - Deluxe Plum',maker:'Parker',nib_size:'Fine',nib_type:'Steel',special:false,retail:180,purchase:162,status:'Resting',care:[]},{id:'p21',model:'Classic M200 - Brown Marble',maker:'Pelikan',nib_size:'Fine',nib_type:'Steel',special:false,retail:130,purchase:117,status:'Resting',care:[{id:'c9',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''},{id:'c70',date:'11/10/2025',type:'Empty, Clean',ink:'873',note:''}]},{id:'p22',model:'E95s - Burgundy',maker:'Pilot',nib_size:'Fine',nib_type:'14K Gold',special:false,retail:276,purchase:276,status:'Resting',care:[]},{id:'p23',model:'3776 - Chenonceau White Gold',maker:'Platinum',nib_size:'Fine',nib_type:'14K Gold',special:false,retail:160,purchase:144,status:'Resting',care:[{id:'c15',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''},{id:'c75',date:'12/4/2025',type:'Fill only',ink:'October Leaves',note:''}]},{id:'p24',model:'Dragon Scales - Blue',maker:'Relic Pens',nib_size:'Medium',nib_type:'Steel',special:true,retail:180,purchase:162,status:'Gifted',gifted_to:'Nick Wehlau',care:[{id:'c4',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p25',model:'Dragon Scales - Cinnabar',maker:'Relic Pens',nib_size:'Medium',nib_type:'Steel',special:true,retail:180,purchase:162,status:'Gifted',gifted_to:'Nichole',care:[{id:'c5',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p26',model:'Ginko - Green',maker:'Relic Pens',nib_size:'Medium',nib_type:'Steel',special:true,retail:180,purchase:162,status:'Resting',care:[{id:'c6',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p27',model:'1911S - Trinity',maker:'Sailor',nib_size:'Fine',nib_type:'21K Gold',special:false,retail:220,purchase:198,status:'Resting',care:[]},{id:'p28',model:'Mirage Mythos - Zeus',maker:'Visconti',nib_size:'Fine',nib_type:'Steel',special:false,retail:191.20,purchase:162.52,status:'Resting',care:[{id:'c19',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p29',model:'Comedia - Inferno',maker:'Visconti',nib_size:'Fine',nib_type:'Steel',special:false,retail:215.20,purchase:161.40,status:'Resting',care:[{id:'c16',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p30',model:"Carene - L'essence du Bleu",maker:'Waterman',nib_size:'Fine',nib_type:'18K Gold',special:true,retail:307.64,purchase:230.73,status:'Resting',care:[{id:'c64',date:'11/10/2025',type:'Fill only',ink:'Mysterious Blue',note:''},{id:'c72',date:'12/4/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p31',model:'Carene - Marine Amber',maker:'Waterman',nib_size:'Fine',nib_type:'18K Gold',special:false,retail:274,purchase:274,status:'Working',care:[{id:'c14',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''},{id:'c80',date:'3/21/2026',type:'Fill only',ink:'Siddhartha',note:''}]},{id:'p32',model:'Carene - Reflections of Paris',maker:'Waterman',nib_size:'Medium',nib_type:'18K Gold',special:true,retail:448,purchase:403.20,status:'Resting',care:[{id:'c25',date:'8/17/2025',type:'Fill only',ink:'Mysterious Blue',note:''},{id:'c37',date:'9/5/2025',type:'Empty, Clean',ink:'',note:''},{id:'c39',date:'9/6/2025',type:'Fill only',ink:'Tender Purple',note:''},{id:'c62',date:'11/10/2025',type:'Empty, Clean',ink:'',note:''},{id:'c68',date:'11/10/2025',type:'Empty, Clean',ink:'Tender Purple',note:''}]},{id:'p33',model:"Exception Slim - L'essence du Blue",maker:'Waterman',nib_size:'Fine',nib_type:'18K Gold',special:true,retail:522.80,purchase:418.24,status:'Resting',care:[{id:'c7',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p34',model:'Expert - Reflections of Paris',maker:'Waterman',nib_size:'Medium',nib_type:'Steel',special:true,retail:224,purchase:201.60,status:'Resting',care:[{id:'c38',date:'9/5/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p35',model:'Expert - Stainless Gold Trim',maker:'Waterman',nib_size:'Fine',nib_type:'Steel',special:false,retail:113.47,purchase:113.47,status:'Resting',care:[{id:'c22',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]},{id:'p36',model:'Hemispheres - Black/White',maker:'Waterman',nib_size:'Fine',nib_type:'Steel',special:true,retail:117.60,purchase:99.96,status:'Resting',care:[{id:'c20',date:'8/17/2025',type:'Empty, Clean',ink:'',note:''}]}];
 const SEED_INKS=[{id:'i1',name:'Colorvent Calendar 2025',maker:'Colorverse',color:'Sample Set',shimmer:'',sheen:'',shading:'',limited:false,size:'Sample Set',retail:180,purchase:180,status:'Resting'},{id:'i2',name:'Lunar Black',maker:'Colorverse',color:'Black',shimmer:'No',sheen:'No',shading:'Medium',limited:false,size:'15ml',retail:0,purchase:0,status:'Resting'},{id:'i3',name:'Martian Dust',maker:'Colorverse',color:'Brown',shimmer:'No',sheen:'No',shading:'Medium',limited:false,size:'15ml',retail:0,purchase:0,status:'Resting'},{id:'i4',name:'Red Aurora',maker:'Colorverse',color:'Red',shimmer:'No',sheen:'Low',shading:'Medium',limited:false,size:'15ml',retail:0,purchase:0,status:'Working'},{id:'i5',name:'Milky Sea',maker:'Colorverse',color:'Blue',shimmer:'Yes',sheen:'No',shading:'Low',limited:false,size:'15ml',retail:0,purchase:0,status:'Working'},{id:'i6',name:'Diamine Inkvent Calendar 2025',maker:'Diamine',color:'Sample Set',shimmer:'',sheen:'',shading:'',limited:false,size:'Sample Set',retail:108,purchase:108,status:'Resting'},{id:'i7',name:'Ultra Green',maker:'Diamine',color:'Green',shimmer:'No',sheen:'No',shading:'Low',limited:false,size:'80ml',retail:17,purchase:14.45,status:'Resting'},{id:'i8',name:'October Leaves',maker:'Dominant Industry',color:'Orange',shimmer:'Yes',sheen:'No',shading:'Low',limited:false,size:'25ml',retail:22,purchase:18.70,status:'Resting'},{id:'i9',name:'Superman Frozen Fortress',maker:'Ferris Wheel Press',color:'Blue',shimmer:'Yes',sheen:'No',shading:'No',limited:true,size:'28ml',retail:35,purchase:0,status:'Resting'},{id:'i10',name:'Ambre de Birmanie',maker:'Jacques Herbin',color:'Brown',shimmer:'No',sheen:'No',shading:'Medium',limited:false,size:'30ml',retail:12.56,purchase:11.31,status:'Resting'},{id:'i11',name:'Cafe des Illes',maker:'Jacques Herbin',color:'Brown',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'30ml',retail:12.56,purchase:11.31,status:'Resting'},{id:'i12',name:'Cliff',maker:'Lamy',color:'Blue',shimmer:'No',sheen:'No',shading:'No',limited:true,size:'50ml',retail:12,purchase:10.80,status:'Resting'},{id:'i13',name:'Wenshan Pouchong Tea',maker:'Lennon Tool Bar',color:'Green',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'35ml',retail:25,purchase:18.75,status:'Resting'},{id:'i14',name:'#52 Shioya Sepia',maker:'Nagasawa',color:'Brown',shimmer:'No',sheen:'No',shading:'Low',limited:false,size:'50ml',retail:32,purchase:32,status:'Resting'},{id:'i15',name:'Black',maker:'Namiki',color:'Black',shimmer:'No',sheen:'No',shading:'Low',limited:false,size:'60ml',retail:12.72,purchase:12.72,status:'Resting'},{id:'i16',name:'Iroshizuku Momiji',maker:'Pilot',color:'Red',shimmer:'No',sheen:'No',shading:'Low',limited:false,size:'50ml',retail:25.60,purchase:25.60,status:'Resting'},{id:'i17',name:'Honey Bee',maker:'Robert Oster',color:'Yellow',shimmer:'No',sheen:'No',shading:'Medium',limited:false,size:'50ml',retail:18,purchase:14.40,status:'Resting'},{id:'i18',name:'Ten Dollar Note',maker:'Robert Oster',color:'Green',shimmer:'No',sheen:'No',shading:'Medium',limited:true,size:'50ml',retail:18,purchase:15.30,status:'Resting'},{id:'i19',name:'Australis Oak',maker:'Robert Oster',color:'Brown',shimmer:'No',sheen:'No',shading:'Low',limited:false,size:'50ml',retail:18,purchase:16.20,status:'Resting'},{id:'i20',name:'873',maker:'Sailor',color:'Orange',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'20ml',retail:18,purchase:18,status:'Resting'},{id:'i21',name:'Mysterious Blue',maker:'Waterman',color:'Blue',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'50ml',retail:13.27,purchase:9.96,status:'Resting'},{id:'i22',name:'Tender Purple',maker:'Waterman',color:'Purple',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'50ml',retail:13.27,purchase:10.62,status:'Resting'},{id:'i23',name:'Harmonious Green',maker:'Waterman',color:'Green',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'50ml',retail:13.27,purchase:11.28,status:'Resting'},{id:'i24',name:'Moby Dick',maker:'Wearingeul',color:'Blue',shimmer:'No',sheen:'No',shading:'Medium',limited:false,size:'30ml',retail:22,purchase:22,status:'Resting'},{id:'i25',name:'Inferno',maker:'Wearingeul',color:'Black',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'30ml',retail:22,purchase:22,status:'Resting'},{id:'i26',name:'Henry Jekyll',maker:'Wearingeul',color:'Red',shimmer:'No',sheen:'No',shading:'Medium',limited:false,size:'30ml',retail:22,purchase:22,status:'Resting'},{id:'i27',name:'Cowardly Lion',maker:'Wearingeul',color:'Brown',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'30ml',retail:22,purchase:19.80,status:'Resting'},{id:'i28',name:'The Picture of Dorian Gray',maker:'Wearingeul',color:'Gray',shimmer:'No',sheen:'No',shading:'Medium',limited:false,size:'30ml',retail:22,purchase:18.70,status:'Resting'},{id:'i29',name:'The Secret Garden',maker:'Wearingeul',color:'Green',shimmer:'Yes',sheen:'No',shading:'Low',limited:false,size:'30ml',retail:22,purchase:18.70,status:'Resting'},{id:'i30',name:'Siddhartha',maker:'Wearingeul',color:'Red',shimmer:'No',sheen:'No',shading:'Medium',limited:false,size:'30ml',retail:25,purchase:21.25,status:'Working'},{id:'i31',name:'Carmilla',maker:'Wearingeul',color:'Red',shimmer:'No',sheen:'No',shading:'Medium',limited:false,size:'30ml',retail:25,purchase:21.25,status:'Resting'},{id:'i32',name:'Human Issues',maker:'Wearingeul',color:'Red',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'30ml',retail:25,purchase:22.50,status:'Resting'},{id:'i33',name:'A Study in Scarlet',maker:'Wearingeul',color:'Red',shimmer:'No',sheen:'No',shading:'No',limited:false,size:'30ml',retail:25,purchase:22.50,status:'Resting'},{id:'i34',name:'Jane Eyre',maker:'Wearingeul',color:'Purple',shimmer:'No',sheen:'No',shading:'Low',limited:false,size:'30ml',retail:25,purchase:22.50,status:'Resting'}];
 const SEED_JOURNAL=[{id:'j4',date:'8/19/2025',pen:'Viper - Brown',ink:'',accessory:'',note:'The Viper series is one of my favorite pens. They look and feel great and they are very affordable.'},{id:'j5',date:'8/19/2025',pen:'',ink:'Superman Frozen Fortress',accessory:'',note:'Be careful with this ink. It has high shimmer and high sheen. It was hard to clean from the pen.'},{id:'j8',date:'8/20/2025',pen:'Estie - Incredible Rock',ink:'',accessory:'',note:'Gift to Amanda Mintz'},{id:'j9',date:'8/20/2025',pen:'Dragon Scales - Blue',ink:'',accessory:'',note:'Gift to Nick Wehlau'},{id:'j10',date:'8/20/2025',pen:'',ink:'The Secret Garden',accessory:'',note:"This is a high shimmer ink. Shake well before use. It's a pain to clean."},{id:'j11',date:'8/25/2025',pen:'Dragon Scales - Cinnabar',ink:'',accessory:'',note:'Gift to Nichole'},{id:'j12',date:'',pen:'',ink:'',accessory:'Straight Glass Dip Pen - Eclat de Saphir',note:"The \"straight\" or \"round\" pen description refers to the overall shape of the pen. This straight pen doesn't have the ball near the grip. It writes more like an Extra Fine/Fine. Pretty good for dabbing ink when using the end of the shaft."},{id:'j13',date:'8/31/2025',pen:'',ink:'',accessory:'Round Glass Dip Pen - Clear',note:'Definitely more delicate than the straight glass pen. It feels more like Extra Fine when writing in the journal. Almost like cutting the page. The grip is ok, but not very smooth on the finger joint.'},{id:'j14',date:'10/7/2025',pen:'Studio - Glacier',ink:'Moby Dick',accessory:'',note:"This is really not a good match. I find that the ink doesn't flow well. The ink color is very cool looking, but it's not spreading well with this pen/nib."}];
 
-// ── Init data from localStorage or seed ──
 let stored = null;
 try { stored = JSON.parse(localStorage.getItem('stylographic_local')); } catch(e) {}
 let pens    = stored?.pens    || JSON.parse(JSON.stringify(SEED_PENS));
 let inks    = stored?.inks    || JSON.parse(JSON.stringify(SEED_INKS));
 let journal = stored?.journal || JSON.parse(JSON.stringify(SEED_JOURNAL));
 
-// ─────────────────────────────────────────────
-//  App logic (unchanged from original)
-// ─────────────────────────────────────────────
-let currentTab='pens',penDetail=null,inkDetail=null;
+let currentTab='pens', penDetail=null, inkDetail=null;
 
-function uid(){return '_'+Math.random().toString(36).slice(2,9);}
-function showTab(tab,el){currentTab=tab;penDetail=null;inkDetail=null;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');render();}
-function render(){if(currentTab==='pens')penDetail?renderPenDetail():renderPens();else if(currentTab==='inks')inkDetail?renderInkDetail():renderInks();else renderJournal();}
-function activePens(){return pens.filter(p=>p.status!=='Gifted');}
+function uid() { return '_'+Math.random().toString(36).slice(2,9); }
+function showTab(tab,el) { currentTab=tab; penDetail=null; inkDetail=null; document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); if(el)el.classList.add('active'); render(); }
+function render() { if(currentTab==='pens') penDetail?renderPenDetail():renderPens(); else if(currentTab==='inks') inkDetail?renderInkDetail():renderInks(); else renderJournal(); }
+function activePens() { return pens.filter(p=>p.status!=='Gifted'); }
 
-function renderPens(){
+function renderPens() {
   const el=document.getElementById('tab-content');
   const sv=(document.getElementById('pen-search')||{}).value||'';
   const mf=(document.getElementById('pen-maker')||{}).value||'';
@@ -332,28 +454,75 @@ function renderPens(){
   const pool=sg?pens:activePens();
   const makers=[...new Set(pens.map(p=>p.maker))].sort();
   const data=pool.filter(p=>(!sv||p.model.toLowerCase().includes(sv.toLowerCase())||p.maker.toLowerCase().includes(sv.toLowerCase()))&&(!mf||p.maker===mf)&&(!sf||p.status===sf)&&(!nf||p.nib_type===nf));
-  const ap=activePens();const working=ap.filter(p=>p.status==='Working').length;const tv=ap.reduce((s,p)=>s+p.purchase,0);const gifted=pens.filter(p=>p.status==='Gifted').length;
-  el.innerHTML=`<div class="metrics"><div class="metric"><div class="metric-label">In collection</div><div class="metric-value">${ap.length}</div></div><div class="metric"><div class="metric-label">Currently inked</div><div class="metric-value">${working}</div></div><div class="metric"><div class="metric-label">Gifted</div><div class="metric-value">${gifted}</div></div><div class="metric"><div class="metric-label">Collection value</div><div class="metric-value">$${tv.toLocaleString('en-US',{maximumFractionDigits:0})}</div></div></div>
-  <div class="controls"><input id="pen-search" placeholder="Search pens..." value="${sv}" oninput="renderPens()"><select id="pen-maker" onchange="renderPens()"><option value="">All makers</option>${makers.map(m=>`<option value="${m}"${mf===m?' selected':''}>${m}</option>`).join('')}</select><select id="pen-status" onchange="renderPens()"><option value="">All statuses</option><option value="Working"${sf==='Working'?' selected':''}>Working</option><option value="Resting"${sf==='Resting'?' selected':''}>Resting</option><option value="Gifted"${sf==='Gifted'?' selected':''}>Gifted</option></select><select id="pen-nib" onchange="renderPens()"><option value="">All nib types</option><option value="Steel"${nf==='Steel'?' selected':''}>Steel</option><option value="14K Gold">14K Gold</option><option value="18K Gold">18K Gold</option><option value="21K Gold">21K Gold</option></select><button class="btn" onclick="showAddPen()">+ Add pen</button></div>
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:13px;color:#5f5e5a"><input type="checkbox" id="pen-show-gifted" onchange="renderPens()" ${sg?'checked':''} style="width:auto"><label for="pen-show-gifted">Show gifted pens</label></div>
-  <table><thead><tr><th>Model</th><th>Maker</th><th>Nib</th><th>Type</th><th>Special</th><th>Status</th><th>Purchase</th></tr></thead><tbody>${data.map(p=>`<tr class="clickable${p.status==='Gifted'?' gifted':''}" onclick="openPen('${p.id}')"><td>${p.model}</td><td>${p.maker}</td><td>${p.nib_size}</td><td>${p.nib_type}</td><td><span class="badge ${p.special?'b-yes':'b-no'}">${p.special?'Yes':'No'}</span></td><td><span class="badge b-${p.status.toLowerCase()}">${p.status}</span></td><td>$${p.purchase.toFixed(2)}</td></tr>`).join('')}${data.length===0?'<tr><td colspan="7" style="text-align:center;color:#b4b2a9;padding:2rem">No pens match</td></tr>':''}</tbody></table>`;
+  const ap=activePens(); const working=ap.filter(p=>p.status==='Working').length; const tv=ap.reduce((s,p)=>s+p.purchase,0); const gifted=pens.filter(p=>p.status==='Gifted').length;
+  el.innerHTML=`
+  <div class="metrics">
+    <div class="metric"><div class="metric-label">In collection</div><div class="metric-value">${ap.length}</div></div>
+    <div class="metric"><div class="metric-label">Currently inked</div><div class="metric-value">${working}</div></div>
+    <div class="metric"><div class="metric-label">Gifted</div><div class="metric-value">${gifted}</div></div>
+    <div class="metric"><div class="metric-label">Collection value</div><div class="metric-value">$${tv.toLocaleString('en-US',{maximumFractionDigits:0})}</div></div>
+  </div>
+  <div class="controls">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="pen-search" placeholder="Search pens…" value="${sv}" oninput="renderPens()">
+    </div>
+    <select id="pen-maker" onchange="renderPens()"><option value="">All makers</option>${makers.map(m=>`<option value="${m}"${mf===m?' selected':''}>${m}</option>`).join('')}</select>
+    <select id="pen-status" onchange="renderPens()"><option value="">All statuses</option><option value="Working"${sf==='Working'?' selected':''}>Working</option><option value="Resting"${sf==='Resting'?' selected':''}>Resting</option><option value="Gifted"${sf==='Gifted'?' selected':''}>Gifted</option></select>
+    <select id="pen-nib" onchange="renderPens()"><option value="">All nib types</option><option value="Steel"${nf==='Steel'?' selected':''}>Steel</option><option value="14K Gold"${nf==='14K Gold'?' selected':''}>14K Gold</option><option value="18K Gold"${nf==='18K Gold'?' selected':''}>18K Gold</option><option value="21K Gold"${nf==='21K Gold'?' selected':''}>21K Gold</option></select>
+    <button class="btn-add" onclick="showAddPen()">+ Add pen</button>
+  </div>
+  <div class="show-gifted-row"><input type="checkbox" id="pen-show-gifted" onchange="renderPens()" ${sg?'checked':''}><label for="pen-show-gifted">Show gifted pens</label></div>
+  <div class="table-wrap">
+  <table><thead><tr><th>Model</th><th>Maker</th><th>Nib</th><th>Type</th><th>Special</th><th>Status</th><th>Purchase</th></tr></thead>
+  <tbody>${data.map(p=>`<tr class="clickable${p.status==='Gifted'?' gifted':''}" onclick="openPen('${p.id}')"><td>${p.model}</td><td>${p.maker}</td><td>${p.nib_size}</td><td>${p.nib_type}</td><td><span class="badge ${p.special?'b-yes':'b-no'}">${p.special?'Yes':'No'}</span></td><td><span class="badge b-${p.status.toLowerCase()}">${p.status}</span></td><td>$${p.purchase.toFixed(2)}</td></tr>`).join('')}
+  ${data.length===0?'<tr><td colspan="7" style="text-align:center;color:#ccc;padding:3rem;font-style:italic">No pens match</td></tr>':''}</tbody></table></div>`;
 }
 
-function openPen(id){penDetail=id;renderPenDetail();}
-function renderPenDetail(){
-  const p=pens.find(x=>x.id===penDetail);if(!p){penDetail=null;renderPens();return;}
+function openPen(id) { penDetail=id; renderPenDetail(); }
+function renderPenDetail() {
+  const p=pens.find(x=>x.id===penDetail); if(!p){penDetail=null;renderPens();return;}
   const inkNames=inks.map(i=>i.name).sort();
   const el=document.getElementById('tab-content');
   const lastFill=p.care.filter(c=>c.ink&&(c.type==='Fill only'||c.type==='Empty, Clean, Fill')).slice(-1)[0];
   el.innerHTML=`<button class="back-btn" onclick="penDetail=null;renderPens()">← Back to pens</button>
-  <div class="panel"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem"><div><div style="font-size:17px;font-weight:500;margin-bottom:4px">${p.model}</div><div style="font-size:13px;color:#5f5e5a">${p.maker}</div></div><span class="badge b-${p.status.toLowerCase()}">${p.status}</span></div>
-  <div class="detail-grid"><div class="detail-row"><div class="detail-label">Nib size</div><div class="detail-value">${p.nib_size}</div></div><div class="detail-row"><div class="detail-label">Nib type</div><div class="detail-value">${p.nib_type}</div></div><div class="detail-row"><div class="detail-label">Special edition</div><div class="detail-value">${p.special?'Yes':'No'}</div></div><div class="detail-row"><div class="detail-label">${p.status==='Gifted'?'Gifted to':'Current ink'}</div><div class="detail-value">${p.status==='Gifted'?(p.gifted_to||'—'):(lastFill?lastFill.ink:'—')}</div></div><div class="detail-row"><div class="detail-label">Retail price</div><div class="detail-value">$${p.retail.toFixed(2)}</div></div><div class="detail-row"><div class="detail-label">Purchase price</div><div class="detail-value">$${p.purchase.toFixed(2)}</div></div></div>
-  <div class="btn-row">${p.status!=='Gifted'?`<button class="btn" onclick="cycleStatus('${p.id}')">${p.status==='Working'?'Mark resting':'Mark working'}</button>`:''}<button class="btn" onclick="showEditPen('${p.id}')">Edit</button>${p.status!=='Gifted'?`<button class="btn" onclick="markGifted('${p.id}')">Mark as gifted</button>`:''}<button class="btn btn-danger" onclick="deletePen('${p.id}')">Remove</button></div></div>
-  <div class="panel"><div class="section-title">Care log</div><div id="care-list">${p.care.length===0?'<div class="empty">No care entries yet</div>':p.care.map(c=>`<div class="care-entry"><span class="care-date">${c.date}</span><span>${c.type}</span><span style="color:#5f5e5a">${c.ink||'—'}</span><button class="btn btn-danger" style="font-size:11px;padding:2px 8px" onclick="deleteCare('${p.id}','${c.id}')">×</button>${c.note?`<span class="care-note">${c.note}</span>`:''}</div>`).join('')}</div>
-  <div style="margin-top:16px;border-top:0.5px solid rgba(0,0,0,0.08);padding-top:12px"><div class="section-title" style="margin-bottom:8px">Add care entry</div>
-  <div class="form-grid three" style="margin-bottom:8px"><div class="form-row"><div class="form-label">Date</div><input type="date" id="care-date"></div><div class="form-row"><div class="form-label">Type</div><select id="care-type"><option>Received</option><option>Fill only</option><option>Empty, Clean</option><option>Empty, Clean, Fill</option><option>Repair</option></select></div><div class="form-row"><div class="form-label">Ink used</div><select id="care-ink"><option value="">— none —</option>${inkNames.map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div></div>
-  <div class="form-row" style="margin-bottom:8px"><div class="form-label">Note (optional)</div><input type="text" id="care-note" placeholder="Any notes..."></div>
-  <button class="btn" onclick="addCare('${p.id}')">Add entry</button></div></div>`;
+  <div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+      <div>
+        <div class="panel-title">${p.model}</div>
+        <div class="panel-sub">${p.maker}</div>
+      </div>
+      <span class="badge b-${p.status.toLowerCase()}">${p.status}</span>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-row"><div class="detail-label">Nib size</div><div class="detail-value">${p.nib_size}</div></div>
+      <div class="detail-row"><div class="detail-label">Nib type</div><div class="detail-value">${p.nib_type}</div></div>
+      <div class="detail-row"><div class="detail-label">Special edition</div><div class="detail-value">${p.special?'Yes':'No'}</div></div>
+      <div class="detail-row"><div class="detail-label">${p.status==='Gifted'?'Gifted to':'Current ink'}</div><div class="detail-value">${p.status==='Gifted'?(p.gifted_to||'—'):(lastFill?lastFill.ink:'—')}</div></div>
+      <div class="detail-row"><div class="detail-label">Retail price</div><div class="detail-value">$${p.retail.toFixed(2)}</div></div>
+      <div class="detail-row"><div class="detail-label">Purchase price</div><div class="detail-value">$${p.purchase.toFixed(2)}</div></div>
+    </div>
+    <div class="btn-row">
+      ${p.status!=='Gifted'?`<button class="btn btn-primary" onclick="cycleStatus('${p.id}')">${p.status==='Working'?'Mark resting':'Mark working'}</button>`:''}
+      <button class="btn" onclick="showEditPen('${p.id}')">Edit</button>
+      ${p.status!=='Gifted'?`<button class="btn" onclick="markGifted('${p.id}')">Mark as gifted</button>`:''}
+      <button class="btn btn-danger" onclick="deletePen('${p.id}')">Remove</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="section-title">Care log</div>
+    <div id="care-list">${p.care.length===0?'<div class="empty">No care entries yet</div>':p.care.map(c=>`<div class="care-entry"><span class="care-date">${c.date}</span><span>${c.type}</span><span style="color:#aaa">${c.ink||'—'}</span><button class="btn btn-danger" style="font-size:.62rem;padding:3px 8px" onclick="deleteCare('${p.id}','${c.id}')">×</button>${c.note?`<span class="care-note">${c.note}</span>`:''}</div>`).join('')}</div>
+    <div style="margin-top:20px;border-top:1px solid var(--pale);padding-top:16px">
+      <div class="section-title">Add care entry</div>
+      <div class="form-grid three" style="margin-bottom:10px">
+        <div class="form-row"><div class="form-label">Date</div><input type="date" id="care-date"></div>
+        <div class="form-row"><div class="form-label">Type</div><select id="care-type"><option>Received</option><option>Fill only</option><option>Empty, Clean</option><option>Empty, Clean, Fill</option><option>Repair</option></select></div>
+        <div class="form-row"><div class="form-label">Ink used</div><select id="care-ink"><option value="">— none —</option>${inkNames.map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div>
+      </div>
+      <div class="form-row" style="margin-bottom:12px"><div class="form-label">Note (optional)</div><input type="text" id="care-note" placeholder="Any notes…"></div>
+      <button class="btn btn-primary" onclick="addCare('${p.id}')">Add entry</button>
+    </div>
+  </div>`;
 }
 
 function cycleStatus(id){const p=pens.find(x=>x.id===id);p.status=p.status==='Working'?'Resting':'Working';scheduleSave();renderPenDetail();}
@@ -364,35 +533,88 @@ function deleteCare(pid,cid){const p=pens.find(x=>x.id===pid);p.care=p.care.filt
 
 function showAddPen(){
   const makers=[...new Set(pens.map(p=>p.maker))].sort();
-  showModal('Add pen',`<div class="form-grid"><div class="form-row form-full"><div class="form-label">Model name</div><input type="text" id="f-model"></div><div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" list="ml"><datalist id="ml">${makers.map(m=>`<option value="${m}">`).join('')}</datalist></div><div class="form-row"><div class="form-label">Nib size</div><select id="f-nib-size"><option>Extra Fine</option><option selected>Fine</option><option>Medium</option><option>Broad</option><option>Stub</option></select></div><div class="form-row"><div class="form-label">Nib type</div><select id="f-nib-type"><option selected>Steel</option><option>14K Gold</option><option>18K Gold</option><option>21K Gold</option></select></div><div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" placeholder="0.00"></div><div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" placeholder="0.00"></div><div class="form-row"><div class="form-label">Special edition</div><select id="f-special"><option value="false">No</option><option value="true">Yes</option></select></div><div class="form-row"><div class="form-label">Status</div><select id="f-status"><option>Resting</option><option>Working</option></select></div></div>`,
-  ()=>{const model=document.getElementById('f-model').value.trim();const maker=document.getElementById('f-maker').value.trim();if(!model||!maker){alert('Model and maker are required');return;}pens.push({id:uid(),model,maker,nib_size:document.getElementById('f-nib-size').value,nib_type:document.getElementById('f-nib-type').value,special:document.getElementById('f-special').value==='true',retail:parseFloat(document.getElementById('f-retail').value)||0,purchase:parseFloat(document.getElementById('f-purchase').value)||0,status:document.getElementById('f-status').value,care:[]});scheduleSave();closeModal();renderPens();});
+  showModal('Add pen',`<div class="form-grid">
+    <div class="form-row form-full"><div class="form-label">Model name</div><input type="text" id="f-model"></div>
+    <div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" list="ml"><datalist id="ml">${makers.map(m=>`<option value="${m}">`).join('')}</datalist></div>
+    <div class="form-row"><div class="form-label">Nib size</div><select id="f-nib-size"><option>Extra Fine</option><option selected>Fine</option><option>Medium</option><option>Broad</option><option>Stub</option></select></div>
+    <div class="form-row"><div class="form-label">Nib type</div><select id="f-nib-type"><option selected>Steel</option><option>14K Gold</option><option>18K Gold</option><option>21K Gold</option></select></div>
+    <div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" placeholder="0.00"></div>
+    <div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" placeholder="0.00"></div>
+    <div class="form-row"><div class="form-label">Special edition</div><select id="f-special"><option value="false">No</option><option value="true">Yes</option></select></div>
+    <div class="form-row"><div class="form-label">Status</div><select id="f-status"><option>Resting</option><option>Working</option></select></div>
+  </div>`,()=>{const model=document.getElementById('f-model').value.trim();const maker=document.getElementById('f-maker').value.trim();if(!model||!maker){alert('Model and maker are required');return;}pens.push({id:uid(),model,maker,nib_size:document.getElementById('f-nib-size').value,nib_type:document.getElementById('f-nib-type').value,special:document.getElementById('f-special').value==='true',retail:parseFloat(document.getElementById('f-retail').value)||0,purchase:parseFloat(document.getElementById('f-purchase').value)||0,status:document.getElementById('f-status').value,care:[]});scheduleSave();closeModal();renderPens();});
 }
 
 function showEditPen(id){
   const p=pens.find(x=>x.id===id);
-  showModal('Edit pen',`<div class="form-grid"><div class="form-row form-full"><div class="form-label">Model name</div><input type="text" id="f-model" value="${p.model}"></div><div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" value="${p.maker}"></div><div class="form-row"><div class="form-label">Nib size</div><select id="f-nib-size">${['Extra Fine','Fine','Medium','Broad','Stub'].map(s=>`<option${p.nib_size===s?' selected':''}>${s}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Nib type</div><select id="f-nib-type">${['Steel','14K Gold','18K Gold','21K Gold'].map(s=>`<option${p.nib_type===s?' selected':''}>${s}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" value="${p.retail}"></div><div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" value="${p.purchase}"></div><div class="form-row"><div class="form-label">Special edition</div><select id="f-special"><option value="false"${!p.special?' selected':''}>No</option><option value="true"${p.special?' selected':''}>Yes</option></select></div><div class="form-row"><div class="form-label">Status</div><select id="f-status"><option${p.status==='Resting'?' selected':''}>Resting</option><option${p.status==='Working'?' selected':''}>Working</option><option${p.status==='Gifted'?' selected':''}>Gifted</option></select></div>${p.status==='Gifted'?`<div class="form-row form-full"><div class="form-label">Gifted to</div><input type="text" id="f-gifted-to" value="${p.gifted_to||''}"></div>`:''}</div>`,
-  ()=>{p.model=document.getElementById('f-model').value.trim()||p.model;p.maker=document.getElementById('f-maker').value.trim()||p.maker;p.nib_size=document.getElementById('f-nib-size').value;p.nib_type=document.getElementById('f-nib-type').value;p.special=document.getElementById('f-special').value==='true';p.retail=parseFloat(document.getElementById('f-retail').value)||0;p.purchase=parseFloat(document.getElementById('f-purchase').value)||0;p.status=document.getElementById('f-status').value;const gt=document.getElementById('f-gifted-to');if(gt)p.gifted_to=gt.value;scheduleSave();closeModal();renderPenDetail();});
+  showModal('Edit pen',`<div class="form-grid">
+    <div class="form-row form-full"><div class="form-label">Model name</div><input type="text" id="f-model" value="${p.model}"></div>
+    <div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" value="${p.maker}"></div>
+    <div class="form-row"><div class="form-label">Nib size</div><select id="f-nib-size">${['Extra Fine','Fine','Medium','Broad','Stub'].map(s=>`<option${p.nib_size===s?' selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="form-row"><div class="form-label">Nib type</div><select id="f-nib-type">${['Steel','14K Gold','18K Gold','21K Gold'].map(s=>`<option${p.nib_type===s?' selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" value="${p.retail}"></div>
+    <div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" value="${p.purchase}"></div>
+    <div class="form-row"><div class="form-label">Special edition</div><select id="f-special"><option value="false"${!p.special?' selected':''}>No</option><option value="true"${p.special?' selected':''}>Yes</option></select></div>
+    <div class="form-row"><div class="form-label">Status</div><select id="f-status"><option${p.status==='Resting'?' selected':''}>Resting</option><option${p.status==='Working'?' selected':''}>Working</option><option${p.status==='Gifted'?' selected':''}>Gifted</option></select></div>
+    ${p.status==='Gifted'?`<div class="form-row form-full"><div class="form-label">Gifted to</div><input type="text" id="f-gifted-to" value="${p.gifted_to||''}"></div>`:''}
+  </div>`,()=>{p.model=document.getElementById('f-model').value.trim()||p.model;p.maker=document.getElementById('f-maker').value.trim()||p.maker;p.nib_size=document.getElementById('f-nib-size').value;p.nib_type=document.getElementById('f-nib-type').value;p.special=document.getElementById('f-special').value==='true';p.retail=parseFloat(document.getElementById('f-retail').value)||0;p.purchase=parseFloat(document.getElementById('f-purchase').value)||0;p.status=document.getElementById('f-status').value;const gt=document.getElementById('f-gifted-to');if(gt)p.gifted_to=gt.value;scheduleSave();closeModal();renderPenDetail();});
 }
 
-function renderInks(){
+function renderInks() {
   const el=document.getElementById('tab-content');
-  const sv=(document.getElementById('ink-search')||{}).value||'';const mf=(document.getElementById('ink-maker')||{}).value||'';const cf=(document.getElementById('ink-color')||{}).value||'';const sf=(document.getElementById('ink-status')||{}).value||'';
-  const makers=[...new Set(inks.map(i=>i.maker))].sort();const colors=[...new Set(inks.map(i=>i.color))].sort();
+  const sv=(document.getElementById('ink-search')||{}).value||''; const mf=(document.getElementById('ink-maker')||{}).value||''; const cf=(document.getElementById('ink-color')||{}).value||''; const sf=(document.getElementById('ink-status')||{}).value||'';
+  const makers=[...new Set(inks.map(i=>i.maker))].sort(); const colors=[...new Set(inks.map(i=>i.color))].sort();
   const data=inks.filter(i=>(!sv||i.name.toLowerCase().includes(sv.toLowerCase())||i.maker.toLowerCase().includes(sv.toLowerCase()))&&(!mf||i.maker===mf)&&(!cf||i.color===cf)&&(!sf||i.status===sf));
-  const working=inks.filter(i=>i.status==='Working').length;const tv=inks.reduce((s,i)=>s+i.purchase,0);
-  el.innerHTML=`<div class="metrics"><div class="metric"><div class="metric-label">Total inks</div><div class="metric-value">${inks.length}</div></div><div class="metric"><div class="metric-label">Currently inked</div><div class="metric-value">${working}</div></div><div class="metric"><div class="metric-label">Limited editions</div><div class="metric-value">${inks.filter(i=>i.limited).length}</div></div><div class="metric"><div class="metric-label">Collection value</div><div class="metric-value">$${tv.toLocaleString('en-US',{maximumFractionDigits:0})}</div></div></div>
-  <div class="controls"><input id="ink-search" placeholder="Search inks..." value="${sv}" oninput="renderInks()"><select id="ink-maker" onchange="renderInks()"><option value="">All makers</option>${makers.map(m=>`<option value="${m}"${mf===m?' selected':''}>${m}</option>`).join('')}</select><select id="ink-color" onchange="renderInks()"><option value="">All colors</option>${colors.map(c=>`<option value="${c}"${cf===c?' selected':''}>${c}</option>`).join('')}</select><select id="ink-status" onchange="renderInks()"><option value="">All statuses</option><option value="Working"${sf==='Working'?' selected':''}>Working</option><option value="Resting"${sf==='Resting'?' selected':''}>Resting</option></select><button class="btn" onclick="showAddInk()">+ Add ink</button></div>
-  <table><thead><tr><th>Ink name</th><th>Maker</th><th>Color</th><th>Size</th><th>Shimmer</th><th>Limited</th><th>Status</th><th>Purchase</th></tr></thead><tbody>${data.map(i=>`<tr class="clickable" onclick="openInk('${i.id}')"><td>${i.name}</td><td>${i.maker}</td><td>${i.color}</td><td>${i.size}</td><td><span class="badge ${i.shimmer==='Yes'?'b-yes':'b-no'}">${i.shimmer||'—'}</span></td><td>${i.limited?'<span class="badge b-limited">Yes</span>':'<span class="badge b-no">No</span>'}</td><td><span class="badge b-${i.status.toLowerCase()}">${i.status}</span></td><td>${i.purchase>0?'$'+i.purchase.toFixed(2):'—'}</td></tr>`).join('')}${data.length===0?'<tr><td colspan="8" style="text-align:center;color:#b4b2a9;padding:2rem">No inks match</td></tr>':''}</tbody></table>`;
+  const working=inks.filter(i=>i.status==='Working').length; const tv=inks.reduce((s,i)=>s+i.purchase,0);
+  el.innerHTML=`
+  <div class="metrics">
+    <div class="metric"><div class="metric-label">Total inks</div><div class="metric-value">${inks.length}</div></div>
+    <div class="metric"><div class="metric-label">Currently inked</div><div class="metric-value">${working}</div></div>
+    <div class="metric"><div class="metric-label">Limited editions</div><div class="metric-value">${inks.filter(i=>i.limited).length}</div></div>
+    <div class="metric"><div class="metric-label">Collection value</div><div class="metric-value">$${tv.toLocaleString('en-US',{maximumFractionDigits:0})}</div></div>
+  </div>
+  <div class="controls">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="ink-search" placeholder="Search inks…" value="${sv}" oninput="renderInks()">
+    </div>
+    <select id="ink-maker" onchange="renderInks()"><option value="">All makers</option>${makers.map(m=>`<option value="${m}"${mf===m?' selected':''}>${m}</option>`).join('')}</select>
+    <select id="ink-color" onchange="renderInks()"><option value="">All colors</option>${colors.map(c=>`<option value="${c}"${cf===c?' selected':''}>${c}</option>`).join('')}</select>
+    <select id="ink-status" onchange="renderInks()"><option value="">All statuses</option><option value="Working"${sf==='Working'?' selected':''}>Working</option><option value="Resting"${sf==='Resting'?' selected':''}>Resting</option></select>
+    <button class="btn-add" onclick="showAddInk()">+ Add ink</button>
+  </div>
+  <div class="table-wrap">
+  <table><thead><tr><th>Ink name</th><th>Maker</th><th>Color</th><th>Size</th><th>Shimmer</th><th>Limited</th><th>Status</th><th>Purchase</th></tr></thead>
+  <tbody>${data.map(i=>`<tr class="clickable" onclick="openInk('${i.id}')"><td>${i.name}</td><td>${i.maker}</td><td>${i.color}</td><td>${i.size}</td><td><span class="badge ${i.shimmer==='Yes'?'b-yes':'b-no'}">${i.shimmer||'—'}</span></td><td>${i.limited?'<span class="badge b-limited">Yes</span>':'<span class="badge b-no">No</span>'}</td><td><span class="badge b-${i.status.toLowerCase()}">${i.status}</span></td><td>${i.purchase>0?'$'+i.purchase.toFixed(2):'—'}</td></tr>`).join('')}
+  ${data.length===0?'<tr><td colspan="8" style="text-align:center;color:#ccc;padding:3rem;font-style:italic">No inks match</td></tr>':''}</tbody></table></div>`;
 }
 
 function openInk(id){inkDetail=id;renderInkDetail();}
 function renderInkDetail(){
-  const i=inks.find(x=>x.id===inkDetail);if(!i){inkDetail=null;renderInks();return;}
+  const i=inks.find(x=>x.id===inkDetail); if(!i){inkDetail=null;renderInks();return;}
   const el=document.getElementById('tab-content');
   el.innerHTML=`<button class="back-btn" onclick="inkDetail=null;renderInks()">← Back to inks</button>
-  <div class="panel"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem"><div><div style="font-size:17px;font-weight:500;margin-bottom:4px">${i.name}</div><div style="font-size:13px;color:#5f5e5a">${i.maker}</div></div><span class="badge b-${i.status.toLowerCase()}">${i.status}</span></div>
-  <div class="detail-grid"><div class="detail-row"><div class="detail-label">Color family</div><div class="detail-value">${i.color}</div></div><div class="detail-row"><div class="detail-label">Size</div><div class="detail-value">${i.size}</div></div><div class="detail-row"><div class="detail-label">Shimmer</div><div class="detail-value">${i.shimmer||'—'}</div></div><div class="detail-row"><div class="detail-label">Sheen</div><div class="detail-value">${i.sheen||'—'}</div></div><div class="detail-row"><div class="detail-label">Shading</div><div class="detail-value">${i.shading||'—'}</div></div><div class="detail-row"><div class="detail-label">Limited edition</div><div class="detail-value">${i.limited?'Yes':'No'}</div></div><div class="detail-row"><div class="detail-label">Retail price</div><div class="detail-value">${i.retail>0?'$'+i.retail.toFixed(2):'—'}</div></div><div class="detail-row"><div class="detail-label">Purchase price</div><div class="detail-value">${i.purchase>0?'$'+i.purchase.toFixed(2):'—'}</div></div></div>
-  <div class="btn-row"><button class="btn" onclick="toggleInkStatus('${i.id}')">${i.status==='Working'?'Mark resting':'Mark working'}</button><button class="btn" onclick="showEditInk('${i.id}')">Edit</button><button class="btn btn-danger" onclick="deleteInk('${i.id}')">Remove</button></div></div>`;
+  <div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+      <div><div class="panel-title">${i.name}</div><div class="panel-sub">${i.maker}</div></div>
+      <span class="badge b-${i.status.toLowerCase()}">${i.status}</span>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-row"><div class="detail-label">Color family</div><div class="detail-value">${i.color}</div></div>
+      <div class="detail-row"><div class="detail-label">Size</div><div class="detail-value">${i.size}</div></div>
+      <div class="detail-row"><div class="detail-label">Shimmer</div><div class="detail-value">${i.shimmer||'—'}</div></div>
+      <div class="detail-row"><div class="detail-label">Sheen</div><div class="detail-value">${i.sheen||'—'}</div></div>
+      <div class="detail-row"><div class="detail-label">Shading</div><div class="detail-value">${i.shading||'—'}</div></div>
+      <div class="detail-row"><div class="detail-label">Limited edition</div><div class="detail-value">${i.limited?'Yes':'No'}</div></div>
+      <div class="detail-row"><div class="detail-label">Retail price</div><div class="detail-value">${i.retail>0?'$'+i.retail.toFixed(2):'—'}</div></div>
+      <div class="detail-row"><div class="detail-label">Purchase price</div><div class="detail-value">${i.purchase>0?'$'+i.purchase.toFixed(2):'—'}</div></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="toggleInkStatus('${i.id}')">${i.status==='Working'?'Mark resting':'Mark working'}</button>
+      <button class="btn" onclick="showEditInk('${i.id}')">Edit</button>
+      <button class="btn btn-danger" onclick="deleteInk('${i.id}')">Remove</button>
+    </div>
+  </div>`;
 }
 
 function toggleInkStatus(id){const i=inks.find(x=>x.id===id);i.status=i.status==='Working'?'Resting':'Working';scheduleSave();renderInkDetail();}
@@ -400,41 +622,92 @@ function deleteInk(id){if(!confirm('Remove this ink?'))return;inks=inks.filter(i
 
 function showAddInk(){
   const makers=[...new Set(inks.map(i=>i.maker))].sort();
-  showModal('Add ink',`<div class="form-grid"><div class="form-row form-full"><div class="form-label">Ink name</div><input type="text" id="f-name"></div><div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" list="iml"><datalist id="iml">${makers.map(m=>`<option value="${m}">`).join('')}</datalist></div><div class="form-row"><div class="form-label">Color family</div><input type="text" id="f-color"></div><div class="form-row"><div class="form-label">Size</div><input type="text" id="f-size" placeholder="50ml"></div><div class="form-row"><div class="form-label">Shimmer</div><select id="f-shimmer"><option value="">—</option><option>No</option><option>Yes</option></select></div><div class="form-row"><div class="form-label">Sheen</div><select id="f-sheen"><option value="">—</option><option>No</option><option>Low</option><option>Medium</option><option>High</option></select></div><div class="form-row"><div class="form-label">Shading</div><select id="f-shading"><option value="">—</option><option>No</option><option>Low</option><option>Medium</option><option>High</option></select></div><div class="form-row"><div class="form-label">Limited edition</div><select id="f-limited"><option value="false">No</option><option value="true">Yes</option></select></div><div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" placeholder="0.00"></div><div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" placeholder="0.00"></div></div>`,
-  ()=>{const name=document.getElementById('f-name').value.trim();const maker=document.getElementById('f-maker').value.trim();if(!name||!maker){alert('Name and maker required');return;}inks.push({id:uid(),name,maker,color:document.getElementById('f-color').value||'',shimmer:document.getElementById('f-shimmer').value,sheen:document.getElementById('f-sheen').value,shading:document.getElementById('f-shading').value,limited:document.getElementById('f-limited').value==='true',size:document.getElementById('f-size').value||'',retail:parseFloat(document.getElementById('f-retail').value)||0,purchase:parseFloat(document.getElementById('f-purchase').value)||0,status:'Resting'});scheduleSave();closeModal();renderInks();});
+  showModal('Add ink',`<div class="form-grid">
+    <div class="form-row form-full"><div class="form-label">Ink name</div><input type="text" id="f-name"></div>
+    <div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" list="iml"><datalist id="iml">${makers.map(m=>`<option value="${m}">`).join('')}</datalist></div>
+    <div class="form-row"><div class="form-label">Color family</div><input type="text" id="f-color"></div>
+    <div class="form-row"><div class="form-label">Size</div><input type="text" id="f-size" placeholder="50ml"></div>
+    <div class="form-row"><div class="form-label">Shimmer</div><select id="f-shimmer"><option value="">—</option><option>No</option><option>Yes</option></select></div>
+    <div class="form-row"><div class="form-label">Sheen</div><select id="f-sheen"><option value="">—</option><option>No</option><option>Low</option><option>Medium</option><option>High</option></select></div>
+    <div class="form-row"><div class="form-label">Shading</div><select id="f-shading"><option value="">—</option><option>No</option><option>Low</option><option>Medium</option><option>High</option></select></div>
+    <div class="form-row"><div class="form-label">Limited edition</div><select id="f-limited"><option value="false">No</option><option value="true">Yes</option></select></div>
+    <div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" placeholder="0.00"></div>
+    <div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" placeholder="0.00"></div>
+  </div>`,()=>{const name=document.getElementById('f-name').value.trim();const maker=document.getElementById('f-maker').value.trim();if(!name||!maker){alert('Name and maker required');return;}inks.push({id:uid(),name,maker,color:document.getElementById('f-color').value||'',shimmer:document.getElementById('f-shimmer').value,sheen:document.getElementById('f-sheen').value,shading:document.getElementById('f-shading').value,limited:document.getElementById('f-limited').value==='true',size:document.getElementById('f-size').value||'',retail:parseFloat(document.getElementById('f-retail').value)||0,purchase:parseFloat(document.getElementById('f-purchase').value)||0,status:'Resting'});scheduleSave();closeModal();renderInks();});
 }
 
 function showEditInk(id){
   const i=inks.find(x=>x.id===id);
-  showModal('Edit ink',`<div class="form-grid"><div class="form-row form-full"><div class="form-label">Ink name</div><input type="text" id="f-name" value="${i.name}"></div><div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" value="${i.maker}"></div><div class="form-row"><div class="form-label">Color family</div><input type="text" id="f-color" value="${i.color}"></div><div class="form-row"><div class="form-label">Size</div><input type="text" id="f-size" value="${i.size}"></div><div class="form-row"><div class="form-label">Shimmer</div><select id="f-shimmer">${['','No','Yes'].map(v=>`<option value="${v}"${i.shimmer===v?' selected':''}>${v||'—'}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Sheen</div><select id="f-sheen">${['','No','Low','Medium','High'].map(v=>`<option value="${v}"${i.sheen===v?' selected':''}>${v||'—'}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Shading</div><select id="f-shading">${['','No','Low','Medium','High'].map(v=>`<option value="${v}"${i.shading===v?' selected':''}>${v||'—'}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Limited edition</div><select id="f-limited"><option value="false"${!i.limited?' selected':''}>No</option><option value="true"${i.limited?' selected':''}>Yes</option></select></div><div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" value="${i.retail}"></div><div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" value="${i.purchase}"></div></div>`,
-  ()=>{i.name=document.getElementById('f-name').value.trim()||i.name;i.maker=document.getElementById('f-maker').value.trim()||i.maker;i.color=document.getElementById('f-color').value;i.size=document.getElementById('f-size').value;i.shimmer=document.getElementById('f-shimmer').value;i.sheen=document.getElementById('f-sheen').value;i.shading=document.getElementById('f-shading').value;i.limited=document.getElementById('f-limited').value==='true';i.retail=parseFloat(document.getElementById('f-retail').value)||0;i.purchase=parseFloat(document.getElementById('f-purchase').value)||0;scheduleSave();closeModal();renderInkDetail();});
+  showModal('Edit ink',`<div class="form-grid">
+    <div class="form-row form-full"><div class="form-label">Ink name</div><input type="text" id="f-name" value="${i.name}"></div>
+    <div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" value="${i.maker}"></div>
+    <div class="form-row"><div class="form-label">Color family</div><input type="text" id="f-color" value="${i.color}"></div>
+    <div class="form-row"><div class="form-label">Size</div><input type="text" id="f-size" value="${i.size}"></div>
+    <div class="form-row"><div class="form-label">Shimmer</div><select id="f-shimmer">${['','No','Yes'].map(v=>`<option value="${v}"${i.shimmer===v?' selected':''}>${v||'—'}</option>`).join('')}</select></div>
+    <div class="form-row"><div class="form-label">Sheen</div><select id="f-sheen">${['','No','Low','Medium','High'].map(v=>`<option value="${v}"${i.sheen===v?' selected':''}>${v||'—'}</option>`).join('')}</select></div>
+    <div class="form-row"><div class="form-label">Shading</div><select id="f-shading">${['','No','Low','Medium','High'].map(v=>`<option value="${v}"${i.shading===v?' selected':''}>${v||'—'}</option>`).join('')}</select></div>
+    <div class="form-row"><div class="form-label">Limited edition</div><select id="f-limited"><option value="false"${!i.limited?' selected':''}>No</option><option value="true"${i.limited?' selected':''}>Yes</option></select></div>
+    <div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" value="${i.retail}"></div>
+    <div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" value="${i.purchase}"></div>
+  </div>`,()=>{i.name=document.getElementById('f-name').value.trim()||i.name;i.maker=document.getElementById('f-maker').value.trim()||i.maker;i.color=document.getElementById('f-color').value;i.size=document.getElementById('f-size').value;i.shimmer=document.getElementById('f-shimmer').value;i.sheen=document.getElementById('f-sheen').value;i.shading=document.getElementById('f-shading').value;i.limited=document.getElementById('f-limited').value==='true';i.retail=parseFloat(document.getElementById('f-retail').value)||0;i.purchase=parseFloat(document.getElementById('f-purchase').value)||0;scheduleSave();closeModal();renderInkDetail();});
 }
 
 function renderJournal(){
   const el=document.getElementById('tab-content');
   const sv=(document.getElementById('j-search')||{}).value||'';
   const data=journal.filter(j=>!sv||[j.pen,j.ink,j.accessory,j.note].join(' ').toLowerCase().includes(sv.toLowerCase())).slice().sort((a,b)=>{if(!a.date&&!b.date)return 0;if(!a.date)return 1;if(!b.date)return -1;return new Date(b.date)-new Date(a.date);});
-  el.innerHTML=`<div class="controls"><input id="j-search" placeholder="Search journal..." value="${sv}" oninput="renderJournal()"><button class="btn" onclick="showAddJournal()">+ Add entry</button></div>
-  ${data.length===0?'<div class="empty">No journal entries yet</div>':data.map(j=>`<div class="journal-entry">${j.date?`<div class="journal-date">${j.date}</div>`:''}<div class="journal-meta">${[j.pen&&`Pen: ${j.pen}`,j.ink&&`Ink: ${j.ink}`,j.accessory&&`Accessory: ${j.accessory}`].filter(Boolean).join(' · ')||'General note'}</div><div class="journal-note">${j.note}</div><div class="btn-row" style="margin-top:8px"><button class="btn" style="font-size:12px;padding:4px 10px" onclick="showEditJournal('${j.id}')">Edit</button><button class="btn btn-danger" style="font-size:12px;padding:4px 10px" onclick="deleteJournal('${j.id}')">Remove</button></div></div>`).join('')}`;
+  el.innerHTML=`<div class="controls" style="margin-bottom:20px">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="j-search" placeholder="Search journal…" value="${sv}" oninput="renderJournal()">
+    </div>
+    <button class="btn-add" onclick="showAddJournal()">+ Add entry</button>
+  </div>
+  <div class="panel">${data.length===0?'<div class="empty">No journal entries yet</div>':data.map(j=>`<div class="journal-entry">
+    ${j.date?`<div class="journal-date">${j.date}</div>`:''}
+    <div class="journal-meta">${[j.pen&&`Pen: ${j.pen}`,j.ink&&`Ink: ${j.ink}`,j.accessory&&`Accessory: ${j.accessory}`].filter(Boolean).join(' · ')||'General note'}</div>
+    <div class="journal-note">${j.note}</div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn" style="font-size:.65rem;padding:5px 12px" onclick="showEditJournal('${j.id}')">Edit</button>
+      <button class="btn btn-danger" style="font-size:.65rem;padding:5px 12px" onclick="deleteJournal('${j.id}')">Remove</button>
+    </div>
+  </div>`).join('')}</div>`;
 }
 
 function showAddJournal(){
-  const penNames=pens.map(p=>p.model).sort();const inkNames=inks.map(i=>i.name).sort();
-  showModal('Add journal entry',`<div class="form-grid"><div class="form-row"><div class="form-label">Date</div><input type="date" id="f-date"></div><div class="form-row"><div class="form-label">Pen (optional)</div><select id="f-pen"><option value="">— none —</option>${penNames.map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Ink (optional)</div><select id="f-ink"><option value="">— none —</option>${inkNames.map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Accessory (optional)</div><input type="text" id="f-accessory"></div><div class="form-row form-full"><div class="form-label">Note</div><textarea id="f-note" placeholder="Your observations..."></textarea></div></div>`,
-  ()=>{const note=document.getElementById('f-note').value.trim();if(!note){alert('Note is required');return;}const dv=document.getElementById('f-date').value;let dateStr='';if(dv){const[y,mo,da]=dv.split('-');dateStr=`${parseInt(mo)}/${parseInt(da)}/${y}`;}journal.push({id:uid(),date:dateStr,pen:document.getElementById('f-pen').value,ink:document.getElementById('f-ink').value,accessory:document.getElementById('f-accessory').value,note});scheduleSave();closeModal();renderJournal();});
+  const penNames=pens.map(p=>p.model).sort(); const inkNames=inks.map(i=>i.name).sort();
+  showModal('Add journal entry',`<div class="form-grid">
+    <div class="form-row"><div class="form-label">Date</div><input type="date" id="f-date"></div>
+    <div class="form-row"><div class="form-label">Pen (optional)</div><select id="f-pen"><option value="">— none —</option>${penNames.map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div>
+    <div class="form-row"><div class="form-label">Ink (optional)</div><select id="f-ink"><option value="">— none —</option>${inkNames.map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div>
+    <div class="form-row"><div class="form-label">Accessory (optional)</div><input type="text" id="f-accessory"></div>
+    <div class="form-row form-full"><div class="form-label">Note</div><textarea id="f-note" placeholder="Your observations…"></textarea></div>
+  </div>`,()=>{const note=document.getElementById('f-note').value.trim();if(!note){alert('Note is required');return;}const dv=document.getElementById('f-date').value;let dateStr='';if(dv){const[y,mo,da]=dv.split('-');dateStr=`${parseInt(mo)}/${parseInt(da)}/${y}`;}journal.push({id:uid(),date:dateStr,pen:document.getElementById('f-pen').value,ink:document.getElementById('f-ink').value,accessory:document.getElementById('f-accessory').value,note});scheduleSave();closeModal();renderJournal();});
 }
 
 function showEditJournal(id){
-  const j=journal.find(x=>x.id===id);const penNames=pens.map(p=>p.model).sort();const inkNames=inks.map(i=>i.name).sort();
-  showModal('Edit journal entry',`<div class="form-grid"><div class="form-row"><div class="form-label">Date</div><input type="date" id="f-date" ${j.date?`value="${j.date.replace(/(\d+)\/(\d+)\/(\d+)/,(_,m,d,y)=>y+'-'+m.padStart(2,'0')+'-'+d.padStart(2,'0'))}"`:''} ></div><div class="form-row"><div class="form-label">Pen</div><select id="f-pen"><option value="">— none —</option>${penNames.map(n=>`<option value="${n}"${j.pen===n?' selected':''}>${n}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Ink</div><select id="f-ink"><option value="">— none —</option>${inkNames.map(n=>`<option value="${n}"${j.ink===n?' selected':''}>${n}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Accessory</div><input type="text" id="f-accessory" value="${j.accessory}"></div><div class="form-row form-full"><div class="form-label">Note</div><textarea id="f-note">${j.note}</textarea></div></div>`,
-  ()=>{const note=document.getElementById('f-note').value.trim();if(!note){alert('Note is required');return;}const dv=document.getElementById('f-date').value;let dateStr='';if(dv){const[y,mo,da]=dv.split('-');dateStr=`${parseInt(mo)}/${parseInt(da)}/${y}`;}j.date=dateStr;j.pen=document.getElementById('f-pen').value;j.ink=document.getElementById('f-ink').value;j.accessory=document.getElementById('f-accessory').value;j.note=note;scheduleSave();closeModal();renderJournal();});
+  const j=journal.find(x=>x.id===id); const penNames=pens.map(p=>p.model).sort(); const inkNames=inks.map(i=>i.name).sort();
+  showModal('Edit journal entry',`<div class="form-grid">
+    <div class="form-row"><div class="form-label">Date</div><input type="date" id="f-date" ${j.date?`value="${j.date.replace(/(\d+)\/(\d+)\/(\d+)/,(_,m,d,y)=>y+'-'+m.padStart(2,'0')+'-'+d.padStart(2,'0'))}"`:''} ></div>
+    <div class="form-row"><div class="form-label">Pen</div><select id="f-pen"><option value="">— none —</option>${penNames.map(n=>`<option value="${n}"${j.pen===n?' selected':''}>${n}</option>`).join('')}</select></div>
+    <div class="form-row"><div class="form-label">Ink</div><select id="f-ink"><option value="">— none —</option>${inkNames.map(n=>`<option value="${n}"${j.ink===n?' selected':''}>${n}</option>`).join('')}</select></div>
+    <div class="form-row"><div class="form-label">Accessory</div><input type="text" id="f-accessory" value="${j.accessory}"></div>
+    <div class="form-row form-full"><div class="form-label">Note</div><textarea id="f-note">${j.note}</textarea></div>
+  </div>`,()=>{const note=document.getElementById('f-note').value.trim();if(!note){alert('Note is required');return;}const dv=document.getElementById('f-date').value;let dateStr='';if(dv){const[y,mo,da]=dv.split('-');dateStr=`${parseInt(mo)}/${parseInt(da)}/${y}`;}j.date=dateStr;j.pen=document.getElementById('f-pen').value;j.ink=document.getElementById('f-ink').value;j.accessory=document.getElementById('f-accessory').value;j.note=note;scheduleSave();closeModal();renderJournal();});
 }
 
 function deleteJournal(id){if(!confirm('Remove this entry?'))return;journal=journal.filter(j=>j.id!==id);scheduleSave();renderJournal();}
 
 let modalCallback=null;
-function showModal(title,body,onSave){modalCallback=onSave;document.getElementById('modal-root').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modal-title">${title}</div>${body}<div class="modal-footer"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn" onclick="modalCallback&&modalCallback()" style="border-color:rgba(0,0,0,0.3)">Save</button></div></div></div>`;}
+function showModal(title,body,onSave){
+  modalCallback=onSave;
+  document.getElementById('modal-root').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modal-title">${title}</div>${body}<div class="modal-footer"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="modalCallback&&modalCallback()">Save</button></div></div></div>`;
+}
 function closeModal(){document.getElementById('modal-root').innerHTML='';modalCallback=null;}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeModal();
+});
 
 render();
 </script>
