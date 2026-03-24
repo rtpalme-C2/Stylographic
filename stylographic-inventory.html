@@ -438,6 +438,7 @@ function renderInkDetail(){
     <div class="detail-grid">
       <div class="detail-row"><div class="detail-label">Color family</div><div class="detail-value">${esc(i.color)}</div></div>
       <div class="detail-row"><div class="detail-label">Size</div><div class="detail-value">${esc(i.size)}</div></div>
+      <div class="detail-row form-full" style="grid-column:1/-1"><div class="detail-label">Currently inked in</div><div class="detail-value">${(()=>{const penList=pens.filter(p=>currentInkForPen(p)===i.name).map(p=>p.model);return penList.length?penList.map(m=>esc(m)).join(', '):'\u2014';})()}</div></div>
       <div class="detail-row"><div class="detail-label">Shimmer</div><div class="detail-value"><span class="badge ${i.shimmer==='Yes'?'b-yes':'b-no'}">${esc(i.shimmer||'\u2014')}</span></div></div>
       <div class="detail-row"><div class="detail-label">Sheen</div><div class="detail-value"><span class="badge ${i.sheen&&i.sheen!=='No'?'b-yes':'b-no'}">${esc(i.sheen||'\u2014')}</span></div></div>
       <div class="detail-row"><div class="detail-label">Shading</div><div class="detail-value"><span class="badge ${i.shading&&i.shading!=='No'?'b-yes':'b-no'}">${esc(i.shading||'\u2014')}</span></div></div>
