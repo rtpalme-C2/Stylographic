@@ -76,8 +76,6 @@ header p { font-size:.68rem; color:rgba(255,255,255,.32); margin-top:7px; letter
 .filter-pill { font-family:'Plus Jakarta Sans',sans-serif; font-size:.65rem; font-weight:500; letter-spacing:.07em; text-transform:uppercase; padding:4px 12px; border-radius:20px; border:1.5px solid var(--cream-dark); background:white; color:#aaa; cursor:pointer; transition:all .18s; white-space:nowrap; }
 .filter-pill:hover { border-color:var(--brass); color:var(--gunmetal); }
 .filter-pill.active { background:var(--gunmetal); border-color:var(--gunmetal); color:var(--brass-light); }
-.show-gifted-row { display:flex; align-items:center; gap:7px; font-size:.73rem; color:#aaa; margin-bottom:14px; }
-.show-gifted-row input[type=checkbox] { width:auto; accent-color:var(--brass); }
 
 .btn-add { font-family:'Plus Jakarta Sans',sans-serif; font-size:.67rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; padding:6px 17px; border-radius:2px; border:none; background:var(--gunmetal); color:var(--brass-light); cursor:pointer; transition:all .18s; white-space:nowrap; }
 .btn-add:hover { background:var(--teal); }
@@ -306,8 +304,7 @@ function renderPens(){
   const mf=(document.getElementById('pen-maker')||{}).value||'';
   const sf=penStatusFilter;
   const nf=penNibFilter;
-  const sg=(document.getElementById('pen-show-gifted')||{}).checked||false;
-  const pool=sg?pens:activePens();
+  const pool=(penStatusFilter==='Gifted')?pens:activePens();
   const makers=[...new Set(pens.map(p=>p.maker))].sort();
   const data=pool.filter(p=>(!sv||p.model.toLowerCase().includes(sv.toLowerCase())||p.maker.toLowerCase().includes(sv.toLowerCase()))&&(!mf||p.maker===mf)&&(!sf||p.status===sf)&&(!nf||p.nib_type===nf));
   const ap=activePens();const working=ap.filter(p=>p.status==='Working').length;const tv=ap.reduce((s,p)=>s+p.purchase,0);const gifted=pens.filter(p=>p.status==='Gifted').length;
@@ -327,7 +324,6 @@ function renderPens(){
     <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setPenFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setPenFilter('status','Working')">Working</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setPenFilter('status','Resting')">Resting</button><button class="filter-pill${sf==='Gifted'?' active':''}" onclick="setPenFilter('status','Gifted')">Gifted</button></div>
     <div class="filter-row"><span class="filter-label">Nib</span><button class="filter-pill${nf===''?' active':''}" onclick="setPenFilter('nib','')">All</button><button class="filter-pill${nf==='Steel'?' active':''}" onclick="setPenFilter('nib','Steel')">Steel</button><button class="filter-pill${nf==='14K Gold'?' active':''}" onclick="setPenFilter('nib','14K Gold')">14K Gold</button><button class="filter-pill${nf==='18K Gold'?' active':''}" onclick="setPenFilter('nib','18K Gold')">18K Gold</button><button class="filter-pill${nf==='21K Gold'?' active':''}" onclick="setPenFilter('nib','21K Gold')">21K Gold</button></div>
   </div>
-  <div class="show-gifted-row"><input type="checkbox" id="pen-show-gifted" onchange="renderPens()" ${sg?'checked':''}><label for="pen-show-gifted">Show gifted pens</label></div>
   <div class="table-wrap"><table>
     <thead><tr><th>Model</th><th>Maker</th><th>Nib</th><th>Type</th><th>Special</th><th>Status</th><th>Purchase</th></tr></thead>
     <tbody>${data.map(p=>`<tr class="clickable${p.status==='Gifted'?' gifted':''}" onclick="openPen('${p.id}')"><td>${esc(p.model)}</td><td>${esc(p.maker)}</td><td>${esc(p.nib_size)}</td><td>${esc(p.nib_type)}</td><td><span class="badge ${p.special?'b-yes':'b-no'}">${p.special?'Yes':'No'}</span></td><td><span class="badge b-${p.status.toLowerCase()}">${esc(p.status)}</span></td><td>$${p.purchase.toFixed(2)}</td></tr>`).join('')}
