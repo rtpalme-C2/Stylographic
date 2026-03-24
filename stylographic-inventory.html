@@ -71,6 +71,11 @@ header p { font-size:.68rem; color:rgba(255,255,255,.32); margin-top:7px; letter
 .search-wrap svg { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#bbb; pointer-events:none; }
 .controls select { font-family:'Plus Jakarta Sans',sans-serif; font-size:.74rem; padding:6px 10px; border:1px solid var(--cream-dark); border-radius:2px; background:var(--cream); color:var(--ink); cursor:pointer; outline:none; transition:border-color .18s; }
 .controls select:focus { border-color:var(--brass); }
+.filter-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+.filter-label { font-size:.58rem; text-transform:uppercase; letter-spacing:.12em; color:#ccc; flex-shrink:0; min-width:52px; }
+.filter-pill { font-family:'Plus Jakarta Sans',sans-serif; font-size:.65rem; font-weight:500; letter-spacing:.07em; text-transform:uppercase; padding:4px 12px; border-radius:20px; border:1.5px solid var(--cream-dark); background:white; color:#aaa; cursor:pointer; transition:all .18s; white-space:nowrap; }
+.filter-pill:hover { border-color:var(--brass); color:var(--gunmetal); }
+.filter-pill.active { background:var(--gunmetal); border-color:var(--gunmetal); color:var(--brass-light); }
 .show-gifted-row { display:flex; align-items:center; gap:7px; font-size:.73rem; color:#aaa; margin-bottom:14px; }
 .show-gifted-row input[type=checkbox] { width:auto; accent-color:var(--brass); }
 
@@ -286,6 +291,9 @@ let accessories=stored?.accessories||[
 let journal=stored?.journal||JSON.parse(JSON.stringify(SEED_JOURNAL));
 
 let currentTab='pens',penDetail=null,inkDetail=null;
+let penStatusFilter='',penNibFilter='',inkColorFilter='',inkStatusFilter='';
+function setPenFilter(type,val){if(type==='status')penStatusFilter=val;else penNibFilter=val;renderPens();}
+function setInkFilter(type,val){if(type==='color')inkColorFilter=val;else inkStatusFilter=val;renderInks();}
 function uid(){return '_'+Math.random().toString(36).slice(2,9);}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function showTab(tab,el){currentTab=tab;penDetail=null;inkDetail=null;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');render();}
@@ -296,8 +304,8 @@ function renderPens(){
   const el=document.getElementById('tab-content');
   const sv=(document.getElementById('pen-search')||{}).value||'';
   const mf=(document.getElementById('pen-maker')||{}).value||'';
-  const sf=(document.getElementById('pen-status')||{}).value||'';
-  const nf=(document.getElementById('pen-nib')||{}).value||'';
+  const sf=penStatusFilter;
+  const nf=penNibFilter;
   const sg=(document.getElementById('pen-show-gifted')||{}).checked||false;
   const pool=sg?pens:activePens();
   const makers=[...new Set(pens.map(p=>p.maker))].sort();
@@ -310,12 +318,14 @@ function renderPens(){
     <div class="metric"><div class="metric-label">Gifted</div><div class="metric-value">${gifted}</div></div>
     <div class="metric"><div class="metric-label">Collection value</div><div class="metric-value">$${tv.toLocaleString('en-US',{maximumFractionDigits:0})}</div></div>
   </div>
-  <div class="controls">
-    <div class="search-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="pen-search" placeholder="Search pens\u2026" value="${esc(sv)}" oninput="renderPens()"></div>
-    <select id="pen-maker" onchange="renderPens()"><option value="">All makers</option>${makers.map(m=>`<option value="${esc(m)}"${mf===m?' selected':''}>${esc(m)}</option>`).join('')}</select>
-    <select id="pen-status" onchange="renderPens()"><option value="">All statuses</option><option value="Working"${sf==='Working'?' selected':''}>Working</option><option value="Resting"${sf==='Resting'?' selected':''}>Resting</option><option value="Gifted"${sf==='Gifted'?' selected':''}>Gifted</option></select>
-    <select id="pen-nib" onchange="renderPens()"><option value="">All nib types</option><option value="Steel"${nf==='Steel'?' selected':''}>Steel</option><option value="14K Gold"${nf==='14K Gold'?' selected':''}>14K Gold</option><option value="18K Gold"${nf==='18K Gold'?' selected':''}>18K Gold</option><option value="21K Gold"${nf==='21K Gold'?' selected':''}>21K Gold</option></select>
-    <button class="btn-add" onclick="showAddPen()">+ Add pen</button>
+  <div class="controls" style="flex-direction:column;align-items:stretch;gap:6px">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="search-wrap" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="pen-search" placeholder="Search pens\u2026" value="${esc(sv)}" oninput="renderPens()"></div>
+      <select id="pen-maker" onchange="renderPens()" style="flex-shrink:0"><option value="">All makers</option>${makers.map(m=>`<option value="${esc(m)}"${mf===m?' selected':''}>${esc(m)}</option>`).join('')}</select>
+      <button class="btn-add" onclick="showAddPen()">+ Add pen</button>
+    </div>
+    <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setPenFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setPenFilter('status','Working')">Working</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setPenFilter('status','Resting')">Resting</button><button class="filter-pill${sf==='Gifted'?' active':''}" onclick="setPenFilter('status','Gifted')">Gifted</button></div>
+    <div class="filter-row"><span class="filter-label">Nib</span><button class="filter-pill${nf===''?' active':''}" onclick="setPenFilter('nib','')">All</button><button class="filter-pill${nf==='Steel'?' active':''}" onclick="setPenFilter('nib','Steel')">Steel</button><button class="filter-pill${nf==='14K Gold'?' active':''}" onclick="setPenFilter('nib','14K Gold')">14K Gold</button><button class="filter-pill${nf==='18K Gold'?' active':''}" onclick="setPenFilter('nib','18K Gold')">18K Gold</button><button class="filter-pill${nf==='21K Gold'?' active':''}" onclick="setPenFilter('nib','21K Gold')">21K Gold</button></div>
   </div>
   <div class="show-gifted-row"><input type="checkbox" id="pen-show-gifted" onchange="renderPens()" ${sg?'checked':''}><label for="pen-show-gifted">Show gifted pens</label></div>
   <div class="table-wrap"><table>
@@ -388,8 +398,8 @@ function renderInks(){
   const el=document.getElementById('tab-content');
   const sv=(document.getElementById('ink-search')||{}).value||'';
   const mf=(document.getElementById('ink-maker')||{}).value||'';
-  const cf=(document.getElementById('ink-color')||{}).value||'';
-  const sf=(document.getElementById('ink-status')||{}).value||'';
+  const cf=inkColorFilter;
+  const sf=inkStatusFilter;
   const makers=[...new Set(inks.map(i=>i.maker))].sort();
   const colors=[...new Set(inks.map(i=>i.color).filter(Boolean))].sort();
   const data=inks.filter(i=>(!sv||i.name.toLowerCase().includes(sv.toLowerCase())||i.maker.toLowerCase().includes(sv.toLowerCase()))&&(!mf||i.maker===mf)&&(!cf||i.color===cf)&&(!sf||i.status===sf));
@@ -401,12 +411,14 @@ function renderInks(){
     <div class="metric"><div class="metric-label">Limited editions</div><div class="metric-value">${inks.filter(i=>i.limited).length}</div></div>
     <div class="metric"><div class="metric-label">Collection value</div><div class="metric-value">$${tv.toLocaleString('en-US',{maximumFractionDigits:0})}</div></div>
   </div>
-  <div class="controls">
-    <div class="search-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="ink-search" placeholder="Search inks\u2026" value="${esc(sv)}" oninput="renderInks()"></div>
-    <select id="ink-maker" onchange="renderInks()"><option value="">All makers</option>${makers.map(m=>`<option value="${esc(m)}"${mf===m?' selected':''}>${esc(m)}</option>`).join('')}</select>
-    <select id="ink-color" onchange="renderInks()"><option value="">All colors</option>${colors.map(c=>`<option value="${esc(c)}"${cf===c?' selected':''}>${esc(c)}</option>`).join('')}</select>
-    <select id="ink-status" onchange="renderInks()"><option value="">All statuses</option><option value="Working"${sf==='Working'?' selected':''}>Working</option><option value="Resting"${sf==='Resting'?' selected':''}>Resting</option></select>
-    <button class="btn-add" onclick="showAddInk()">+ Add ink</button>
+  <div class="controls" style="flex-direction:column;align-items:stretch;gap:6px">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="search-wrap" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="ink-search" placeholder="Search inks\u2026" value="${esc(sv)}" oninput="renderInks()"></div>
+      <select id="ink-maker" onchange="renderInks()" style="flex-shrink:0"><option value="">All makers</option>${makers.map(m=>`<option value="${esc(m)}"${mf===m?' selected':''}>${esc(m)}</option>`).join('')}</select>
+      <button class="btn-add" onclick="showAddInk()">+ Add ink</button>
+    </div>
+    <div class="filter-row"><span class="filter-label">Color</span><button class="filter-pill${cf===''?' active':''}" onclick="setInkFilter('color','')">All</button>${colors.map(c=>`<button class="filter-pill${cf===c?' active':''}" onclick="setInkFilter('color','${esc(c)}')">${esc(c)}</button>`).join('')}</div>
+    <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setInkFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setInkFilter('status','Working')">Working</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setInkFilter('status','Resting')">Resting</button></div>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Ink name</th><th>Maker</th><th>Color</th><th>Size</th><th>Shimmer</th><th>Sheen</th><th>Shading</th><th>Limited</th><th>Status</th><th>Purchase</th></tr></thead>
