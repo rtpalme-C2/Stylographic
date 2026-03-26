@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Stylographic">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231E2328'/></svg>">
 <title>Stylographic — Pen & Ink Collection</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
@@ -231,6 +236,9 @@ if(configOk) document.getElementById('config-notice').style.display='none';
 function gapiLoaded(){gapi.load('client',async()=>{await gapi.client.init({apiKey:CONFIG.API_KEY,discoveryDocs:['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']});gapiReady=true;maybeInitGSI();});}
 function maybeInitGSI(){
   if(!configOk)return;
+  if(typeof google==='undefined'||!google.accounts){
+    setTimeout(maybeInitGSI,250);return;
+  }
   tokenClient=google.accounts.oauth2.initTokenClient({client_id:CONFIG.CLIENT_ID,scope:SCOPES,callback:async(resp)=>{if(resp.error){setSyncStatus('error','Auth error: '+resp.error);return;}setSyncStatus('saving','Signed in \u2014 loading data\u2026');await findOrCreateFile();await loadFromDrive();}});
   gsiReady=true;
   const tok=sessionStorage.getItem('stylographic_drive_token');
