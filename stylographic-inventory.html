@@ -98,6 +98,7 @@ tr.gifted td { opacity:.45; }
 .badge { display:inline-block; font-size:.6rem; font-weight:500; letter-spacing:.07em; text-transform:uppercase; padding:3px 8px; border-radius:2px; }
 .b-working  { background:#d8eee4; color:#1a5c38; }
 .b-resting  { background:#dde8ec; color:#1a4a58; }
+.b-enroute  { background:#e8e4d8; color:#6a5020; }
 .b-gifted   { background:#ece8dc; color:#6a5830; }
 .b-yes      { background:#ece4d8; color:#7a5020; }
 .b-no       { background:#eeeae4; color:#888070; }
@@ -286,7 +287,32 @@ const SEED_INKS=[{id:'i1',name:'Colorvent Calendar 2025',maker:'Colorverse',colo
 {id:'ic20',name:'Golden Airglow',maker:'Colorverse',color:'Yellow',shimmer:'Yes',sheen:'No',shading:'Low',limited:true,size:'15ml',retail:0,purchase:0,status:'Resting'},
 {id:'ic21',name:'Pink Salt',maker:'Colorverse',color:'Red',shimmer:'No',sheen:'',shading:'',limited:true,size:'15ml',retail:0,purchase:0,status:'Resting'},
 {id:'ic22',name:'Sojourner',maker:'Colorverse',color:'Brown',shimmer:'No',sheen:'',shading:'',limited:true,size:'15ml',retail:0,purchase:0,status:'Resting'},
-{id:'ic24',name:'Winter Wonderland',maker:'Colorverse',color:'Blue',shimmer:'Yes',sheen:'Yes',shading:'Medium',limited:true,size:'15ml',retail:0,purchase:0,status:'Resting'}];
+{id:'ic24',name:'Winter Wonderland',maker:'Colorverse',color:'Blue',shimmer:'Yes',sheen:'Yes',shading:'Medium',limited:true,size:'15ml',retail:0,purchase:0,status:'Resting'},
+{id:'id01',name:'Celestial Skies',maker:'Diamine',color:'Blue',shimmer:'Yes',sheen:'Yes',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id02',name:'Energy',maker:'Diamine',color:'Purple',shimmer:'No',sheen:'Yes',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id03',name:'Carousel',maker:'Diamine',color:'Red',shimmer:'No',sheen:'No',shading:'Low',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id04',name:'Smoky Tobacco',maker:'Diamine',color:'Brown',shimmer:'No',sheen:'Yes',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id05',name:'Marie Rose',maker:'Diamine',color:'Brown',shimmer:'No',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id06',name:'Fir & Fog',maker:'Diamine',color:'Green',shimmer:'Yes',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id07',name:'Blush',maker:'Diamine',color:'Red',shimmer:'No',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id08',name:'Dreamcatcher',maker:'Diamine',color:'Blue',shimmer:'No',sheen:'Yes',shading:'High',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id09',name:'Bittersweet',maker:'Diamine',color:'Green',shimmer:'No',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id10',name:'Nostalgia',maker:'Diamine',color:'Brown',shimmer:'Yes',sheen:'No',shading:'High',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id11',name:'Brrr!',maker:'Diamine',color:'Blue',shimmer:'Yes',sheen:'No',shading:'Low',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id12',name:'Bubbly',maker:'Diamine',color:'Yellow',shimmer:'Yes',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id13',name:'Molten Basalt',maker:'Diamine',color:'Green',shimmer:'No',sheen:'Yes',shading:'High',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id14',name:'Mittens',maker:'Diamine',color:'Pink',shimmer:'No',sheen:'No',shading:'Low',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id15',name:'Frostbite',maker:'Diamine',color:'Blue',shimmer:'Yes',sheen:'Yes',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id16',name:'Ruby Taffeta',maker:'Diamine',color:'Red',shimmer:'Yes',sheen:'No',shading:'High',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id17',name:'Gala',maker:'Diamine',color:'Purple',shimmer:'No',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id18',name:'Laurel',maker:'Diamine',color:'Green',shimmer:'No',sheen:'Yes',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id19',name:'Overcast',maker:'Diamine',color:'Blue',shimmer:'No',sheen:'No',shading:'High',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id20',name:'Ambience',maker:'Diamine',color:'Orange',shimmer:'Yes',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id21',name:'Chaos',maker:'Diamine',color:'Purple',shimmer:'No',sheen:'Yes',shading:'High',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id22',name:'Pineapple Spritz',maker:'Diamine',color:'Yellow',shimmer:'Yes',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id23',name:'Let It Snow',maker:'Diamine',color:'Blue',shimmer:'Yes',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id24',name:'Antler',maker:'Diamine',color:'Brown',shimmer:'No',sheen:'No',shading:'Medium',limited:true,size:'12ml',retail:0,purchase:0,status:'Resting'},
+{id:'id25',name:'Myrrh the Merrier',maker:'Diamine',color:'Green',shimmer:'Yes',sheen:'Yes',shading:'Medium',limited:true,size:'30ml',retail:0,purchase:0,status:'Resting'}];
 const SEED_JOURNAL=[{id:'j4',date:'8/19/2025',pen:'Viper - Brown',ink:'',accessory:'',note:'The Viper series is one of my favorite pens. They look and feel great and they are very affordable.'},{id:'j5',date:'8/19/2025',pen:'',ink:'Superman Frozen Fortress',accessory:'',note:'Be careful with this ink. It has high shimmer and high sheen. It was hard to clean from the pen.'},{id:'j8',date:'8/20/2025',pen:'Estie - Incredible Rock',ink:'',accessory:'',note:'Gift to Amanda Mintz'},{id:'j9',date:'8/20/2025',pen:'Dragon Scales - Blue',ink:'',accessory:'',note:'Gift to Nick Wehlau'},{id:'j10',date:'8/20/2025',pen:'',ink:'The Secret Garden',accessory:'',note:"This is a high shimmer ink. Shake well before use. It's a pain to clean."},{id:'j11',date:'8/25/2025',pen:'Dragon Scales - Cinnabar',ink:'',accessory:'',note:'Gift to Nichole'},{id:'j12',date:'',pen:'',ink:'',accessory:'Straight Glass Dip Pen - Eclat de Saphir',note:'The "straight" or "round" pen description refers to the overall shape of the pen. This straight pen doesn\'t have the ball near the grip. It writes more like an Extra Fine/Fine. Pretty good for dabbing ink when using the end of the shaft.'},{id:'j13',date:'8/31/2025',pen:'',ink:'',accessory:'Round Glass Dip Pen - Clear',note:'Definitely more delicate than the straight glass pen. It feels more like Extra Fine when writing in the journal. Almost like cutting the page. The grip is ok, but not very smooth on the finger joint.'},{id:'j14',date:'10/7/2025',pen:'Studio - Glacier',ink:'Moby Dick',accessory:'',note:"This is really not a good match. I find that the ink doesn't flow well. The ink color is very cool looking, but it's not spreading well with this pen/nib."}];
 
 let stored=null;
@@ -356,12 +382,12 @@ function renderPens(){
       <select id="pen-maker" onchange="renderPens()" style="flex-shrink:0"><option value="">All makers</option>${makers.map(m=>`<option value="${esc(m)}"${mf===m?' selected':''}>${esc(m)}</option>`).join('')}</select>
       <button class="btn-add" onclick="showAddPen()">+ Add pen</button>
     </div>
-    <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setPenFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setPenFilter('status','Working')">Working</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setPenFilter('status','Resting')">Resting</button><button class="filter-pill${sf==='Gifted'?' active':''}" onclick="setPenFilter('status','Gifted')">Gifted</button></div>
+    <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setPenFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setPenFilter('status','Working')">Working</button><button class="filter-pill${sf==='En Route'?' active':''}" onclick="setPenFilter('status','En Route')">En Route</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setPenFilter('status','Resting')">Resting</button><button class="filter-pill${sf==='Gifted'?' active':''}" onclick="setPenFilter('status','Gifted')">Gifted</button></div>
     <div class="filter-row"><span class="filter-label">Nib</span><button class="filter-pill${nf===''?' active':''}" onclick="setPenFilter('nib','')">All</button><button class="filter-pill${nf==='Steel'?' active':''}" onclick="setPenFilter('nib','Steel')">Steel</button><button class="filter-pill${nf==='14K Gold'?' active':''}" onclick="setPenFilter('nib','14K Gold')">14K Gold</button><button class="filter-pill${nf==='18K Gold'?' active':''}" onclick="setPenFilter('nib','18K Gold')">18K Gold</button><button class="filter-pill${nf==='21K Gold'?' active':''}" onclick="setPenFilter('nib','21K Gold')">21K Gold</button></div>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Model</th><th>Maker</th><th>Nib</th><th>Type</th><th>Special</th><th>Status</th><th>Purchase</th></tr></thead>
-    <tbody>${data.map(p=>`<tr class="clickable${p.status==='Gifted'?' gifted':''}" onclick="openPen('${p.id}')"><td>${esc(p.model)}</td><td>${esc(p.maker)}</td><td>${esc(p.nib_size)}</td><td>${esc(p.nib_type)}</td><td><span class="badge ${p.special?'b-yes':'b-no'}">${p.special?'Yes':'No'}</span></td><td><span class="badge b-${p.status.toLowerCase()}">${esc(p.status)}</span></td><td>$${p.purchase.toFixed(2)}</td></tr>`).join('')}
+    <tbody>${data.map(p=>`<tr class="clickable${p.status==='Gifted'?' gifted':''}" onclick="openPen('${p.id}')"><td>${esc(p.model)}</td><td>${esc(p.maker)}</td><td>${esc(p.nib_size)}</td><td>${esc(p.nib_type)}</td><td><span class="badge ${p.special?'b-yes':'b-no'}">${p.special?'Yes':'No'}</span></td><td><span class="badge b-${p.status==='En Route'?'enroute':p.status.toLowerCase()}">${esc(p.status)}</span></td><td>$${p.purchase.toFixed(2)}</td></tr>`).join('')}
     ${data.length===0?'<tr><td colspan="7" style="text-align:center;color:#ccc;padding:3rem;font-style:italic;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:1rem">No pens match</td></tr>':''}
     </tbody></table></div>`;
 }
@@ -376,7 +402,7 @@ function renderPenDetail(){
   <div class="panel">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
       <div><div class="panel-title">${esc(p.model)}</div><div class="panel-sub">${esc(p.maker)}</div></div>
-      <span class="badge b-${p.status.toLowerCase()}">${esc(p.status)}</span>
+      <span class="badge b-${p.status==='En Route'?'enroute':p.status.toLowerCase()}">${esc(p.status)}</span>
     </div>
     <div class="detail-grid">
       <div class="detail-row"><div class="detail-label">Nib size</div><div class="detail-value">${esc(p.nib_size)}</div></div>
@@ -387,7 +413,7 @@ function renderPenDetail(){
       <div class="detail-row"><div class="detail-label">Purchase price</div><div class="detail-value">$${p.purchase.toFixed(2)}</div></div>
     </div>
     <div class="btn-row">
-      ${p.status!=='Gifted'?`<button class="btn btn-primary" onclick="cycleStatus('${p.id}')">${p.status==='Working'?'Mark resting':'Mark working'}</button>`:''}
+      ${p.status!=='Gifted'?`<button class="btn btn-primary" onclick="cycleStatus('${p.id}')">${p.status==='Working'?'Mark resting':p.status==='Resting'?'Mark en route':'Mark working'}</button>`:''}
       <button class="btn" onclick="showEditPen('${p.id}')">Edit</button>
       ${p.status!=='Gifted'?`<button class="btn" onclick="markGifted('${p.id}')">Mark as gifted</button>`:''}
       <button class="btn btn-danger" onclick="deletePen('${p.id}')">Remove</button>
@@ -409,7 +435,7 @@ function renderPenDetail(){
   </div>`;
 }
 
-function cycleStatus(id){const p=pens.find(x=>x.id===id);p.status=p.status==='Working'?'Resting':'Working';scheduleSave();renderPenDetail();}
+function cycleStatus(id){const p=pens.find(x=>x.id===id);p.status=p.status==='Working'?'Resting':p.status==='Resting'?'En Route':'Working';scheduleSave();renderPenDetail();}
 function markGifted(id){const p=pens.find(x=>x.id===id);const name=prompt('Gifted to:','');if(name===null)return;p.status='Gifted';p.gifted_to=name||'';scheduleSave();renderPenDetail();}
 function deletePen(id){if(!confirm('Remove this pen?'))return;pens=pens.filter(p=>p.id!==id);penDetail=null;scheduleSave();renderPens();}
 function inkInUseByOtherPen(inkName,excludePenId){return pens.some(p=>p.id!==excludePenId&&p.status==='Working'&&p.care.length>0&&p.care.filter(c=>c.ink&&(c.type==='Fill only'||c.type==='Empty, Clean, Fill')).slice(-1)[0]?.ink===inkName);}
@@ -420,12 +446,12 @@ function deleteCare(pid,cid){const p=pens.find(x=>x.id===pid);p.care=p.care.filt
 
 function showAddPen(){
   const makers=[...new Set(pens.map(p=>p.maker))].sort();
-  showModal('Add pen',`<div class="form-grid"><div class="form-row form-full"><div class="form-label">Model name</div><input type="text" id="f-model"></div><div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" list="ml"><datalist id="ml">${makers.map(m=>`<option value="${esc(m)}">`).join('')}</datalist></div><div class="form-row"><div class="form-label">Nib size</div><select id="f-nib-size"><option>Extra Fine</option><option selected>Fine</option><option>Medium</option><option>Broad</option><option>Stub</option></select></div><div class="form-row"><div class="form-label">Nib type</div><select id="f-nib-type"><option selected>Steel</option><option>14K Gold</option><option>18K Gold</option><option>21K Gold</option></select></div><div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" placeholder="0.00"></div><div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" placeholder="0.00"></div><div class="form-row"><div class="form-label">Special edition</div><select id="f-special"><option value="false">No</option><option value="true">Yes</option></select></div><div class="form-row"><div class="form-label">Status</div><select id="f-status"><option>Resting</option><option>Working</option></select></div></div>`,()=>{const model=document.getElementById('f-model').value.trim();const maker=document.getElementById('f-maker').value.trim();if(!model||!maker){alert('Model and maker are required');return;}pens.push({id:uid(),model,maker,nib_size:document.getElementById('f-nib-size').value,nib_type:document.getElementById('f-nib-type').value,special:document.getElementById('f-special').value==='true',retail:parseFloat(document.getElementById('f-retail').value)||0,purchase:parseFloat(document.getElementById('f-purchase').value)||0,status:document.getElementById('f-status').value,care:[]});scheduleSave();closeModal();renderPens();});
+  showModal('Add pen',`<div class="form-grid"><div class="form-row form-full"><div class="form-label">Model name</div><input type="text" id="f-model"></div><div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" list="ml"><datalist id="ml">${makers.map(m=>`<option value="${esc(m)}">`).join('')}</datalist></div><div class="form-row"><div class="form-label">Nib size</div><select id="f-nib-size"><option>Extra Fine</option><option selected>Fine</option><option>Medium</option><option>Broad</option><option>Stub</option></select></div><div class="form-row"><div class="form-label">Nib type</div><select id="f-nib-type"><option selected>Steel</option><option>14K Gold</option><option>18K Gold</option><option>21K Gold</option></select></div><div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" placeholder="0.00"></div><div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" placeholder="0.00"></div><div class="form-row"><div class="form-label">Special edition</div><select id="f-special"><option value="false">No</option><option value="true">Yes</option></select></div><div class="form-row"><div class="form-label">Status</div><select id="f-status"><option>Resting</option><option>En Route</option><option>Working</option></select></div></div>`,()=>{const model=document.getElementById('f-model').value.trim();const maker=document.getElementById('f-maker').value.trim();if(!model||!maker){alert('Model and maker are required');return;}pens.push({id:uid(),model,maker,nib_size:document.getElementById('f-nib-size').value,nib_type:document.getElementById('f-nib-type').value,special:document.getElementById('f-special').value==='true',retail:parseFloat(document.getElementById('f-retail').value)||0,purchase:parseFloat(document.getElementById('f-purchase').value)||0,status:document.getElementById('f-status').value,care:[]});scheduleSave();closeModal();renderPens();});
 }
 
 function showEditPen(id){
   const p=pens.find(x=>x.id===id);
-  showModal('Edit pen',`<div class="form-grid"><div class="form-row form-full"><div class="form-label">Model name</div><input type="text" id="f-model" value="${esc(p.model)}"></div><div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" value="${esc(p.maker)}"></div><div class="form-row"><div class="form-label">Nib size</div><select id="f-nib-size">${['Extra Fine','Fine','Medium','Broad','Stub'].map(s=>`<option${p.nib_size===s?' selected':''}>${s}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Nib type</div><select id="f-nib-type">${['Steel','14K Gold','18K Gold','21K Gold'].map(s=>`<option${p.nib_type===s?' selected':''}>${s}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" value="${p.retail}"></div><div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" value="${p.purchase}"></div><div class="form-row"><div class="form-label">Special edition</div><select id="f-special"><option value="false"${!p.special?' selected':''}>No</option><option value="true"${p.special?' selected':''}>Yes</option></select></div><div class="form-row"><div class="form-label">Status</div><select id="f-status"><option${p.status==='Resting'?' selected':''}>Resting</option><option${p.status==='Working'?' selected':''}>Working</option><option${p.status==='Gifted'?' selected':''}>Gifted</option></select></div>${p.status==='Gifted'?`<div class="form-row form-full"><div class="form-label">Gifted to</div><input type="text" id="f-gifted-to" value="${esc(p.gifted_to||'')}"></div>`:''}</div>`,()=>{p.model=document.getElementById('f-model').value.trim()||p.model;p.maker=document.getElementById('f-maker').value.trim()||p.maker;p.nib_size=document.getElementById('f-nib-size').value;p.nib_type=document.getElementById('f-nib-type').value;p.special=document.getElementById('f-special').value==='true';p.retail=parseFloat(document.getElementById('f-retail').value)||0;p.purchase=parseFloat(document.getElementById('f-purchase').value)||0;p.status=document.getElementById('f-status').value;const gt=document.getElementById('f-gifted-to');if(gt)p.gifted_to=gt.value;scheduleSave();closeModal();renderPenDetail();});
+  showModal('Edit pen',`<div class="form-grid"><div class="form-row form-full"><div class="form-label">Model name</div><input type="text" id="f-model" value="${esc(p.model)}"></div><div class="form-row"><div class="form-label">Maker</div><input type="text" id="f-maker" value="${esc(p.maker)}"></div><div class="form-row"><div class="form-label">Nib size</div><select id="f-nib-size">${['Extra Fine','Fine','Medium','Broad','Stub'].map(s=>`<option${p.nib_size===s?' selected':''}>${s}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Nib type</div><select id="f-nib-type">${['Steel','14K Gold','18K Gold','21K Gold'].map(s=>`<option${p.nib_type===s?' selected':''}>${s}</option>`).join('')}</select></div><div class="form-row"><div class="form-label">Retail price</div><input type="text" id="f-retail" value="${p.retail}"></div><div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" value="${p.purchase}"></div><div class="form-row"><div class="form-label">Special edition</div><select id="f-special"><option value="false"${!p.special?' selected':''}>No</option><option value="true"${p.special?' selected':''}>Yes</option></select></div><div class="form-row"><div class="form-label">Status</div><select id="f-status"><option${p.status==='Resting'?' selected':''}>Resting</option><option${p.status==='En Route'?' selected':''}>En Route</option><option${p.status==='Working'?' selected':''}>Working</option><option${p.status==='Gifted'?' selected':''}>Gifted</option></select></div>${p.status==='Gifted'?`<div class="form-row form-full"><div class="form-label">Gifted to</div><input type="text" id="f-gifted-to" value="${esc(p.gifted_to||'')}"></div>`:''}</div>`,()=>{p.model=document.getElementById('f-model').value.trim()||p.model;p.maker=document.getElementById('f-maker').value.trim()||p.maker;p.nib_size=document.getElementById('f-nib-size').value;p.nib_type=document.getElementById('f-nib-type').value;p.special=document.getElementById('f-special').value==='true';p.retail=parseFloat(document.getElementById('f-retail').value)||0;p.purchase=parseFloat(document.getElementById('f-purchase').value)||0;p.status=document.getElementById('f-status').value;const gt=document.getElementById('f-gifted-to');if(gt)p.gifted_to=gt.value;scheduleSave();closeModal();renderPenDetail();});
 }
 
 function renderInks(){
@@ -452,11 +478,11 @@ function renderInks(){
       <button class="btn-add" onclick="showAddInk()">+ Add ink</button>
     </div>
     <div class="filter-row"><span class="filter-label">Color</span><button class="filter-pill${cf===''?' active':''}" onclick="setInkFilter('color','')">All</button>${colors.map(c=>`<button class="filter-pill${cf===c?' active':''}" onclick="setInkFilter('color','${esc(c)}')">${esc(c)}</button>`).join('')}</div>
-    <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setInkFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setInkFilter('status','Working')">Working</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setInkFilter('status','Resting')">Resting</button></div>
+    <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setInkFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setInkFilter('status','Working')">Working</button><button class="filter-pill${sf==='En Route'?' active':''}" onclick="setInkFilter('status','En Route')">En Route</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setInkFilter('status','Resting')">Resting</button></div>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Ink name</th><th>Maker</th><th>Color</th><th>Size</th><th>Shimmer</th><th>Sheen</th><th>Shading</th><th>Limited</th><th>Status</th><th>Purchase</th></tr></thead>
-    <tbody>${data.map(i=>`<tr class="clickable" onclick="openInk('${i.id}')"><td>${esc(i.name)}</td><td>${esc(i.maker)}</td><td>${esc(i.color)}</td><td>${esc(i.size)}</td><td><span class="badge ${i.shimmer==='Yes'?'b-yes':'b-no'}">${esc(i.shimmer||'\u2014')}</span></td><td><span class="badge ${i.sheen&&i.sheen!=='No'?'b-yes':'b-no'}">${esc(i.sheen||'\u2014')}</span></td><td><span class="badge ${i.shading&&i.shading!=='No'?'b-yes':'b-no'}">${esc(i.shading||'\u2014')}</span></td><td>${i.limited?'<span class="badge b-limited">Yes</span>':'<span class="badge b-no">No</span>'}</td><td><span class="badge b-${(i.status||'resting').toLowerCase()}">${esc(i.status)}</span></td><td>${i.purchase>0?'$'+i.purchase.toFixed(2):'\u2014'}</td></tr>`).join('')}
+    <tbody>${data.map(i=>`<tr class="clickable" onclick="openInk('${i.id}')"><td>${esc(i.name)}</td><td>${esc(i.maker)}</td><td>${esc(i.color)}</td><td>${esc(i.size)}</td><td><span class="badge ${i.shimmer==='Yes'?'b-yes':'b-no'}">${esc(i.shimmer||'\u2014')}</span></td><td><span class="badge ${i.sheen&&i.sheen!=='No'?'b-yes':'b-no'}">${esc(i.sheen||'\u2014')}</span></td><td><span class="badge ${i.shading&&i.shading!=='No'?'b-yes':'b-no'}">${esc(i.shading||'\u2014')}</span></td><td>${i.limited?'<span class="badge b-limited">Yes</span>':'<span class="badge b-no">No</span>'}</td><td><span class="badge b-${i.status==='En Route'?'enroute':(i.status||'resting').toLowerCase()}">${esc(i.status)}</span></td><td>${i.purchase>0?'$'+i.purchase.toFixed(2):'\u2014'}</td></tr>`).join('')}
     ${data.length===0?'<tr><td colspan="10" style="text-align:center;color:#ccc;padding:3rem;font-style:italic;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:1rem">No inks match</td></tr>':''}
     </tbody></table></div>`;
 }
@@ -468,7 +494,7 @@ function renderInkDetail(){
   <div class="panel">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
       <div><div class="panel-title">${esc(i.name)}</div><div class="panel-sub">${esc(i.maker)}</div></div>
-      <span class="badge b-${(i.status||'resting').toLowerCase()}">${esc(i.status)}</span>
+      <span class="badge b-${i.status==='En Route'?'enroute':(i.status||'resting').toLowerCase()}">${esc(i.status)}</span>
     </div>
     <div class="detail-grid">
       <div class="detail-row"><div class="detail-label">Color family</div><div class="detail-value">${esc(i.color)}</div></div>
@@ -482,14 +508,14 @@ function renderInkDetail(){
       <div class="detail-row"><div class="detail-label">Purchase price</div><div class="detail-value">${i.purchase>0?'$'+i.purchase.toFixed(2):'\u2014'}</div></div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="toggleInkStatus('${i.id}')">${i.status==='Working'?'Mark resting':'Mark working'}</button>
+      <button class="btn btn-primary" onclick="toggleInkStatus('${i.id}')">${i.status==='Working'?'Mark resting':i.status==='Resting'?'Mark en route':'Mark working'}</button>
       <button class="btn" onclick="showEditInk('${i.id}')">Edit</button>
       <button class="btn btn-danger" onclick="deleteInk('${i.id}')">Remove</button>
     </div>
   </div>`;
 }
 
-function toggleInkStatus(id){const i=inks.find(x=>x.id===id);i.status=i.status==='Working'?'Resting':'Working';scheduleSave();renderInkDetail();}
+function toggleInkStatus(id){const i=inks.find(x=>x.id===id);i.status=i.status==='Working'?'Resting':i.status==='Resting'?'En Route':'Working';scheduleSave();renderInkDetail();}
 function deleteInk(id){if(!confirm('Remove this ink?'))return;inks=inks.filter(i=>i.id!==id);inkDetail=null;scheduleSave();renderInks();}
 
 function showAddInk(){
@@ -525,7 +551,7 @@ function renderAccessories(){
   <div class="controls">
     <div class="search-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="acc-search" placeholder="Search accessories\u2026" value="${esc(sv)}" oninput="renderAccessories()"></div>
     <select id="acc-type" onchange="renderAccessories()"><option value="">All types</option>${types.map(t=>`<option value="${esc(t)}"${tf===t?' selected':''}>${esc(t)}</option>`).join('')}</select>
-    <select id="acc-status" onchange="renderAccessories()"><option value="">All statuses</option><option value="Active"${sf==='Active'?' selected':''}>Active</option><option value="Stored"${sf==='Stored'?' selected':''}>Stored</option><option value="Gifted"${sf==='Gifted'?' selected':''}>Gifted</option></select>
+    <select id="acc-status" onchange="renderAccessories()"><option value="">All statuses</option><option value="Active"${sf==='Active'?' selected':''}>Active</option><option value="En Route"${sf==='En Route'?' selected':''}>En Route</option><option value="Stored"${sf==='Stored'?' selected':''}>Stored</option><option value="Gifted"${sf==='Gifted'?' selected':''}>Gifted</option></select>
     <button class="btn-add" onclick="showAddAccessory()">+ Add accessory</button>
   </div>
   <div class="table-wrap"><table>
@@ -552,7 +578,7 @@ function showAddAccessory(){
     <div class="form-row"><div class="form-label">Type</div><input type="text" id="f-type" list="atl" placeholder="e.g. Converter"><datalist id="atl">${types.map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div>
     <div class="form-row"><div class="form-label">Maker / Brand</div><input type="text" id="f-maker"></div>
     <div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" placeholder="0.00"></div>
-    <div class="form-row"><div class="form-label">Status</div><select id="f-status"><option>Active</option><option>Stored</option><option>Gifted</option></select></div>
+    <div class="form-row"><div class="form-label">Status</div><select id="f-status"><option>Active</option><option>En Route</option><option>Stored</option><option>Gifted</option></select></div>
     <div class="form-row form-full"><div class="form-label">Notes</div><textarea id="f-note" placeholder="Any observations\u2026"></textarea></div>
   </div>`,()=>{
     const name=document.getElementById('f-name').value.trim();
@@ -569,7 +595,7 @@ function showEditAccessory(id){
     <div class="form-row"><div class="form-label">Type</div><input type="text" id="f-type" value="${esc(a.type||'')}"></div>
     <div class="form-row"><div class="form-label">Maker / Brand</div><input type="text" id="f-maker" value="${esc(a.maker||'')}"></div>
     <div class="form-row"><div class="form-label">Purchase price</div><input type="text" id="f-purchase" value="${a.purchase||0}"></div>
-    <div class="form-row"><div class="form-label">Status</div><select id="f-status"><option${a.status==='Active'?' selected':''}>Active</option><option${a.status==='Stored'?' selected':''}>Stored</option><option${a.status==='Gifted'?' selected':''}>Gifted</option></select></div>
+    <div class="form-row"><div class="form-label">Status</div><select id="f-status"><option${a.status==='Active'?' selected':''}>Active</option><option${a.status==='En Route'?' selected':''}>En Route</option><option${a.status==='Stored'?' selected':''}>Stored</option><option${a.status==='Gifted'?' selected':''}>Gifted</option></select></div>
     <div class="form-row form-full"><div class="form-label">Notes</div><textarea id="f-note">${esc(a.note||'')}</textarea></div>
   </div>`,()=>{
     a.name=document.getElementById('f-name').value.trim()||a.name;
