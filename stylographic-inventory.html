@@ -356,7 +356,12 @@ async function syncFromGitHub() {
     const text = await res.text();
     if (text && text.trim().startsWith('{')) {
       const parsed = JSON.parse(text);
-      if (parsed && parsed._version === DATA_VERSION) {
+      const hasData = parsed && parsed._version === DATA_VERSION &&
+        ((parsed.pens && parsed.pens.length > 0) ||
+         (parsed.inks && parsed.inks.length > 0) ||
+         (parsed.accessories && parsed.accessories.length > 0) ||
+         (parsed.journal && parsed.journal.length > 0));
+      if (hasData) {
         if (parsed.pens)        pens        = parsed.pens;
         if (parsed.inks)        inks        = parsed.inks;
         if (parsed.accessories) accessories = parsed.accessories;
@@ -368,6 +373,7 @@ async function syncFromGitHub() {
         return;
       }
     }
+    // GitHub has no data or empty collections — push local data up
     setSyncStatus('saving', 'Pushing local data to GitHub\u2026');
     await saveToGitHub();
   } catch(e) {
