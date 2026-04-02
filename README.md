@@ -1,2 +1,2 @@
 # Stylographic
-My fountain pen, ink and accessories.
+Fountain Pens, Inks and Accessories
