@@ -516,10 +516,11 @@ function renderPens(){
     <div class="filter-row"><span class="filter-label">Nib</span><button class="filter-pill${nf===''?' active':''}" onclick="setPenFilter('nib','')">All</button><button class="filter-pill${nf==='Steel'?' active':''}" onclick="setPenFilter('nib','Steel')">Steel</button><button class="filter-pill${nf==='14K Gold'?' active':''}" onclick="setPenFilter('nib','14K Gold')">14K Gold</button><button class="filter-pill${nf==='18K Gold'?' active':''}" onclick="setPenFilter('nib','18K Gold')">18K Gold</button><button class="filter-pill${nf==='21K Gold'?' active':''}" onclick="setPenFilter('nib','21K Gold')">21K Gold</button></div>
   </div>
   <div class="table-wrap"><table>
-    <thead><tr><th>Model</th><th>Maker</th><th>Nib</th><th>Type</th><th>Special</th><th>Status</th><th>Purchase</th></tr></thead>
-    <tbody>${data.map(p=>`<tr class="clickable${p.status==='Gifted'?' gifted':''}" onclick="openPen('${p.id}')"><td>${esc(p.model)}</td><td>${esc(p.maker)}</td><td>${esc(p.nib_size)}</td><td>${esc(p.nib_type)}</td><td><span class="badge ${p.special?'b-yes':'b-no'}">${p.special?'Yes':'No'}</span></td><td><span class="badge b-${p.status==='En Route'?'enroute':p.status.toLowerCase()}">${esc(p.status)}</span></td><td>$${p.purchase.toFixed(2)}</td></tr>`).join('')}
+    <thead><tr><th>Model</th><th>Maker</th><th>Nib</th><th>Type</th><th>Special</th><th>Status</th><th>Supplier</th></tr></thead>
+    <tbody>${data.map(p=>`<tr class="clickable${p.status==='Gifted'?' gifted':''}" onclick="openPen('${p.id}')"><td>${esc(p.model)}</td><td>${esc(p.maker)}</td><td>${esc(p.nib_size)}</td><td>${esc(p.nib_type)}</td><td><span class="badge ${p.special?'b-yes':'b-no'}">${p.special?'Yes':'No'}</span></td><td><span class="badge b-${p.status==='En Route'?'enroute':p.status.toLowerCase()}">${esc(p.status)}</span></td><td>${esc(p.supplier||'\u2014')}</td></tr>`).join('')}
     ${data.length===0?'<tr><td colspan="7" style="text-align:center;color:#ccc;padding:3rem;font-style:italic;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:1rem">No pens match</td></tr>':''}
     </tbody></table></div>`;
+  if(penSearchVal){const el2=document.getElementById('pen-search');if(el2){el2.focus();el2.setSelectionRange(el2.value.length,el2.value.length);}}
 }
 
 function openPen(id){penDetail=id;renderPenDetail();}
@@ -627,6 +628,7 @@ function renderInks(){
     <tbody>${data.map(i=>`<tr class="clickable" onclick="openInk('${i.id}')"><td>${esc(i.name)}</td><td>${esc(i.maker)}</td><td>${esc(i.color)}</td><td>${esc(i.size)}</td><td><span class="badge ${i.shimmer==='Yes'?'b-yes':'b-no'}">${esc(i.shimmer||'\u2014')}</span></td><td><span class="badge ${i.sheen&&i.sheen!=='No'?'b-yes':'b-no'}">${esc(i.sheen||'\u2014')}</span></td><td><span class="badge ${i.shading&&i.shading!=='No'?'b-yes':'b-no'}">${esc(i.shading||'\u2014')}</span></td><td>${i.limited?'<span class="badge b-limited">Yes</span>':'<span class="badge b-no">No</span>'}</td><td><span class="badge b-${i.status==='En Route'?'enroute':(i.status||'resting').toLowerCase()}">${esc(i.status)}</span></td><td>${esc(i.supplier||'\u2014')}</td></tr>`).join('')}
     ${data.length===0?'<tr><td colspan="10" style="text-align:center;color:#ccc;padding:3rem;font-style:italic;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:1rem">No inks match</td></tr>':''}
     </tbody></table></div>`;
+  if(inkSearchVal){const el2=document.getElementById('ink-search');if(el2){el2.focus();el2.setSelectionRange(el2.value.length,el2.value.length);}}
 }
 
 function openInk(id){inkDetail=id;renderInkDetail();}
