@@ -486,7 +486,7 @@ function setPenFilter(type,val){if(type==='status')penStatusFilter=val;else penN
 function setInkFilter(type,val){if(type==='color')inkColorFilter=val;else if(type==='maker')inkMakerFilter=val;else inkStatusFilter=val;renderInks();}
 function uid(){return '_'+Math.random().toString(36).slice(2,9);}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function showTab(tab,el){currentTab=tab;penDetail=null;inkDetail=null;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');render();}
+function showTab(tab,el){currentTab=tab;penDetail=null;inkDetail=null;if(tab!=='pairing')pairingState=null;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');render();}
 function render(){if(currentTab==='pens')penDetail?renderPenDetail():renderPens();else if(currentTab==='inks')inkDetail?renderInkDetail():renderInks();else if(currentTab==='accessories')renderAccessories();else if(currentTab==='pairing')renderPairing();else renderJournal();}
 function activePens(){return pens.filter(p=>p.status!=='Gifted');}
 
@@ -931,7 +931,7 @@ async function getPairingSuggestion() {
     renderPairing();
   } catch(e) {
     state.loading = false;
-    state.error = 'Could not generate a suggestion. Please try again.';
+    state.error = `Error: ${e.message}`;
     renderPairing();
   }
 }
