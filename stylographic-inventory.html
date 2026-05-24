@@ -244,6 +244,7 @@ tr.gifted td { opacity:.45; }
   <button class="tab" onclick="showTab('inks',this)">Inks</button>
   <button class="tab" onclick="showTab('accessories',this)">Accessories</button>
   <button class="tab" onclick="showTab('journal',this)">Stylograph</button>
+  <button class="tab" onclick="showTab('pairing',this)">Pairing</button>
 </div>
 
 <div class="content" id="tab-content"></div>
@@ -486,7 +487,7 @@ function setInkFilter(type,val){if(type==='color')inkColorFilter=val;else if(typ
 function uid(){return '_'+Math.random().toString(36).slice(2,9);}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function showTab(tab,el){currentTab=tab;penDetail=null;inkDetail=null;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');render();}
-function render(){if(currentTab==='pens')penDetail?renderPenDetail():renderPens();else if(currentTab==='inks')inkDetail?renderInkDetail():renderInks();else if(currentTab==='accessories')renderAccessories();else renderJournal();}
+function render(){if(currentTab==='pens')penDetail?renderPenDetail():renderPens();else if(currentTab==='inks')inkDetail?renderInkDetail():renderInks();else if(currentTab==='accessories')renderAccessories();else if(currentTab==='pairing')renderPairing();else renderJournal();}
 function activePens(){return pens.filter(p=>p.status!=='Gifted');}
 
 function renderPens(){
@@ -782,9 +783,325 @@ function showEditAccessory(id){
 
 function deleteAccessory(id){if(!confirm('Remove this accessory?'))return;accessories=accessories.filter(a=>a.id!==id);scheduleSave();renderAccessories();}
 
+// ── PAIRING ──────────────────────────────────────────────────────────────────
+let pairingState = null;
+
+function getLastUsedDate(pen) {
+  const fills = pen.care.filter(c => c.ink && (c.type === 'Fill only' || c.type === 'Empty, Clean, Fill'));
+  if (!fills.length) return null;
+  const last = fills[fills.length - 1];
+  // parse M/D/YYYY or MM/DD/YYYY
+  const parts = last.date.split('/');
+  if (parts.length === 3) return new Date(parts[2], parts[0]-1, parts[1]);
+  return null;
+}
+
+function getLastUsedInkName(pen) {
+  const fills = pen.care.filter(c => c.ink && (c.type === 'Fill only' || c.type === 'Empty, Clean, Fill'));
+  return fills.length ? fills[fills.length - 1].ink : null;
+}
+
+function buildPairingContext() {
+  const today = new Date();
+  const activePensList = pens.filter(p => p.status === 'Resting');
+  const availableInks = inks.filter(i => i.status === 'Resting');
+
+  // Score pens by recency (higher = used less recently = prioritize)
+  const penScores = activePensList.map(p => {
+    const lastDate = getLastUsedDate(p);
+    const daysSince = lastDate ? Math.floor((today - lastDate) / 86400000) : 9999;
+    const isEFOrFine = ['Extra Fine', 'Fine'].includes(p.nib_size);
+    return { pen: p, daysSince, isEFOrFine };
+  }).sort((a, b) => {
+    // Deprioritize EF/Fine slightly to encourage rotation
+    if (a.isEFOrFine && !b.isEFOrFine) return 1;
+    if (!a.isEFOrFine && b.isEFOrFine) return -1;
+    return b.daysSince - a.daysSince;
+  });
+
+  return { penScores, availableInks, today };
+}
+
+function buildPrompt(constraints, confirmed, rejected) {
+  const ctx = buildPairingContext();
+  const confirmedPenIds = confirmed.map(c => c.pen.id);
+  const rejectedPairs = rejected.map(r => `${r.pen.id}+${r.ink.id}`);
+
+  // Available pens (not already confirmed or currently working)
+  const availablePens = ctx.penScores
+    .filter(s => !confirmedPenIds.includes(s.pen.id) && s.pen.status === 'Resting')
+    .map(s => ({
+      id: s.pen.id,
+      model: s.pen.model,
+      maker: s.pen.maker,
+      nib_size: s.pen.nib_size,
+      nib_type: s.pen.nib_type,
+      daysSinceLastUse: s.daysSince,
+      lastInk: getLastUsedInkName(s.pen) || 'Never used'
+    }));
+
+  // Filter inks by hard rules and constraints
+  const availableInks = ctx.availableInks.filter(i => {
+    if (constraints.shimmer === 'No' && i.shimmer === 'Yes') return false;
+    if (constraints.sheen !== 'Any') {
+      const levels = ['No','Low','Medium','High'];
+      if (levels.indexOf(i.sheen) > levels.indexOf(constraints.sheen)) return false;
+    }
+    if (constraints.shading !== 'Any') {
+      const levels = ['No','Low','Medium','High'];
+      if (levels.indexOf(i.shading) > levels.indexOf(constraints.shading)) return false;
+    }
+    if (constraints.color && i.color !== constraints.color) return false;
+    return true;
+  }).map(i => ({
+    id: i.id, name: i.name, maker: i.maker, color: i.color,
+    shimmer: i.shimmer, sheen: i.sheen, shading: i.shading, limited: i.limited
+  }));
+
+  const month = ctx.today.toLocaleString('en-US', { month: 'long' });
+  const year = ctx.today.getFullYear();
+
+  return `You are a fountain pen pairing assistant helping a collector choose a pen and ink combination for their monthly rotation.
+
+Today is ${month} ${year}. The collector is in Texas, USA. Consider seasonality, holidays, traditions, literary connections, maker heritage, and aesthetic harmony in your reasoning.
+
+HARD RULES (never violate):
+- Extra Fine and Fine nibs: NEVER pair with shimmer inks (shimmer particles clog fine nibs)
+- Extra Fine nibs: avoid High shading inks
+- Only suggest inks with status "Resting" (already filtered for you)
+- Never suggest a pen already confirmed this session
+
+COLLECTOR PREFERENCE: They tend to default to Extra Fine and Fine nibs. Actively rotate in Medium, Broad, and Stub nibs when available and appropriate.
+
+ALREADY CONFIRMED THIS SESSION:
+${confirmed.length ? confirmed.map(c => `- ${c.pen.model} (${c.pen.maker}) + ${c.ink.name} (${c.ink.maker})`).join('\n') : 'None yet'}
+
+PREVIOUSLY REJECTED THIS SESSION (do not suggest these exact pairs again):
+${rejectedPairs.length ? rejectedPairs.join(', ') : 'None'}
+
+AVAILABLE PENS (sorted by least recently used first):
+${JSON.stringify(availablePens, null, 2)}
+
+AVAILABLE INKS (already filtered by user constraints):
+${JSON.stringify(availableInks, null, 2)}
+
+Suggest ONE pen + ink pairing. Choose thoughtfully — consider the pen's character, the ink's personality, the season, and any interesting connections (literary, cultural, aesthetic, maker heritage).
+
+Respond ONLY with valid JSON in exactly this format:
+{
+  "pen_id": "...",
+  "ink_id": "...",
+  "why": "2-4 sentences explaining the pairing. Be specific and evocative — mention the season, any literary/cultural connections, nib/ink compatibility, and why this rotation makes sense now."
+}`;
+}
+
+async function getPairingSuggestion() {
+  const state = pairingState;
+  state.loading = true;
+  state.error = null;
+  renderPairing();
+
+  try {
+    const prompt = buildPrompt(state.constraints, state.confirmed, state.rejected);
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+
+    const pen = pens.find(p => p.id === parsed.pen_id);
+    const ink = inks.find(i => i.id === parsed.ink_id);
+    if (!pen || !ink) throw new Error('Unknown pen or ink ID in response');
+
+    state.current = { pen, ink, why: parsed.why };
+    state.loading = false;
+    renderPairing();
+  } catch(e) {
+    state.loading = false;
+    state.error = 'Could not generate a suggestion. Please try again.';
+    renderPairing();
+  }
+}
+
+function acceptPairing() {
+  const s = pairingState;
+  s.confirmed.push({ pen: s.current.pen, ink: s.current.ink, why: s.current.why });
+  s.current = null;
+  if (s.confirmed.length >= s.target) {
+    renderPairing();
+  } else {
+    getPairingSuggestion();
+  }
+}
+
+function rejectPairing() {
+  const s = pairingState;
+  s.rejected.push({ pen: s.current.pen, ink: s.current.ink });
+  s.current = null;
+  getPairingSuggestion();
+}
+
+function confirmAllPairings() {
+  const today = new Date();
+  const dateStr = `${today.getMonth()+1}/${today.getDate()}/${today.getFullYear()}`;
+  pairingState.confirmed.forEach(({ pen, ink }) => {
+    pen.care.push({ id: uid(), date: dateStr, type: 'Fill only', ink: ink.name, note: 'Added via Pairing' });
+    pen.status = 'Working';
+    ink.status = 'Working';
+  });
+  scheduleSave();
+  pairingState = null;
+  renderPairing();
+}
+
+function renderPairing() {
+  const el = document.getElementById('tab-content');
+  const colors = [...new Set(inks.map(i => i.color).filter(Boolean))].sort();
+
+  // Setup screen
+  if (!pairingState) {
+    el.innerHTML = `
+    <div class="panel" style="max-width:560px;margin:0 auto">
+      <div class="panel-title" style="margin-bottom:4px">Monthly Rotation</div>
+      <div class="panel-sub" style="margin-bottom:22px">Set your preferences and the AI will suggest pen &amp; ink pairings from your collection.</div>
+      <div class="form-grid" style="margin-bottom:18px">
+        <div class="form-row">
+          <div class="form-label">Pens to rotate</div>
+          <input type="number" id="p-target" value="4" min="1" max="10" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.81rem;padding:7px 10px;border:1px solid var(--cream-dark);border-radius:2px;background:var(--cream);color:var(--ink);outline:none;width:100%">
+        </div>
+        <div class="form-row">
+          <div class="form-label">Shimmer</div>
+          <select id="p-shimmer" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.81rem;padding:7px 10px;border:1px solid var(--cream-dark);border-radius:2px;background:var(--cream);color:var(--ink);outline:none;width:100%">
+            <option value="No" selected>No shimmer</option>
+            <option value="Yes">Shimmer OK</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-label">Sheen (max)</div>
+          <select id="p-sheen" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.81rem;padding:7px 10px;border:1px solid var(--cream-dark);border-radius:2px;background:var(--cream);color:var(--ink);outline:none;width:100%">
+            <option value="Any" selected>Any</option>
+            <option value="No">No sheen</option>
+            <option value="Low">Low max</option>
+            <option value="Medium">Medium max</option>
+            <option value="High">High max</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-label">Shading (max)</div>
+          <select id="p-shading" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.81rem;padding:7px 10px;border:1px solid var(--cream-dark);border-radius:2px;background:var(--cream);color:var(--ink);outline:none;width:100%">
+            <option value="Any" selected>Any</option>
+            <option value="No">No shading</option>
+            <option value="Low">Low max</option>
+            <option value="Medium">Medium max</option>
+            <option value="High">High max</option>
+          </select>
+        </div>
+        <div class="form-row form-full">
+          <div class="form-label">Color family (optional)</div>
+          <select id="p-color" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.81rem;padding:7px 10px;border:1px solid var(--cream-dark);border-radius:2px;background:var(--cream);color:var(--ink);outline:none;width:100%">
+            <option value="">Any color</option>
+            ${colors.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:10px" onclick="
+        pairingState = {
+          target: parseInt(document.getElementById('p-target').value)||4,
+          constraints: {
+            shimmer: document.getElementById('p-shimmer').value,
+            sheen: document.getElementById('p-sheen').value,
+            shading: document.getElementById('p-shading').value,
+            color: document.getElementById('p-color').value
+          },
+          confirmed: [], rejected: [], current: null, loading: false, error: null
+        };
+        getPairingSuggestion();
+      ">Start Pairing</button>
+    </div>`;
+    return;
+  }
+
+  const s = pairingState;
+
+  // Completed screen
+  if (s.confirmed.length >= s.target && !s.current) {
+    el.innerHTML = `
+    <div class="panel" style="max-width:600px;margin:0 auto">
+      <div class="panel-title" style="margin-bottom:4px">Your Rotation</div>
+      <div class="panel-sub" style="margin-bottom:20px">${s.confirmed.length} pairings selected. Confirm to ink them all and update your collection.</div>
+      ${s.confirmed.map((c,i) => `
+      <div style="padding:14px 0;border-bottom:1px solid var(--cream-dark)">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+          <span style="font-weight:500;font-size:.9rem">${esc(c.pen.model)}</span>
+          <span style="font-size:.7rem;color:#bbb">${esc(c.pen.maker)} &middot; ${esc(c.pen.nib_size)}</span>
+        </div>
+        <div style="font-size:.84rem;color:var(--brass);margin-bottom:6px">${esc(c.ink.name)} &middot; <span style="color:#aaa">${esc(c.ink.maker)}</span></div>
+        <div style="font-size:.78rem;color:#888;line-height:1.65;font-style:italic">${esc(c.why)}</div>
+      </div>`).join('')}
+      <div class="btn-row" style="margin-top:18px">
+        <button class="btn btn-primary" onclick="confirmAllPairings()">Confirm &amp; Ink All</button>
+        <button class="btn" onclick="pairingState=null;renderPairing()">Start Over</button>
+      </div>
+    </div>`;
+    return;
+  }
+
+  // Loading / suggestion screen
+  el.innerHTML = `
+  <div style="max-width:600px;margin:0 auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-size:.72rem;color:#bbb;text-transform:uppercase;letter-spacing:.1em">Pairing ${s.confirmed.length + 1} of ${s.target}</div>
+      <button class="btn" style="font-size:.62rem;padding:3px 10px" onclick="pairingState=null;renderPairing()">Start over</button>
+    </div>
+    ${s.confirmed.length > 0 ? `
+    <div class="panel" style="margin-bottom:14px;padding:14px 18px">
+      <div class="section-title" style="margin-bottom:10px">Confirmed so far</div>
+      ${s.confirmed.map(c => `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--cream-dark);font-size:.79rem"><span style="font-weight:500">${esc(c.pen.model)}</span><span style="color:var(--brass)">${esc(c.ink.name)}</span></div>`).join('')}
+    </div>` : ''}
+    <div class="panel">
+      ${s.loading ? `
+      <div style="text-align:center;padding:2.5rem 0">
+        <div style="font-size:.78rem;color:#bbb;letter-spacing:.08em;text-transform:uppercase;animation:pulse 1.2s infinite">Finding the perfect pairing\u2026</div>
+      </div>` : s.error ? `
+      <div style="text-align:center;padding:2rem 0">
+        <div style="color:#a03030;font-size:.82rem;margin-bottom:14px">${esc(s.error)}</div>
+        <button class="btn btn-primary" onclick="getPairingSuggestion()">Try again</button>
+      </div>` : s.current ? `
+      <div style="margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+          <div>
+            <div style="font-size:1.4rem;font-weight:300;color:var(--gunmetal);margin-bottom:2px">${esc(s.current.pen.model)}</div>
+            <div style="font-size:.75rem;color:#aaa">${esc(s.current.pen.maker)} &middot; ${esc(s.current.pen.nib_size)} &middot; ${esc(s.current.pen.nib_type)}</div>
+          </div>
+          <span class="badge b-resting">Resting</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:12px 14px;background:var(--cream);border-radius:8px;border:1px solid var(--rule)">
+          <div style="flex:1">
+            <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:#bbb;margin-bottom:3px">Suggested ink</div>
+            <div style="font-size:1rem;font-weight:400;color:var(--ink)">${esc(s.current.ink.name)}</div>
+            <div style="font-size:.72rem;color:#aaa;margin-top:1px">${esc(s.current.ink.maker)} &middot; ${esc(s.current.ink.color)}${s.current.ink.sheen && s.current.ink.sheen !== 'No' ? ' &middot; Sheen: '+esc(s.current.ink.sheen) : ''}${s.current.ink.shading && s.current.ink.shading !== 'No' ? ' &middot; Shading: '+esc(s.current.ink.shading) : ''}</div>
+          </div>
+          ${s.current.ink.limited ? '<span class="badge b-limited" style="flex-shrink:0">Limited</span>' : ''}
+        </div>
+        <div style="font-size:.82rem;line-height:1.75;color:#555;font-style:italic;margin-bottom:20px;padding-left:2px">${esc(s.current.why)}</div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="acceptPairing()">&#10003; Accept</button>
+          <button class="btn" onclick="rejectPairing()">Try another</button>
+        </div>
+      </div>` : ''}
+    </div>
+  </div>`;
+}
+
 function renderJournal(){
-  const el=document.getElementById('tab-content');
-  const sv=(document.getElementById('j-search')||{}).value||'';
   const data=journal.filter(j=>!sv||[j.pen,j.ink,j.accessory,j.note].join(' ').toLowerCase().includes(sv.toLowerCase())).slice().sort((a,b)=>{if(!a.date&&!b.date)return 0;if(!a.date)return 1;if(!b.date)return -1;return new Date(b.date)-new Date(a.date);});
   el.innerHTML=`<div class="controls" style="margin-bottom:18px"><div class="search-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="j-search" placeholder="Search journal\u2026" value="${esc(sv)}" oninput="renderJournal()"></div><button class="btn-add" onclick="showAddJournal()">+ Add entry</button></div>
   <div class="panel">${data.length===0?'<div class="empty">No journal entries yet</div>':data.map(j=>`<div class="journal-entry">${j.date?`<div class="journal-date">${esc(j.date)}</div>`:''}<div class="journal-meta">${[j.pen&&`Pen: ${j.pen}`,j.ink&&`Ink: ${j.ink}`,j.accessory&&`Accessory: ${j.accessory}`].filter(Boolean).join(' \u00b7 ')||'General note'}</div><div class="journal-note">${esc(j.note)}</div><div class="btn-row" style="margin-top:10px"><button class="btn" style="font-size:.62rem;padding:4px 11px" onclick="showEditJournal('${j.id}')">Edit</button><button class="btn btn-danger" style="font-size:.62rem;padding:4px 11px" onclick="deleteJournal('${j.id}')">Remove</button></div></div>`).join('')}</div>`;
