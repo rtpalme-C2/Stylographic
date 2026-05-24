@@ -972,8 +972,9 @@ function renderPairing() {
   const el = document.getElementById('tab-content');
   const colors = [...new Set(inks.map(i => i.color).filter(Boolean))].sort();
 
-  // Setup screen
-  if (!pairingState) {
+  // Always show setup if state is missing or invalid
+  if (!pairingState || !pairingState.constraints || !pairingState.confirmed || !pairingState.rejected) {
+    pairingState = null;
     el.innerHTML = `
     <div class="panel" style="max-width:560px;margin:0 auto">
       <div class="panel-title" style="margin-bottom:4px">Monthly Rotation</div>
@@ -1066,7 +1067,7 @@ function renderPairing() {
   <div style="max-width:600px;margin:0 auto">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
       <div style="font-size:.72rem;color:#bbb;text-transform:uppercase;letter-spacing:.1em">Pairing ${s.confirmed.length + 1} of ${s.target}</div>
-      <button class="btn" style="font-size:.62rem;padding:3px 10px" onclick="pairingState=null;renderPairing()">Start over</button>
+      <button class="btn" style="font-size:.62rem;padding:3px 10px" onclick="pairingState=null;document.getElementById('tab-content').innerHTML='';renderPairing()">Start over</button>
     </div>
     ${s.confirmed.length > 0 ? `
     <div class="panel" style="margin-bottom:14px;padding:14px 18px">
