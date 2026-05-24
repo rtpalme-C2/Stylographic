@@ -622,14 +622,14 @@ function renderInks(){
     <div class="metric"><div class="metric-label">Collection value</div><div class="metric-value">$${tv.toLocaleString('en-US',{maximumFractionDigits:0})}</div></div>
   </div>
   <div class="controls" style="flex-direction:column;align-items:stretch;gap:6px">
-    <div style="display:flex;gap:8px;align-items:center">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <div class="search-wrap" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="ink-search" placeholder="Search inks\u2026" value="${esc(sv)}" oninput="inkSearchVal=this.value;renderInks()"></div>
+      <select onchange="inkMakerFilter=this.value;renderInks()" style="flex-shrink:0"><option value="">All makers</option>${makers.map(m=>`<option value="${esc(m)}"${mf===m?' selected':''}>${esc(m)}</option>`).join('')}</select>
+      <select onchange="inkColorFilter=this.value;renderInks()" style="flex-shrink:0"><option value="">All colors</option>${colors.map(c=>`<option value="${esc(c)}"${cf===c?' selected':''}>${esc(c)}</option>`).join('')}</select>
+      <select onchange="inkSortBy=this.value;renderInks()" style="flex-shrink:0"><option value="name"${so==='name'?' selected':''}>Sort: Name</option><option value="maker"${so==='maker'?' selected':''}>Sort: Maker</option><option value="color"${so==='color'?' selected':''}>Sort: Color</option><option value="supplier"${so==='supplier'?' selected':''}>Sort: Supplier</option></select>
       <button class="btn-add" onclick="showAddInk()">+ Add ink</button>
     </div>
-    <div class="filter-row"><span class="filter-label">Maker</span><button class="filter-pill${mf===''?' active':''}" onclick="setInkFilter('maker','')">All</button>${makers.map(m=>`<button class="filter-pill${mf===m?' active':''}" onclick="setInkFilter('maker','${esc(m)}')">${esc(m)}</button>`).join('')}</div>
-    <div class="filter-row"><span class="filter-label">Color</span><button class="filter-pill${cf===''?' active':''}" onclick="setInkFilter('color','')">All</button>${colors.map(c=>`<button class="filter-pill${cf===c?' active':''}" onclick="setInkFilter('color','${esc(c)}')">${esc(c)}</button>`).join('')}</div>
     <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setInkFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setInkFilter('status','Working')">Working</button><button class="filter-pill${sf==='En Route'?' active':''}" onclick="setInkFilter('status','En Route')">En Route</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setInkFilter('status','Resting')">Resting</button><button class="filter-pill${sf==='Incomplete'?' active':''}" onclick="setInkFilter('status','Incomplete')">Incomplete</button></div>
-    <div class="filter-row"><span class="filter-label">Sort</span><button class="filter-pill${so==='name'?' active':''}" onclick="inkSortBy='name';renderInks()">Name</button><button class="filter-pill${so==='maker'?' active':''}" onclick="inkSortBy='maker';renderInks()">Maker</button><button class="filter-pill${so==='color'?' active':''}" onclick="inkSortBy='color';renderInks()">Color</button><button class="filter-pill${so==='supplier'?' active':''}" onclick="inkSortBy='supplier';renderInks()">Supplier</button></div>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Ink name</th><th>Maker</th><th>Color</th><th>Size</th><th>Shimmer</th><th>Sheen</th><th>Shading</th><th>Limited</th><th>Status</th><th>Supplier</th></tr></thead>
