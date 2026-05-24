@@ -803,8 +803,8 @@ function getLastUsedInkName(pen) {
 
 function buildPairingContext() {
   const today = new Date();
-  const activePensList = pens.filter(p => p.status === 'Resting');
-  const availableInks = inks.filter(i => i.status === 'Resting');
+  const activePensList = (pens||[]).filter(p => p.status === 'Resting');
+  const availableInks = (inks||[]).filter(i => i.status === 'Resting');
 
   // Score pens by recency (higher = used less recently = prioritize)
   const penScores = activePensList.map(p => {
@@ -897,6 +897,7 @@ Respond ONLY with valid JSON in exactly this format:
 
 async function getPairingSuggestion() {
   const state = pairingState;
+  if (!state || !state.constraints) { pairingState = null; renderPairing(); return; }
   state.loading = true;
   state.error = null;
   renderPairing();
