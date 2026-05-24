@@ -599,13 +599,21 @@ function showEditPen(id){
 
 function renderInks(){
   const el=document.getElementById('tab-content');
-  const sv=(document.getElementById('ink-search')||{}).value||'';
+  const sv=inkSearchVal;
   const mf=(document.getElementById('ink-maker')||{}).value||'';
+  const so=(document.getElementById('ink-sort')||{}).value||inkSortBy;
+  inkSortBy=so;
   const cf=inkColorFilter;
   const sf=inkStatusFilter;
   const makers=[...new Set(inks.map(i=>i.maker))].sort();
   const colors=[...new Set(inks.map(i=>i.color).filter(Boolean))].sort();
-  const data=inks.filter(i=>(!sv||i.name.toLowerCase().includes(sv.toLowerCase())||i.maker.toLowerCase().includes(sv.toLowerCase()))&&(!mf||i.maker===mf)&&(!cf||i.color===cf)&&(!sf||i.status===sf));
+  const incomplete=i=>[i.shimmer,i.sheen,i.shading].some(v=>v===''||v===null||v===undefined);
+  const data=inks.filter(i=>(!sv||i.name.toLowerCase().includes(sv.toLowerCase())||i.maker.toLowerCase().includes(sv.toLowerCase()))&&(!mf||i.maker===mf)&&(!cf||i.color===cf)&&(sf==='Incomplete'?incomplete(i):(!sf||i.status===sf))).sort((a,b)=>{
+    if(so==='maker'){const c=a.maker.localeCompare(b.maker);return c!==0?c:a.name.localeCompare(b.name);}
+    if(so==='supplier'){const as=a.supplier||'';const bs=b.supplier||'';if(!as&&bs)return 1;if(as&&!bs)return -1;const c=as.localeCompare(bs);return c!==0?c:a.name.localeCompare(b.name);}
+    if(so==='color'){const c=(a.color||'').localeCompare(b.color||'');return c!==0?c:a.name.localeCompare(b.name);}
+    return a.name.localeCompare(b.name);
+  });
   const working=inks.filter(i=>i.status==='Working').length;const tv=inks.reduce((s,i)=>s+i.purchase,0);
   el.innerHTML=`
   <div class="metrics">
@@ -616,18 +624,20 @@ function renderInks(){
   </div>
   <div class="controls" style="flex-direction:column;align-items:stretch;gap:6px">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-      <div class="search-wrap" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="ink-search" placeholder="Search inks\u2026" value="${esc(sv)}" oninput="renderInks()"></div>
+      <div class="search-wrap" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="ink-search" placeholder="Search inks\u2026" value="${esc(sv)}" oninput="inkSearchVal=this.value;renderInks()"></div>
       <select id="ink-maker" onchange="renderInks()" style="flex-shrink:0"><option value="">All makers</option>${makers.map(m=>`<option value="${esc(m)}"${mf===m?' selected':''}>${esc(m)}</option>`).join('')}</select>
+      <select id="ink-sort" onchange="renderInks()" style="flex-shrink:0"><option value="name"${so==='name'?' selected':''}>Sort: Name</option><option value="maker"${so==='maker'?' selected':''}>Sort: Maker</option><option value="supplier"${so==='supplier'?' selected':''}>Sort: Supplier</option><option value="color"${so==='color'?' selected':''}>Sort: Color</option></select>
       <button class="btn-add" onclick="showAddInk()">+ Add ink</button>
     </div>
     <div class="filter-row"><span class="filter-label">Color</span><button class="filter-pill${cf===''?' active':''}" onclick="setInkFilter('color','')">All</button>${colors.map(c=>`<button class="filter-pill${cf===c?' active':''}" onclick="setInkFilter('color','${esc(c)}')">${esc(c)}</button>`).join('')}</div>
-    <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setInkFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setInkFilter('status','Working')">Working</button><button class="filter-pill${sf==='En Route'?' active':''}" onclick="setInkFilter('status','En Route')">En Route</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setInkFilter('status','Resting')">Resting</button></div>
+    <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setInkFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setInkFilter('status','Working')">Working</button><button class="filter-pill${sf==='En Route'?' active':''}" onclick="setInkFilter('status','En Route')">En Route</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setInkFilter('status','Resting')">Resting</button><button class="filter-pill${sf==='Incomplete'?' active':''}" onclick="setInkFilter('status','Incomplete')">Incomplete</button></div>
   </div>
   <div class="table-wrap"><table>
-    <thead><tr><th>Ink name</th><th>Maker</th><th>Color</th><th>Size</th><th>Shimmer</th><th>Sheen</th><th>Shading</th><th>Limited</th><th>Status</th><th>Purchase</th></tr></thead>
-    <tbody>${data.map(i=>`<tr class="clickable" onclick="openInk('${i.id}')"><td>${esc(i.name)}</td><td>${esc(i.maker)}</td><td>${esc(i.color)}</td><td>${esc(i.size)}</td><td><span class="badge ${i.shimmer==='Yes'?'b-yes':'b-no'}">${esc(i.shimmer||'\u2014')}</span></td><td><span class="badge ${i.sheen&&i.sheen!=='No'?'b-yes':'b-no'}">${esc(i.sheen||'\u2014')}</span></td><td><span class="badge ${i.shading&&i.shading!=='No'?'b-yes':'b-no'}">${esc(i.shading||'\u2014')}</span></td><td>${i.limited?'<span class="badge b-limited">Yes</span>':'<span class="badge b-no">No</span>'}</td><td><span class="badge b-${i.status==='En Route'?'enroute':(i.status||'resting').toLowerCase()}">${esc(i.status)}</span></td><td>${i.purchase>0?'$'+i.purchase.toFixed(2):'\u2014'}</td></tr>`).join('')}
+    <thead><tr><th>Ink name</th><th>Maker</th><th>Color</th><th>Size</th><th>Shimmer</th><th>Sheen</th><th>Shading</th><th>Limited</th><th>Status</th><th>Supplier</th></tr></thead>
+    <tbody>${data.map(i=>`<tr class="clickable" onclick="openInk('${i.id}')"><td>${esc(i.name)}</td><td>${esc(i.maker)}</td><td>${esc(i.color)}</td><td>${esc(i.size)}</td><td><span class="badge ${i.shimmer==='Yes'?'b-yes':'b-no'}">${esc(i.shimmer||'\u2014')}</span></td><td><span class="badge ${i.sheen&&i.sheen!=='No'?'b-yes':'b-no'}">${esc(i.sheen||'\u2014')}</span></td><td><span class="badge ${i.shading&&i.shading!=='No'?'b-yes':'b-no'}">${esc(i.shading||'\u2014')}</span></td><td>${i.limited?'<span class="badge b-limited">Yes</span>':'<span class="badge b-no">No</span>'}</td><td><span class="badge b-${i.status==='En Route'?'enroute':(i.status||'resting').toLowerCase()}">${esc(i.status)}</span></td><td>${esc(i.supplier||'\u2014')}</td></tr>`).join('')}
     ${data.length===0?'<tr><td colspan="10" style="text-align:center;color:#ccc;padding:3rem;font-style:italic;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:1rem">No inks match</td></tr>':''}
     </tbody></table></div>`;
+  if(inkSearchVal){const el2=document.getElementById('ink-search');if(el2){el2.focus();el2.setSelectionRange(el2.value.length,el2.value.length);}}
 }
 
 function openInk(id){inkDetail=id;renderInkDetail();}
