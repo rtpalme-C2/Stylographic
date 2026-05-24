@@ -262,6 +262,9 @@ const LS_SHA     = 'stylographic_gh_sha';
 const LS_ANTHROPIC = 'stylographic_anthropic_key';
 function getAnthropicKey() { return localStorage.getItem(LS_ANTHROPIC) || ''; }
 
+let saveTimer = null;
+let pendingSave = false;
+
 function getPAT()  { return localStorage.getItem(LS_PAT) || ''; }
 function getSHA()  { return localStorage.getItem(LS_SHA) || ''; }
 function setSHA(s) { localStorage.setItem(LS_SHA, s); }
