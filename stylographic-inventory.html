@@ -465,11 +465,11 @@ function renderPens(){
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <div class="search-wrap" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="pen-search" placeholder="Search pens\u2026" value="${esc(sv)}" oninput="penSearchVal=this.value;renderPens()"></div>
       <select id="pen-maker" onchange="renderPens()" style="flex-shrink:0"><option value="">All makers</option>${makers.map(m=>`<option value="${esc(m)}"${mf===m?' selected':''}>${esc(m)}</option>`).join('')}</select>
-      <select id="pen-sort" onchange="renderPens()" style="flex-shrink:0"><option value="model"${so==='model'?' selected':''}>Sort: Model</option><option value="maker"${so==='maker'?' selected':''}>Sort: Maker</option><option value="supplier"${so==='supplier'?' selected':''}>Sort: Supplier</option><option value="nib"${so==='nib'?' selected':''}>Sort: Nib</option></select>
       <button class="btn-add" onclick="showAddPen()">+ Add pen</button>
     </div>
     <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setPenFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setPenFilter('status','Working')">Working</button><button class="filter-pill${sf==='En Route'?' active':''}" onclick="setPenFilter('status','En Route')">En Route</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setPenFilter('status','Resting')">Resting</button><button class="filter-pill${sf==='Gifted'?' active':''}" onclick="setPenFilter('status','Gifted')">Gifted</button></div>
     <div class="filter-row"><span class="filter-label">Nib</span><button class="filter-pill${nf===''?' active':''}" onclick="setPenFilter('nib','')">All</button><button class="filter-pill${nf==='Steel'?' active':''}" onclick="setPenFilter('nib','Steel')">Steel</button><button class="filter-pill${nf==='14K Gold'?' active':''}" onclick="setPenFilter('nib','14K Gold')">14K Gold</button><button class="filter-pill${nf==='18K Gold'?' active':''}" onclick="setPenFilter('nib','18K Gold')">18K Gold</button><button class="filter-pill${nf==='21K Gold'?' active':''}" onclick="setPenFilter('nib','21K Gold')">21K Gold</button></div>
+    <div class="filter-row"><span class="filter-label">Sort</span><select id="pen-sort" onchange="renderPens()" style="flex-shrink:0"><option value="model"${so==='model'?' selected':''}>Model</option><option value="maker"${so==='maker'?' selected':''}>Maker</option><option value="supplier"${so==='supplier'?' selected':''}>Supplier</option><option value="nib"${so==='nib'?' selected':''}>Nib</option></select></div>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Model</th><th>Maker</th><th>Nib</th><th>Type</th><th>Special</th><th>Status</th><th>Supplier</th></tr></thead>
@@ -573,10 +573,10 @@ function renderInks(){
       <div class="search-wrap" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="ink-search" placeholder="Search inks\u2026" value="${esc(sv)}" oninput="inkSearchVal=this.value;renderInks()"></div>
       <select onchange="inkMakerFilter=this.value;renderInks()" style="flex-shrink:0"><option value="">All makers</option>${makers.map(m=>`<option value="${esc(m)}"${mf===m?' selected':''}>${esc(m)}</option>`).join('')}</select>
       <select onchange="inkColorFilter=this.value;renderInks()" style="flex-shrink:0"><option value="">All colors</option>${colors.map(c=>`<option value="${esc(c)}"${cf===c?' selected':''}>${esc(c)}</option>`).join('')}</select>
-      <select onchange="inkSortBy=this.value;renderInks()" style="flex-shrink:0"><option value="name"${so==='name'?' selected':''}>Sort: Name</option><option value="maker"${so==='maker'?' selected':''}>Sort: Maker</option><option value="color"${so==='color'?' selected':''}>Sort: Color</option><option value="supplier"${so==='supplier'?' selected':''}>Sort: Supplier</option></select>
       <button class="btn-add" onclick="showAddInk()">+ Add ink</button>
     </div>
     <div class="filter-row"><span class="filter-label">Status</span><button class="filter-pill${sf===''?' active':''}" onclick="setInkFilter('status','')">All</button><button class="filter-pill${sf==='Working'?' active':''}" onclick="setInkFilter('status','Working')">Working</button><button class="filter-pill${sf==='En Route'?' active':''}" onclick="setInkFilter('status','En Route')">En Route</button><button class="filter-pill${sf==='Resting'?' active':''}" onclick="setInkFilter('status','Resting')">Resting</button><button class="filter-pill${sf==='Incomplete'?' active':''}" onclick="setInkFilter('status','Incomplete')">Incomplete</button></div>
+    <div class="filter-row"><span class="filter-label">Sort</span><select onchange="inkSortBy=this.value;renderInks()" style="flex-shrink:0"><option value="name"${so==='name'?' selected':''}>Name</option><option value="maker"${so==='maker'?' selected':''}>Maker</option><option value="color"${so==='color'?' selected':''}>Color</option><option value="supplier"${so==='supplier'?' selected':''}>Supplier</option></select></div>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Ink name</th><th>Maker</th><th>Color</th><th>Size</th><th>Shimmer</th><th>Sheen</th><th>Shading</th><th>Limited</th><th>Status</th><th>Supplier</th></tr></thead>
@@ -656,12 +656,14 @@ function renderAccessories(){
     <div class="metric"><div class="metric-label">Stored</div><div class="metric-value">${stored}</div></div>
     <div class="metric"><div class="metric-label">Collection value</div><div class="metric-value">${tv>0?'$'+tv.toLocaleString('en-US',{maximumFractionDigits:0}):'\u2014'}</div></div>
   </div>
-  <div class="controls">
-    <div class="search-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="acc-search" placeholder="Search accessories\u2026" value="${esc(sv)}" oninput="accSearchVal=this.value;renderAccessories()"></div>
-    <select id="acc-type" onchange="renderAccessories()"><option value="">All types</option>${types.map(t=>`<option value="${esc(t)}"${tf===t?' selected':''}>${esc(t)}</option>`).join('')}</select>
-    <select id="acc-status" onchange="renderAccessories()"><option value="">All statuses</option><option value="Active"${sf==='Active'?' selected':''}>Active</option><option value="En Route"${sf==='En Route'?' selected':''}>En Route</option><option value="Stored"${sf==='Stored'?' selected':''}>Stored</option><option value="Gifted"${sf==='Gifted'?' selected':''}>Gifted</option></select>
-    <select id="acc-sort" onchange="renderAccessories()"><option value="name"${so==='name'?' selected':''}>Sort: Name</option><option value="type"${so==='type'?' selected':''}>Sort: Type</option><option value="maker"${so==='maker'?' selected':''}>Sort: Maker</option><option value="supplier"${so==='supplier'?' selected':''}>Sort: Supplier</option></select>
-    <button class="btn-add" onclick="showAddAccessory()">+ Add accessory</button>
+  <div class="controls" style="flex-direction:column;align-items:stretch;gap:6px">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="search-wrap" style="flex:1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="acc-search" placeholder="Search accessories\u2026" value="${esc(sv)}" oninput="accSearchVal=this.value;renderAccessories()"></div>
+      <select id="acc-type" onchange="renderAccessories()"><option value="">All types</option>${types.map(t=>`<option value="${esc(t)}"${tf===t?' selected':''}>${esc(t)}</option>`).join('')}</select>
+      <select id="acc-status" onchange="renderAccessories()"><option value="">All statuses</option><option value="Active"${sf==='Active'?' selected':''}>Active</option><option value="En Route"${sf==='En Route'?' selected':''}>En Route</option><option value="Stored"${sf==='Stored'?' selected':''}>Stored</option><option value="Gifted"${sf==='Gifted'?' selected':''}>Gifted</option></select>
+      <button class="btn-add" onclick="showAddAccessory()">+ Add accessory</button>
+    </div>
+    <div class="filter-row"><span class="filter-label">Sort</span><select id="acc-sort" onchange="renderAccessories()"><option value="name"${so==='name'?' selected':''}>Name</option><option value="type"${so==='type'?' selected':''}>Type</option><option value="maker"${so==='maker'?' selected':''}>Maker</option><option value="supplier"${so==='supplier'?' selected':''}>Supplier</option></select></div>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Name</th><th>Type</th><th>Maker</th><th>Status</th><th>Purchase</th><th>Notes</th></tr></thead>
