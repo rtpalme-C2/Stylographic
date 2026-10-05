@@ -579,7 +579,6 @@ function renderPenDetail(){
   const p=pens.find(x=>x.id===penDetail);if(!p){penDetail=null;renderPens();return;}
   const inkNames=inks.map(i=>i.name).sort();
   const el=document.getElementById('tab-content');
-  const lastFill=p.care.filter(c=>c.ink&&(c.type==='Fill only'||c.type==='Empty, Clean, Fill')).slice(-1)[0];
   el.innerHTML=`<button class="back-btn" onclick="penDetail=null;renderPens()">\u2190 Back to pens</button>
   <div class="panel${imageBlock(p)?' has-img':''}">
     ${imageBlock(p)}
@@ -591,7 +590,7 @@ function renderPenDetail(){
       <div class="detail-row"><div class="detail-label">Nib size</div><div class="detail-value">${esc(p.nib_size)}</div></div>
       <div class="detail-row"><div class="detail-label">Nib type</div><div class="detail-value">${esc(p.nib_type)}</div></div>
       <div class="detail-row"><div class="detail-label">Special edition</div><div class="detail-value">${p.special?'Yes':'No'}</div></div>
-      <div class="detail-row"><div class="detail-label">${p.status==='Gifted'?'Gifted to':'Current ink'}</div><div class="detail-value">${p.status==='Gifted'?esc(p.gifted_to||'\u2014'):(lastFill?esc(lastFill.ink):'\u2014')}</div></div>
+      <div class="detail-row"><div class="detail-label">${p.status==='Gifted'?'Gifted to':'Current ink'}</div><div class="detail-value">${p.status==='Gifted'?esc(p.gifted_to||'\u2014'):(currentInkForPen(p)?esc(currentInkForPen(p)):'\u2014')}</div></div>
       <div class="detail-row"><div class="detail-label">Retail price</div><div class="detail-value">$${p.retail.toFixed(2)}</div></div>
       <div class="detail-row"><div class="detail-label">Purchase price</div><div class="detail-value">$${p.purchase.toFixed(2)}</div></div>
       <div class="detail-row"><div class="detail-label">Supplier</div><div class="detail-value">${esc(p.supplier||'\u2014')}</div></div>
