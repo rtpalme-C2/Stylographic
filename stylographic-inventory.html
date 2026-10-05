@@ -271,7 +271,6 @@ tr.gifted td { opacity:.45; }
 const GH_OWNER   = 'rtpalme-C2';
 const GH_REPO    = 'life-stuff-data';
 const GH_FILE    = 'stylographic-inventory.json';
-const GH_RAW_URL = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_FILE}`;
 const GH_API_URL = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
 const LS_PAT     = 'stylographic_gh_pat';
 const LS_SHA     = 'stylographic_gh_sha';
@@ -344,10 +343,23 @@ function setSyncStatus(state, label) {
   else if (state === 'error')     dot.classList.add('error');
 }
 
+// Read through the API with the token (works whether the data repo is public or private).
+// A private repo answers 404 on the anonymous raw URL, so the raw URL is never used.
+function readRemote() {
+  return fetch(GH_API_URL, { cache: 'no-store', headers: { 'Authorization': 'Bearer ' + getPAT(), 'Accept': 'application/vnd.github.raw+json' } });
+}
+async function repoReachable() {
+  try {
+    const r = await fetch('https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO, { cache: 'no-store', headers: { 'Authorization': 'Bearer ' + getPAT(), 'Accept': 'application/vnd.github+json' } });
+    return r.ok;
+  } catch(e) { return false; }
+}
 async function syncFromGitHub() {
   setSyncStatus('saving', 'Loading from GitHub\u2026');
   try {
-    const res = await fetch(GH_RAW_URL + '?t=' + Date.now());
+    const res = await readRemote();
+    if (res.status === 404 && !(await repoReachable())) { setSyncStatus('error', 'Cannot reach the data repo \u2014 working offline'); return; }
+    if (res.status === 401 || res.status === 403) { setSyncStatus('error', 'GitHub refused the token \u2014 working offline'); return; }
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const text = await res.text();
     if (!text || !text.trim()) remoteReady = true;
