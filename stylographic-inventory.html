@@ -133,6 +133,13 @@ tr.gifted td { opacity:.45; }
 .back-btn { font-family:'Plus Jakarta Sans',sans-serif; font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); cursor:pointer; background:none; border:none; display:flex; align-items:center; gap:5px; margin-bottom:18px; transition:color .15s; }
 .back-btn:hover { color:var(--brass); }
 .img-block { margin-bottom:18px; }
+.panel.has-img { display:grid; grid-template-columns:300px minmax(0,1fr); column-gap:28px; align-items:start; }
+.panel.has-img > :not(.img-block) { grid-column:2; }
+.panel.has-img > .img-block { grid-column:1; grid-row:1 / span 20; margin-bottom:0; }
+@media (max-width:860px) {
+  .panel.has-img { display:block; }
+  .panel.has-img > .img-block { margin-bottom:18px; }
+}
 .img-main { display:flex; justify-content:center; background:var(--cream-dark); border-radius:10px; padding:8px; }
 .img-main img { max-width:100%; max-height:320px; object-fit:contain; border-radius:6px; display:block; }
 .img-thumbs { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
@@ -518,7 +525,7 @@ function imgFail(el){
   blk.querySelectorAll('.img-th').forEach(t=>{if(t.src===bad)t.remove();});
   const left=blk.querySelectorAll('.img-th');
   if(left.length<=1){const strip=blk.querySelector('.img-thumbs');if(strip)strip.remove();}
-  if(el===main){const nxt=left[0];if(nxt){main.src=nxt.src;nxt.classList.add('on');}else{blk.remove();}}
+  if(el===main){const nxt=left[0];if(nxt){main.src=nxt.src;nxt.classList.add('on');}else{const pn=blk.closest('.panel');blk.remove();if(pn)pn.classList.remove('has-img');}}
 }
 function showTab(tab,el){currentTab=tab;penDetail=null;inkDetail=null;accDetail=null;pairingState=null;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');render();}
 function render(){if(currentTab==='pens')penDetail?renderPenDetail():renderPens();else if(currentTab==='inks')inkDetail?renderInkDetail():renderInks();else if(currentTab==='accessories')accDetail?renderAccessoryDetail():renderAccessories();else if(currentTab==='pairing')renderPairing();else renderJournal();}
@@ -574,7 +581,7 @@ function renderPenDetail(){
   const el=document.getElementById('tab-content');
   const lastFill=p.care.filter(c=>c.ink&&(c.type==='Fill only'||c.type==='Empty, Clean, Fill')).slice(-1)[0];
   el.innerHTML=`<button class="back-btn" onclick="penDetail=null;renderPens()">\u2190 Back to pens</button>
-  <div class="panel">
+  <div class="panel${imageBlock(p)?' has-img':''}">
     ${imageBlock(p)}
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
       <div><div class="panel-title">${esc(p.model)}</div><div class="panel-sub">${esc(p.maker)}</div></div>
@@ -679,7 +686,7 @@ function openInk(id){inkDetail=id;renderInkDetail();}
 function renderInkDetail(){
   const i=inks.find(x=>x.id===inkDetail);if(!i){inkDetail=null;renderInks();return;}
   document.getElementById('tab-content').innerHTML=`<button class="back-btn" onclick="inkDetail=null;renderInks()">\u2190 Back to inks</button>
-  <div class="panel">
+  <div class="panel${imageBlock(i)?' has-img':''}">
     ${imageBlock(i)}
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
       <div><div class="panel-title">${esc(i.name)}</div><div class="panel-sub">${esc(i.maker)}</div></div>
@@ -777,7 +784,7 @@ function openAccessory(id){accDetail=id;renderAccessoryDetail();}
 function renderAccessoryDetail(){
   const a=accessories.find(x=>x.id===accDetail);if(!a){accDetail=null;renderAccessories();return;}
   document.getElementById('tab-content').innerHTML=`<button class="back-btn" onclick="accDetail=null;renderAccessories()">\u2190 Back to accessories</button>
-  <div class="panel">
+  <div class="panel${imageBlock(a)?' has-img':''}">
     ${imageBlock(a)}
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
       <div><div class="panel-title">${esc(a.name)}</div><div class="panel-sub">${esc(a.maker||'\u2014')}</div></div>
