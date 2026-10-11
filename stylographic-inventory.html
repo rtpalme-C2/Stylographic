@@ -211,7 +211,7 @@ tr.gifted td { opacity:.45; }
 }
 
 /* ── Unified filter bar (family standard v1.9) ── */
-.ubar { display:flex; gap:10px; align-items:stretch; justify-content:center; margin-top:12px; }
+.ubar { display:flex; gap:10px; align-items:stretch; justify-content:safe center; margin-top:12px; overflow-x:auto; scrollbar-width:none; } .ubar::-webkit-scrollbar{display:none} .ubar .ubtn{flex-shrink:0}
 .ubar .ubtn { flex:none; display:flex; align-items:center; justify-content:center; gap:6px; height:44px; padding:0 16px; border-radius:20px; border:1.5px solid var(--np-thread); font-size:.9rem; background:#fff; color:var(--ink); font-weight:500; font-family:inherit; cursor:pointer; white-space:nowrap; }
 .ubar .ubtn .cnt { background:var(--np-main); color:#fff; font-size:.72rem; font-weight:700; min-width:22px; height:22px; border-radius:11px; display:inline-flex; align-items:center; justify-content:center; padding:0 6px; }
 .ubar .ubtn.add { background:var(--np-main); border-color:var(--np-main); color:#fff; font-weight:600; }
@@ -582,7 +582,7 @@ function renderPens(){
     <div class="search-wrap" style="width:100%"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="pen-search" placeholder="Search pens\u2026" value="${esc(sv)}" oninput="penSearchVal=this.value;renderPens()"></div>
     <div class="ubar">
       <button class="ubtn" onclick="openStyloSheet()">\u2630 Filters <span class="cnt" id="pen-fcount" hidden></span></button>
-      <button class="ubtn" onclick="openStyloSheet()">\u21C5 <span id="pen-slabel">Model</span></button>
+      <button class="ubtn" onclick="openStyloSheet('sort')">\u21C5 <span id="pen-slabel">Model</span></button>
       <button class="ubtn add" onclick="showAddPen()">+ Add pen</button>
     </div>
     <div class="chips" id="pen-chips"></div>
@@ -692,7 +692,7 @@ function renderInks(){
     <div class="search-wrap" style="width:100%"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="ink-search" placeholder="Search inks\u2026" value="${esc(sv)}" oninput="inkSearchVal=this.value;renderInks()"></div>
     <div class="ubar">
       <button class="ubtn" onclick="openStyloSheet()">\u2630 Filters <span class="cnt" id="ink-fcount" hidden></span></button>
-      <button class="ubtn" onclick="openStyloSheet()">\u21C5 <span id="ink-slabel">Name</span></button>
+      <button class="ubtn" onclick="openStyloSheet('sort')">\u21C5 <span id="ink-slabel">Name</span></button>
       <button class="ubtn add" onclick="showAddInk()">+ Add ink</button>
     </div>
     <div class="chips" id="ink-chips"></div>
@@ -780,7 +780,7 @@ function renderAccessories(){
     <div class="search-wrap" style="width:100%"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="acc-search" placeholder="Search accessories\u2026" value="${esc(sv)}" oninput="accSearchVal=this.value;renderAccessories()"></div>
     <div class="ubar">
       <button class="ubtn" onclick="openStyloSheet()">\u2630 Filters <span class="cnt" id="acc-fcount" hidden></span></button>
-      <button class="ubtn" onclick="openStyloSheet()">\u21C5 <span id="acc-slabel">Name</span></button>
+      <button class="ubtn" onclick="openStyloSheet('sort')">\u21C5 <span id="acc-slabel">Name</span></button>
       <button class="ubtn add" onclick="showAddAccessory()">+ Add accessory</button>
     </div>
     <div class="chips" id="acc-chips"></div>
@@ -1305,7 +1305,7 @@ function buildStyloSheet(){
   var titles={pens:'Pen filters',inks:'Ink filters',accessories:'Accessory filters'};
   document.getElementById('stylo-sheet-title').textContent=titles[currentTab]||'Filters';
   document.getElementById('stylo-sheet-body').innerHTML=secs.map(function(s,si){
-    return '<div class="sec"><h5>'+s.label+'</h5><div class="opts">'+s.opts.map(function(o,oi){
+    return '<div class="sec"'+(s.label==='SORT BY'?' id="stylo-sort-sec"':'')+'><h5>'+s.label+'</h5><div class="opts">'+s.opts.map(function(o,oi){
       return '<button class="opt'+(o[0]===s.cur?' on':'')+'" onclick="styloChipClick('+si+','+oi+')">'+esc(o[1]||'All')+'</button>';
     }).join('')+'</div></div>';
   }).join('');
@@ -1317,8 +1317,8 @@ function styloChipClick(si,oi){
   buildStyloSheet();
   syncStyloPills();
 }
-function openStyloSheet(){buildStyloSheet();syncStyloPills();document.getElementById('stylo-backdrop').hidden=false;document.body.style.overflow='hidden';}
-function closeStyloSheet(){document.getElementById('stylo-backdrop').hidden=true;document.body.style.overflow='';}
+function openStyloSheet(mode){buildStyloSheet();syncStyloPills();var bd=document.getElementById('stylo-backdrop');bd.hidden=false;bd.classList.add('open');document.body.style.overflow='hidden';if(mode==='sort'){document.getElementById('stylo-sheet-title').textContent='Sort by';setTimeout(function(){var s=document.getElementById('stylo-sort-sec');if(s)s.scrollIntoView({behavior:'smooth',block:'start'});},50);}}
+function closeStyloSheet(){var bd=document.getElementById('stylo-backdrop');bd.hidden=true;bd.classList.remove('open');document.body.style.overflow='';}
 function clearStyloFilters(){
   if(currentTab==='pens'){penMakerFilter='';penStatusFilter='';penNibFilter='';penLocFilter='';penSearchVal='';renderPens();}
   else if(currentTab==='inks'){inkMakerFilter='';inkColorFilter='';inkStatusFilter='';inkSearchVal='';renderInks();}
