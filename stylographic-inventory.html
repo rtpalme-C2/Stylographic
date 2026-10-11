@@ -245,7 +245,42 @@ tr.gifted td { opacity:.45; }
     <path d="M100 90 C200 40 320 80 460 20 C560 -10 640 40 720 10" stroke="rgba(184,150,90,.08)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
   </svg>
   <div class="header-inner">
-    <div style="width:64px;height:64px;border-radius:18px;background:var(--np-mist);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="52" height="52" viewBox="0 0 120 120" aria-label="ink squid"> <path d="M48,68 C44,80 52,90 46,102" stroke="#4F6E6E" stroke-width="5" fill="none" stroke-linecap="round"/> <path d="M57,69 C55,82 61,92 57,104" stroke="#4F6E6E" stroke-width="5" fill="none" stroke-linecap="round"/> <path d="M66,69 C68,82 62,92 66,104" stroke="#4F6E6E" stroke-width="5" fill="none" stroke-linecap="round"/> <path d="M74,66 C79,78 71,90 77,100" stroke="#4F6E6E" stroke-width="5" fill="none" stroke-linecap="round"/> <path d="M40,64 C34,72 30,78 26,82" stroke="#4F6E6E" stroke-width="4" fill="none" stroke-linecap="round"/> <ellipse cx="36" cy="54" rx="10" ry="6" fill="#7E9A9A" transform="rotate(-35 36 54)"/> <ellipse cx="86" cy="48" rx="10" ry="6" fill="#7E9A9A" transform="rotate(35 86 48)"/> <path d="M60,22 C74,28 81,46 77,60 C69,65 51,65 43,60 C39,46 46,28 60,22 Z" fill="#4F6E6E"/> <path d="M60,22 l-4,7 l8,0 Z" fill="#3F5959"/> <path d="M50,44 C54,52 56,58 56,62" stroke="#A9C2C2" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/> <circle cx="68" cy="50" r="2.6" fill="#FAF7F1"/> <path d="M90,98 q3,6 0,10 q-3,-4 0,-10" fill="#3F5959"/> </svg></div>
+    <div style="width:64px;height:64px;border-radius:18px;background:var(--np-mist);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 120 120" aria-label="ink squid">
+              <defs>
+                <radialGradient id="sqMantleG" cx="38%" cy="28%" r="78%">
+                  <stop offset="0%" stop-color="#7FA6A6"/>
+                  <stop offset="55%" stop-color="#4F6E6E"/>
+                  <stop offset="100%" stop-color="#3B5454"/>
+                </radialGradient>
+                <radialGradient id="sqFinG" cx="42%" cy="32%" r="78%">
+                  <stop offset="0%" stop-color="#6E9898"/>
+                  <stop offset="60%" stop-color="#476767"/>
+                  <stop offset="100%" stop-color="#334C4C"/>
+                </radialGradient>
+                <radialGradient id="sqTentG" cx="42%" cy="28%" r="80%">
+                  <stop offset="0%" stop-color="#749C9C"/>
+                  <stop offset="60%" stop-color="#4F6E6E"/>
+                  <stop offset="100%" stop-color="#385050"/>
+                </radialGradient>
+                <radialGradient id="sqShadowG" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#2E3438" stop-opacity="0.28"/>
+                  <stop offset="100%" stop-color="#2E3438" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="58" cy="109" rx="32" ry="7" fill="url(#sqShadowG)"/>
+              <g stroke="url(#sqTentG)" stroke-linecap="round" fill="none">
+                <path d="M54,80 C48,90 42,96 34,100" stroke-width="10"/>
+                <path d="M60,82 C58,92 56,100 52,108" stroke-width="10"/>
+                <path d="M66,82 C68,92 70,100 68,108" stroke-width="9"/>
+                <path d="M72,80 C78,88 84,94 90,98" stroke-width="9"/>
+                <path d="M48,78 C40,84 32,86 26,88" stroke-width="8"/>
+              </g>
+              <path d="M46,56 C36,50 26,50 20,56 C24,64 34,66 44,62 Z" fill="url(#sqFinG)"/>
+              <path d="M92,50 C100,44 108,44 112,50 C108,58 98,60 90,56 Z" fill="url(#sqFinG)"/>
+              <path d="M44,72 C40,52 48,32 64,24 C70,21 74,17 78,17 C82,17 86,21 92,25 C102,31 106,43 102,55 C98,65 88,70 76,72 C64,74 50,77 44,72 Z" fill="url(#sqMantleG)"/>
+              <ellipse cx="60" cy="76" rx="15" ry="13" fill="url(#sqTentG)"/>
+              <ellipse cx="62" cy="36" rx="13" ry="8" fill="#FFFFFF" opacity="0.16" transform="rotate(-18 62 36)"/>
+            </svg></div>
     <div>
       <h1><span style="font-weight:300">Stylo</span><em>graphic</em></h1>
     </div>
